@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>룸코드 접속 게이트웨이 | zerodoc AetherStream</title>
+  <meta name="description" content="주식회사 제로독(zerodoc) AetherStream 원클릭 P2P 룸코드 접속 및 딥링크 브릿지.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="auth.css">
+  <style>
+    /* ==========================================================================
+       ZERODOC AETHERSTREAM DESIGN SYSTEM - 100% FLAT NEO-BRUTALISM
+       Strict Directives:
+       - 0% Gradient (Solid colors only)
+       - 0% Drop Shadow (box-shadow: none !important)
+       - 0px Border-Radius (border-radius: 0px !important)
+       - Pure Black (#000000), Surface (#0A0A0A), Snow White (#FFFFFF), Hairline (#222222)
+       - Font: Pretendard (Korean) & JetBrains Mono (Code/Telemetry)
+       ========================================================================== */
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0px !important;
+      box-shadow: none !important;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    :root {
+      --bg-black: #000000;
+      --bg-surface: #0A0A0A;
+      --bg-surface-elevated: #111111;
+      --border-hairline: #222222;
+      --border-active: #444444;
+      --border-white: #FFFFFF;
+      --text-white: #FFFFFF;
+      --text-muted: #888888;
+      --text-dim: #444444;
+      --accent-green: #00FF88;
+      --accent-cyan: #00F0FF;
+      --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    html, body {
+      background-color: var(--bg-black);
+      color: var(--text-white);
+      font-family: var(--font-sans);
+      letter-spacing: -0.02em;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Top Global Navigation Bar */
+    .navbar {
+      width: 100%;
+      height: 64px;
+      background-color: var(--bg-black);
+      border-bottom: 1px solid var(--border-hairline);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-svg {
+      width: 32px;
+      height: 32px;
+      display: block;
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .brand-corp {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .brand-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-hairline);
+      color: var(--text-muted);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .node-status-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border: 1px solid var(--border-hairline);
+      background-color: var(--bg-surface);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background-color: var(--accent-green);
+      display: inline-block;
+    }
+
+    .nav-link-btn {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border: 1px solid transparent;
+      transition: all 0.1s ease;
+    }
+
+    .nav-link-btn:hover {
+      color: var(--text-white);
+      border-color: var(--border-hairline);
+      background-color: var(--bg-surface);
+    }
+
+    /* Main Content Layout */
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* System Telemetry HUD Bar */
+    .hud-meta-bar {
+      width: 100%;
+      border: 1px solid var(--border-hairline);
+      background-color: var(--bg-surface);
+      padding: 8px 16px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .hud-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hud-right {
+      display: flex;
+      gap: 16px;
+    }
+
+    .hud-bracket {
+      color: var(--text-dim);
+    }
+
+    .hud-highlight {
+      color: var(--text-white);
+      font-weight: 700;
+    }
+
+    /* Core Gateway Card */
+    .gateway-card {
+      width: 100%;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      padding: 40px;
+      position: relative;
+    }
+
+    .card-top-indicator {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-hairline);
+      padding-bottom: 16px;
+      margin-bottom: 32px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+
+    .indicator-label {
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      font-weight: 700;
+    }
+
+    .protocol-tag {
+      color: var(--accent-green);
+      background-color: var(--bg-surface-elevated);
+      border: 1px solid var(--border-hairline);
+      padding: 2px 8px;
+    }
+
+    /* Dynamic View: Room Code Present */
+    .view-container {
+      display: none;
+    }
+
+    .view-container.active {
+      display: block;
+    }
+
+    /* Room Code Hero Display */
+    .room-hero-box {
+      background-color: var(--bg-black);
+      border: 1px solid var(--border-hairline);
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    .room-sub-label {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .room-code-display {
+      font-family: var(--font-mono);
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: 0.12em;
+      line-height: 1.1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      user-select: all;
+    }
+
+    .room-hash {
+      color: var(--text-dim);
+    }
+
+    .copy-pill-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-hairline);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 6px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.1s ease;
+    }
+
+    .copy-pill-btn:hover {
+      background: var(--text-white);
+      color: var(--bg-black);
+      border-color: var(--text-white);
+    }
+
+    /* Connecting Status Readout */
+    .status-panel {
+      border: 1px solid var(--border-hairline);
+      background-color: var(--bg-black);
+      padding: 20px;
+      margin-bottom: 32px;
+      font-family: var(--font-mono);
+    }
+
+    .status-headline {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--text-white);
+    }
+
+    .live-pulse-box {
+      width: 10px;
+      height: 10px;
+      background-color: var(--accent-green);
+      display: inline-block;
+      animation: flatPulse 1s steps(2, start) infinite;
+    }
+
+    @keyframes flatPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    .handshake-terminal {
+      font-size: 0.78rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-hairline);
+      padding-top: 12px;
+    }
+
+    .terminal-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .terminal-ok {
+      color: var(--accent-green);
+      font-weight: 700;
+    }
+
+    .terminal-active {
+      color: var(--accent-cyan);
+      font-weight: 700;
+    }
+
+    /* Action Buttons (Strict Neo-Brutalist 0px) */
+    .action-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-brutal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 24px;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      border: 1px solid var(--border-hairline);
+      transition: all 0.1s ease;
+      letter-spacing: -0.02em;
+    }
+
+    .btn-brutal-primary {
+      background-color: var(--text-white);
+      color: var(--bg-black);
+      border-color: var(--text-white);
+    }
+
+    .btn-brutal-primary:hover {
+      background-color: var(--bg-black);
+      color: var(--text-white);
+      border-color: var(--text-white);
+    }
+
+    .btn-brutal-outline {
+      background-color: transparent;
+      color: var(--text-white);
+      border-color: var(--border-hairline);
+    }
+
+    .btn-brutal-outline:hover {
+      background-color: var(--bg-surface-elevated);
+      border-color: var(--border-active);
+    }
+
+    .btn-brutal-subtle {
+      background-color: var(--bg-surface-elevated);
+      color: var(--text-muted);
+      border-color: var(--border-hairline);
+      font-size: 0.88rem;
+      padding: 12px 18px;
+    }
+
+    .btn-brutal-subtle:hover {
+      color: var(--text-white);
+      border-color: var(--border-active);
+    }
+
+    /* Fallback / Download Notice Box */
+    .fallback-box {
+      margin-top: 24px;
+      padding: 20px;
+      background-color: var(--bg-black);
+      border: 1px solid var(--border-hairline);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .fallback-header {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .fallback-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Dynamic View: Manual Input Mode (When Room Code Missing) */
+    .manual-hero-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .manual-headline {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 10px;
+    }
+
+    .manual-lead {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    /* 6-Digit Neo-Brutalist Boxes */
+    .code-input-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .digit-box {
+      width: 56px;
+      height: 68px;
+      background-color: var(--bg-black);
+      border: 1px solid var(--border-hairline);
+      color: var(--text-white);
+      font-family: var(--font-mono);
+      font-size: 2rem;
+      font-weight: 800;
+      text-align: center;
+      text-transform: uppercase;
+      outline: none;
+      transition: border-color 0.1s ease;
+    }
+
+    .digit-box:focus {
+      border-color: var(--text-white);
+      background-color: var(--bg-surface-elevated);
+    }
+
+    .digit-box::placeholder {
+      color: var(--text-dim);
+    }
+
+    .input-helper-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      padding: 0 4px;
+    }
+
+    .paste-link {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-decoration: underline;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+
+    .paste-link:hover {
+      color: var(--text-white);
+    }
+
+    /* Demo / Quick Test Pills */
+    .quick-test-bar {
+      margin-top: 32px;
+      border-top: 1px solid var(--border-hairline);
+      padding-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .test-pill {
+      background-color: var(--bg-black);
+      border: 1px solid var(--border-hairline);
+      color: var(--text-muted);
+      padding: 4px 10px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      transition: all 0.1s ease;
+    }
+
+    .test-pill:hover {
+      color: var(--text-white);
+      border-color: var(--text-white);
+    }
+
+    /* Technical Specs Footer Strip */
+    .specs-strip {
+      width: 100%;
+      margin-top: 32px;
+      border: 1px solid var(--border-hairline);
+      background-color: var(--bg-surface);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    .spec-item {
+      padding: 12px 16px;
+      border-right: 1px solid var(--border-hairline);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .spec-item:last-child {
+      border-right: none;
+    }
+
+    .spec-key {
+      color: var(--text-dim);
+      font-size: 0.68rem;
+    }
+
+    .spec-val {
+      color: var(--text-white);
+      font-weight: 700;
+    }
+
+    /* Global Site Footer */
+    .page-footer {
+      width: 100%;
+      border-top: 1px solid var(--border-hairline);
+      padding: 24px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background-color: var(--bg-black);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 8px;
+    }
+
+    .footer-link {
+      color: var(--text-muted);
+      transition: color 0.1s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--text-white);
+    }
+
+    /* Toast Notification */
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--text-white);
+      color: var(--bg-black);
+      padding: 10px 18px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      border: 1px solid var(--text-white);
+      display: none;
+      z-index: 999;
+    }
+
+    .toast-msg.show {
+      display: block;
+    }
+
+    @media (max-width: 680px) {
+      .navbar {
+        padding: 0 16px;
+      }
+      .node-status-badge {
+        display: none;
+      }
+      .gateway-card {
+        padding: 24px 16px;
+      }
+      .room-code-display {
+        font-size: 2.4rem;
+      }
+      .digit-box {
+        width: 44px;
+        height: 56px;
+        font-size: 1.5rem;
+      }
+      .code-input-container {
+        gap: 6px;
+      }
+      .specs-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .spec-item:nth-child(2) {
+        border-right: none;
+      }
+      .spec-item:nth-child(1), .spec-item:nth-child(2) {
+        border-bottom: 1px solid var(--border-hairline);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Global Navigation Header -->
+  <header class="navbar">
+    <div class="brand-group">
+      <a href="ko.html" title="AetherStream 메인으로" style="display:flex;align-items:center;gap:10px;">
+        <svg class="brand-logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="100" height="100" fill="#000000"/>
+          <rect x="8" y="8" width="84" height="84" fill="#0A0A0A" stroke="#222222" stroke-width="2"/>
+          <polygon points="22,22 78,22 78,34 44,66 78,66 78,78 22,78 22,66 56,34 22,34" fill="#FFFFFF"/>
+          <rect x="14" y="48" width="72" height="4" fill="#0A0A0A"/>
+        </svg>
+        <div class="brand-title">
+          <span class="brand-corp">zerodoc</span>
+          <span>AetherStream</span>
+        </div>
+      </a>
+      <span class="brand-tag">v0.1.0 Alpha</span>
+    </div>
+
+    <div class="nav-actions">
+      <div class="node-status-badge">
+        <span class="status-dot"></span>
+        <span>글로벌 Anycast 릴레이 대기</span>
+      </div>
+      <div id="nav-auth-slot"></div>
+      <a href="ko.html" class="nav-link-btn">메인 홈</a>
+      <a href="../dist/zerodoc_AetherStream_Setup_v0.1.0.exe" class="nav-link-btn" download>인스톨러 받기</a>
+    </div>
+  </header>
+
+  <!-- Main Bridge Content Container -->
+  <main class="main-wrapper">
+
+    <!-- Meta Telemetry Header Bar -->
+    <div class="hud-meta-bar">
+      <div class="hud-left">
+        <span class="hud-bracket">[</span>
+        <span>주식회사 제로독 (zerodoc Inc.) · P2P WEB BRIDGE GATEWAY</span>
+        <span class="hud-bracket">]</span>
+      </div>
+      <div class="hud-right">
+        <span>RFC 5389 STUN</span>
+        <span class="hud-highlight">DIRECT ROUTING</span>
+      </div>
+    </div>
+
+    <!-- Core Gateway Container Card -->
+    <div class="gateway-card">
+      <div class="card-top-indicator">
+        <span class="indicator-label">DISCORD & WEB DEEP LINK PROTOCOL</span>
+        <span class="protocol-tag">aetherstream://join</span>
+      </div>
+
+      <!-- ========================================================
+           STATE A: ROOM CODE PRESENT (?room=XXXXXX)
+           ======================================================== -->
+      <div id="view-room-present" class="view-container">
+        
+        <div class="room-hero-box">
+          <button type="button" class="copy-pill-btn" id="btn-copy-code" title="룸코드 클립보드 복사">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="0"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span id="copy-btn-text">코드 복사</span>
+          </button>
+
+          <div class="room-sub-label">CONNECTED SESSION ROOM CODE</div>
+          <div class="room-code-display">
+            <span class="room-hash">#</span><span id="display-room-code">------</span>
+          </div>
+        </div>
+
+        <!-- Connection Handshake Readout -->
+        <div class="status-panel">
+          <div class="status-headline">
+            <span class="live-pulse-box"></span>
+            <span id="status-title-text">AetherStream 호스트로 연결 중...</span>
+          </div>
+          <div class="handshake-terminal">
+            <div class="terminal-row">
+              <span class="terminal-ok">[OK]</span>
+              <span>세션 매니페스트 수신 완료 및 룸 해시 검증 통과</span>
+            </div>
+            <div class="terminal-row">
+              <span class="terminal-ok">[OK]</span>
+              <span>RFC 5389 STUN NAT 홀펀칭 엔드포인트 바인딩</span>
+            </div>
+            <div class="terminal-row">
+              <span class="terminal-active" id="terminal-trigger-status">[TRIGGER]</span>
+              <span id="terminal-trigger-msg">aetherstream://join/ 딥링크 클라이언트 호출 신호 전송됨</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Primary Deep Link Launch Actions -->
+        <div class="action-group">
+          <a id="btn-launch-deeplink" href="#" class="btn-brutal btn-brutal-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <span>클라이언트 즉시 열기 (Deep Link)</span>
+          </a>
+
+          <button type="button" id="btn-copy-invite-link" class="btn-brutal btn-brutal-outline">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+            <span>디스코드 친구에게 원클릭 초대 링크 복사</span>
+          </button>
+
+          <button type="button" id="btn-switch-to-manual" class="btn-brutal btn-brutal-subtle">
+            다른 룸코드로 직접 변경하기
+          </button>
+        </div>
+
+        <!-- Fallback Download Card -->
+        <div class="fallback-box">
+          <div class="fallback-header">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="3" width="20" height="14" rx="0"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+            <span>AetherStream 클라이언트가 설치되어 있지 않으신가요?</span>
+          </div>
+          <p class="fallback-desc">
+            호스트 화면을 수신하기 위해 2.58MB 초경량 무설치급 Windows 공식 클라이언트가 필요합니다.
+            NVIDIA NVENC 초저지연 하드웨어 인코딩 및 120Hz 고주사율 스트림을 즉시 경험하세요.
+          </p>
+          <a href="../dist/zerodoc_AetherStream_Setup_v0.1.0.exe" class="btn-brutal btn-brutal-primary" download style="padding: 12px 20px; font-size: 0.92rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Windows 전용 인스톨러 다운로드 (Setup v0.1.0.exe)</span>
+          </a>
+        </div>
+
+      </div>
+
+
+      <!-- ========================================================
+           STATE B: NO ROOM CODE (MANUAL INPUT MODE)
+           ======================================================== -->
+      <div id="view-room-missing" class="view-container">
+
+        <!-- Google Cloud Pairing Bar & Host Registry Slot -->
+        <div class="join-auth-slot-wrapper" id="join-auth-bar-slot"></div>
+
+        <div class="manual-hero-header">
+          <h1 class="manual-headline">6자리 룸코드 직접 입력</h1>
+          <p class="manual-lead">
+            호스트가 전달한 6자리 영숫자 세션 코드를 입력하면 P2P 초저지연 스트리밍 세션으로 즉시 연결됩니다.
+          </p>
+        </div>
+
+        <form id="form-manual-join" onsubmit="handleManualSubmit(event)">
+          <!-- 6 Square Input Boxes -->
+          <div class="code-input-container" id="digit-boxes-container">
+            <input type="text" maxlength="1" class="digit-box" data-idx="0" placeholder="-" autocomplete="off" spellcheck="false" autofocus>
+            <input type="text" maxlength="1" class="digit-box" data-idx="1" placeholder="-" autocomplete="off" spellcheck="false">
+            <input type="text" maxlength="1" class="digit-box" data-idx="2" placeholder="-" autocomplete="off" spellcheck="false">
+            <input type="text" maxlength="1" class="digit-box" data-idx="3" placeholder="-" autocomplete="off" spellcheck="false">
+            <input type="text" maxlength="1" class="digit-box" data-idx="4" placeholder="-" autocomplete="off" spellcheck="false">
+            <input type="text" maxlength="1" class="digit-box" data-idx="5" placeholder="-" autocomplete="off" spellcheck="false">
+          </div>
+
+          <div class="input-helper-row">
+            <span>영문 대소문자 및 숫자 6자리 조합</span>
+            <button type="button" class="paste-link" id="btn-paste-code">클립보드에서 붙여넣기</button>
+          </div>
+
+          <button type="submit" class="btn-brutal btn-brutal-primary" id="btn-submit-code">
+            <span>입장하기 (Connect to Session)</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+
+        <div class="fallback-box" style="margin-top: 32px;">
+          <div class="fallback-header">
+            <span>처음 방문하셨나요?</span>
+          </div>
+          <p class="fallback-desc">
+            세션에 참가하기 전 AetherStream 공식 클라이언트를 미리 다운로드해 두시면 클릭 한 번으로 스트리밍 화면에 진입할 수 있습니다.
+          </p>
+          <a href="../dist/zerodoc_AetherStream_Setup_v0.1.0.exe" class="btn-brutal btn-brutal-outline" download style="padding: 10px 16px; font-size: 0.88rem;">
+            Windows 공식 인스톨러 다운로드 (2.58 MB)
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Quick Switch / Live Testing Bar (Visual Verification) -->
+      <div class="quick-test-bar">
+        <span>[디자인 검증용 빠른 테스트]:</span>
+        <button type="button" class="test-pill" onclick="loadRoom('A7X9K2')">#A7X9K2</button>
+        <button type="button" class="test-pill" onclick="loadRoom('ZERO01')">#ZERO01</button>
+        <button type="button" class="test-pill" onclick="loadRoom('PRO120')">#PRO120</button>
+        <button type="button" class="test-pill" onclick="clearRoom()">입력창 리셋</button>
+      </div>
+
+    </div>
+
+    <!-- Technical Architecture Strip -->
+    <div class="specs-strip">
+      <div class="spec-item">
+        <span class="spec-key">VRAM CAPTURE</span>
+        <span class="spec-val">DXGI 1.2+ Zero-Copy</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">HW ENCODE</span>
+        <span class="spec-val">NVENC Ultra-Low</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">REFRESH RATE</span>
+        <span class="spec-val">120Hz ProMotion</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-key">ERROR RECOVERY</span>
+        <span class="spec-val">UDP XOR FEC 인라인 복구</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="page-footer">
+    <div class="footer-links">
+      <a href="ko.html" class="footer-link">AetherStream 메인</a>
+      <a href="ko.html#features" class="footer-link">주요 기능</a>
+      <a href="ko.html#pricing" class="footer-link">요금제</a>
+      <a href="../dist/zerodoc_AetherStream_Setup_v0.1.0.exe" class="footer-link" download>인스톨러 v0.1.0 Alpha</a>
+    </div>
+    <p>© 2026 주식회사 제로독 (zerodoc Inc.) All Rights Reserved. Engineered for Zero Latency.</p>
+  </footer>
+
+  <!-- Temporary Toast Notification -->
+  <div id="toast" class="toast-msg">클립보드에 복사되었습니다.</div>
+
+  <!-- Deep Link & Routing Engine Script -->
+  <script>
+    let currentRoomCode = '';
+
+    // Toast utility
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2000);
+    }
+
+    // Parse URL Parameter (?room=XXXXXX or ?code=XXXXXX or hash)
+    function parseRoomParam() {
+      const params = new URLSearchParams(window.location.search);
+      let room = params.get('room') || params.get('code');
+      if (!room && window.location.hash) {
+        room = window.location.hash.replace('#', '');
+      }
+      return room ? room.trim().toUpperCase() : null;
+    }
+
+    // Switch Views
+    function renderView(roomCode) {
+      const viewPresent = document.getElementById('view-room-present');
+      const viewMissing = document.getElementById('view-room-missing');
+      const codeDisplay = document.getElementById('display-room-code');
+      const deepLinkBtn = document.getElementById('btn-launch-deeplink');
+
+      if (roomCode && roomCode.length >= 4) {
+        currentRoomCode = roomCode;
+        codeDisplay.textContent = roomCode;
+        const deepLinkUrl = 'aetherstream://join/' + roomCode;
+        deepLinkBtn.href = deepLinkUrl;
+
+        viewPresent.classList.add('active');
+        viewMissing.classList.remove('active');
+
+        // Automatically trigger deep link once
+        triggerDeepLink(deepLinkUrl);
+      } else {
+        currentRoomCode = '';
+        viewPresent.classList.remove('active');
+        viewMissing.classList.add('active');
+        // Reset manual boxes
+        resetDigitBoxes();
+        focusFirstDigit();
+      }
+    }
+
+    // Auto trigger deep link with safety
+    let hasTriggered = false;
+    function triggerDeepLink(url) {
+      if (hasTriggered) return;
+      hasTriggered = true;
+
+      const triggerMsg = document.getElementById('terminal-trigger-msg');
+      const triggerStatus = document.getElementById('terminal-trigger-status');
+
+      setTimeout(() => {
+        try {
+          window.location.href = url;
+          if (triggerStatus && triggerMsg) {
+            triggerStatus.textContent = '[LAUNCHED]';
+            triggerMsg.textContent = '클라이언트 프로세스 호출 완료 (백그라운드 핸드셰이크)';
+          }
+        } catch (e) {
+          console.warn('Deep link auto-trigger suppressed by browser policy:', e);
+        }
+      }, 400);
+    }
+
+    // 6-digit box handling
+    const digitBoxes = document.querySelectorAll('.digit-box');
+
+    function resetDigitBoxes() {
+      digitBoxes.forEach(box => { box.value = ''; });
+    }
+
+    function focusFirstDigit() {
+      const first = document.querySelector('.digit-box[data-idx="0"]');
+      if (first) first.focus();
+    }
+
+    digitBoxes.forEach((box, idx) => {
+      box.addEventListener('input', (e) => {
+        const val = e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+        e.target.value = val.slice(-1);
+
+        if (e.target.value && idx < digitBoxes.length - 1) {
+          digitBoxes[idx + 1].focus();
+        }
+
+        checkAutoSubmit();
+      });
+
+      box.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !box.value && idx > 0) {
+          digitBoxes[idx - 1].focus();
+        }
+      });
+
+      box.addEventListener('paste', (e) => {
+        e.preventDefault();
+        const text = (e.clipboardData || window.clipboardData).getData('text');
+        fillCodeString(text);
+      });
+    });
+
+    function fillCodeString(raw) {
+      const cleaned = raw.replace(/[^a-zA-Z0-9]/g, '').toUpperCase().slice(0, 6);
+      cleaned.split('').forEach((char, i) => {
+        if (digitBoxes[i]) {
+          digitBoxes[i].value = char;
+        }
+      });
+      if (cleaned.length < 6 && digitBoxes[cleaned.length]) {
+        digitBoxes[cleaned.length].focus();
+      } else if (cleaned.length === 6) {
+        digitBoxes[5].focus();
+        checkAutoSubmit();
+      }
+    }
+
+    function getEnteredCode() {
+      let code = '';
+      digitBoxes.forEach(b => { code += b.value.trim().toUpperCase(); });
+      return code;
+    }
+
+    function checkAutoSubmit() {
+      const code = getEnteredCode();
+      if (code.length === 6) {
+        setTimeout(() => {
+          navigateToRoom(code);
+        }, 150);
+      }
+    }
+
+    function handleManualSubmit(e) {
+      e.preventDefault();
+      const code = getEnteredCode();
+      if (code.length < 4) {
+        showToast('6자리 룸코드를 입력해주세요.');
+        focusFirstDigit();
+        return;
+      }
+      navigateToRoom(code);
+    }
+
+    function navigateToRoom(code) {
+      try {
+        const newUrl = window.location.pathname + '?room=' + encodeURIComponent(code);
+        window.history.pushState({ room: code }, '', newUrl);
+      } catch (err) {
+        console.warn('history.pushState suppressed (local file mode):', err);
+      }
+      hasTriggered = false;
+      renderView(code);
+    }
+
+    // Buttons
+    document.getElementById('btn-copy-code')?.addEventListener('click', () => {
+      if (!currentRoomCode) return;
+      navigator.clipboard.writeText(currentRoomCode).then(() => {
+        const btnText = document.getElementById('copy-btn-text');
+        btnText.textContent = '복사됨!';
+        showToast('룸코드 #' + currentRoomCode + ' 복사 완료');
+        setTimeout(() => { btnText.textContent = '코드 복사'; }, 1500);
+      }).catch(() => {
+        showToast('룸코드 #' + currentRoomCode);
+      });
+    });
+
+    document.getElementById('btn-copy-invite-link')?.addEventListener('click', () => {
+      let baseUrl = window.location.href.split('?')[0].split('#')[0];
+      const fullUrl = baseUrl + '?room=' + encodeURIComponent(currentRoomCode);
+      navigator.clipboard.writeText(fullUrl).then(() => {
+        showToast('디스코드 초대 링크 복사 완료');
+      }).catch(() => {
+        showToast('초대 링크: ' + fullUrl);
+      });
+    });
+
+    document.getElementById('btn-switch-to-manual')?.addEventListener('click', () => {
+      try {
+        window.history.pushState({}, '', window.location.pathname);
+      } catch (err) {
+        console.warn('history.pushState suppressed:', err);
+      }
+      hasTriggered = false;
+      renderView(null);
+    });
+
+    document.getElementById('btn-paste-code')?.addEventListener('click', async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        fillCodeString(text);
+      } catch (err) {
+        showToast('클립보드 접근 권한을 허용해주세요.');
+      }
+    });
+
+    // Quick Test functions
+    window.loadRoom = function(code) {
+      navigateToRoom(code);
+    };
+
+    window.clearRoom = function() {
+      window.history.pushState({}, '', window.location.pathname);
+      hasTriggered = false;
+      renderView(null);
+    };
+
+    // Popstate support
+    window.addEventListener('popstate', () => {
+      hasTriggered = false;
+      renderView(parseRoomParam());
+    });
+
+    // Initial load
+    document.addEventListener('DOMContentLoaded', () => {
+      const initialRoom = parseRoomParam();
+      renderView(initialRoom);
+    });
+  </script>
+  <!-- Google Auth Modal -->
+  <div class="auth-modal-backdrop" id="google-auth-modal">
+    <div class="google-auth-dialog">
+      <div class="auth-dialog-topbar">
+        <div class="auth-dialog-brand">
+          <svg viewBox="0 0 100 100" width="16" height="16">
+            <polygon points="22,22 78,22 78,34 44,66 78,66 78,78 22,78 22,66 56,34 22,34" fill="#FFFFFF"/>
+          </svg>
+          <span>zerodoc AetherStream 계정 연동</span>
+        </div>
+        <button class="auth-dialog-close" id="btn-close-google-modal">&times;</button>
+      </div>
+      <div class="auth-dialog-body">
+        <div class="google-prompt-card">
+          <div class="google-logo-large">
+            <svg viewBox="0 0 24 24" width="36" height="36">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+          </div>
+          <div class="auth-title">Google 계정으로 연동</div>
+          <div class="auth-subtitle">
+            AetherStream 클라우드 페어링 서비스에 계속하려면 연동할 Google 계정을 선택하십시오.
+          </div>
+        </div>
+        <div class="account-selector-box" id="auth-account-options-list"></div>
+        <div class="scope-checklist-box">
+          <div class="scope-heading">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="0" ry="0"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <span>연동 시 요청되는 필수 접근 권한</span>
+          </div>
+          <div class="scope-item">
+            <span class="scope-check-icon">✔</span>
+            <span><strong>기본 프로필 정보</strong>: 계정 식별 및 호스트 기기 목록 동기화</span>
+          </div>
+          <div class="scope-item">
+            <span class="scope-check-icon">✔</span>
+            <span><strong>Google Drive 파일 연동</strong>: AetherStream 설치본 및 가상 컨트롤러 매핑 백업</span>
+          </div>
+        </div>
+        <div class="auth-actions-group">
+          <button class="btn-auth-confirm" id="btn-confirm-google-login">
+            Google 계정으로 계속
+          </button>
+          <button class="btn-auth-cancel" id="btn-cancel-google-modal">
+            취소
+          </button>
+        </div>
+        <div class="auth-security-notice">
+          zerodoc Inc.는 사용자의 비밀번호를 절대 수집하거나 외부 서버에 전송하지 않습니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="auth-global-toast" class="auth-toast-notification"></div>
+
+  <script src="auth.js"></script>
+</body>
+</html>

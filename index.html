@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AetherStream | Ultra-Low Latency iOS & Windows Streaming Engine (120Hz ProMotion, Sub-10ms)</title>
+  <meta name="description" content="Next-generation ultra-low latency game and desktop streaming. DXGI Zero-Copy GPU capture, 120Hz Apple ProMotion, 4096 Apple Pencil pressure, 6-digit room code, and 100% firewall bypass.">
+  <meta name="keywords" content="AetherStream, low latency streaming, 120Hz remote desktop, Apple Pencil remote, game streaming, DXGI, NVENC, Metal 3, P2P room code">
+  
+  <!-- Favicon & Brand Icons -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  
+  <!-- Pretendard Modern Korean & Inter Typography -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="auth.css">
+  <script src="i18n.js"></script>
+</head>
+<body class="cyber-dark">
+
+  <!-- Ambient Cyber Lighting Effects -->
+  <div class="ambient-glow glow-cyan"></div>
+  <div class="ambient-glow glow-violet"></div>
+  <div class="ambient-glow glow-magenta"></div>
+  <canvas id="matrix-grid-canvas" class="matrix-canvas"></canvas>
+
+  <!-- Navigation Bar -->
+  <header class="navbar-wrapper">
+    <nav class="navbar container">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-glyph" style="background:transparent; border:none;">
+          <svg viewBox="0 0 100 100" width="36" height="36">
+            <rect width="100" height="100" fill="#000000"/>
+            <rect x="8" y="8" width="84" height="84" fill="#0A0A0A" stroke="#222222" stroke-width="2"/>
+            <polygon points="22,22 78,22 78,34 44,66 78,66 78,78 22,78 22,66 56,34 22,34" fill="#FFFFFF"/>
+            <rect x="14" y="48" width="72" height="4" fill="#0A0A0A"/>
+          </svg>
+        </div>
+        <span class="brand-name">zerodoc <span style="font-weight:400; color:#AAA;">AetherStream</span></span>
+        <span class="version-tag" style="background:#111; border-color:#222; color:#888;">v0.1.0 Alpha</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#features" class="nav-item" data-i18n="nav.features">Features</a>
+        <a href="#comparison" class="nav-item" data-i18n="nav.versus">Versus</a>
+        <a href="#simulator" class="nav-item" data-i18n="nav.simulator">Latency Lab</a>
+        <a href="#pencil" class="nav-item" data-i18n="nav.pencil">Pencil Pro</a>
+        <a href="#pricing" class="nav-item" data-i18n="nav.pricing">Pricing</a>
+        <a href="../docs/USER_GUIDE.md" class="nav-item" target="_blank" rel="noopener noreferrer" data-i18n="nav.guide">User Guide</a>
+      </div>
+
+      <div class="nav-actions">
+        <!-- Professional One-Click Language Switcher -->
+        <div class="lang-switcher" style="display:inline-flex; align-items:center; gap:3px; padding:3px 6px; background:#000; border:1px solid #333; font-size:11px; font-family:'JetBrains Mono',monospace; font-weight:700;">
+          <a href="ko.html" class="lang-btn" data-lang="ko" style="background:none; border:none; color:#777; cursor:pointer; padding:2px 5px; font-family:inherit; font-weight:bold; text-decoration:none;">KR</a>
+          <span style="color:#444;">/</span>
+          <a href="index.html" class="lang-btn active" data-lang="en" style="background:#222; border:none; color:#FFF; cursor:pointer; padding:2px 5px; font-family:inherit; font-weight:bold; text-decoration:none;">EN</a>
+        </div>
+
+        <div class="telemetry-pill-mini">
+          <span class="status-dot-pulse"></span>
+          <span class="pill-text" data-i18n="nav.relay_status">RELAY: <strong>38 NODES</strong></span>
+        </div>
+        <button class="btn btn-outline btn-sm" id="btn-quick-join" data-i18n="nav.quick_code">
+          Enter 6-Digit Code
+        </button>
+
+        <div id="nav-auth-slot"></div>
+
+        <a href="#downloads" class="btn btn-primary btn-sm glow-btn" data-i18n="nav.download">
+          Get Started
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="hud-chip">
+          <span class="chip-bracket">[</span>
+          <span class="chip-alert" data-i18n="hero.chip_company">ZERODOC INC.</span>
+          <span class="chip-divider">|</span>
+          <span class="chip-label" data-i18n="hero.chip_tagline">ZERO-LATENCY GAMING ENGINE</span>
+          <span class="chip-bracket">]</span>
+        </div>
+
+        <h1 class="hero-title" data-i18n="hero.title">
+          The <span class="text-white">Next-Gen Engine</span><br>
+          For iOS & Windows.<br>
+          <span class="gradient-text">120Hz ProMotion. Sub-10ms.</span>
+        </h1>
+
+        <p class="hero-subtitle" data-i18n="hero.subtitle">
+          Engineered for esports gamers, digital sculptors, and remote creators. 
+          Zero-copy GPU direct VRAM capture, WASAPI spatial loopback, 
+          Apple Pencil 4096-level pressure, and 100% firewall bypass with zero port forwarding.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="../dist/zerodoc_AetherStream_Setup_v0.1.0.exe" class="btn btn-primary btn-lg glow-cyan-hover" download>
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            <span data-i18n="hero.btn_download">Download Host Installer (.exe)</span>
+            <small class="btn-subtext">Windows 10/11 x64 • 2.58 MB</small>
+          </a>
+          <a href="../docs/USER_GUIDE.md" class="btn btn-outline btn-lg" target="_blank" rel="noopener noreferrer">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            <span data-i18n="hero.btn_guide">Official User Guide</span>
+            <small class="btn-subtext">Setup, Keys & FAQ</small>
+          </a>
+          <a href="#testflight" class="btn btn-glass btn-lg glow-violet-hover">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.85c.65-.8 1.1-1.92.98-3.04-1 .04-2.17.67-2.86 1.47-.6.69-1.13 1.83-.99 2.93 1.11.09 2.22-.56 2.87-1.36z"/></svg>
+            <span>Client for iPad & iPhone</span>
+            <small class="btn-subtext">TestFlight / App Store</small>
+          </a>
+        </div>
+
+        <!-- 6-digit Quick Join Bar in Hero -->
+        <div class="hero-quick-join-card">
+          <div class="quick-join-header">
+            <div class="qj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#00F0FF" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+            <div class="qj-text">
+              <span class="qj-title">Instant Stream Join</span>
+              <span class="qj-desc">Have a friend's room code? Connect with zero login or setup.</span>
+            </div>
+          </div>
+          <form class="qj-input-row" id="quick-join-form">
+            <div class="code-inputs" id="code-inputs-group">
+              <input type="text" maxlength="1" class="code-box" data-idx="0" placeholder="A" autofocus>
+              <input type="text" maxlength="1" class="code-box" data-idx="1" placeholder="E">
+              <input type="text" maxlength="1" class="code-box" data-idx="2" placeholder="7">
+              <span class="code-dash">-</span>
+              <input type="text" maxlength="1" class="code-box" data-idx="3" placeholder="9">
+              <input type="text" maxlength="1" class="code-box" data-idx="4" placeholder="K">
+              <input type="text" maxlength="1" class="code-box" data-idx="5" placeholder="2">
+            </div>
+            <button type="submit" class="btn btn-cyan btn-md">
+              <span>Connect Stream</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </form>
+          <div class="qj-feedback" id="qj-feedback"></div>
+        </div>
+      </div>
+
+      <!-- Hero Cyber Telemetry Mockup -->
+      <div class="hero-visual">
+        <div class="device-mockup-frame">
+          <div class="frame-glass-header">
+            <div class="hud-status-badge">
+              <span class="badge-dot animate-pulse"></span>
+              <span class="badge-text">LIVE PROMOTION STREAM</span>
+            </div>
+            <div class="hud-controls">
+              <span class="hud-pill">2560 × 1660</span>
+              <span class="hud-pill hud-pill-cyan">120 FPS</span>
+              <span class="hud-pill hud-pill-emerald">HEVC 10-BIT</span>
+            </div>
+          </div>
+
+          <!-- Video Stream Simulation Canvas -->
+          <div class="stream-viewport" id="stream-viewport">
+            <canvas id="hero-game-canvas" class="hero-game-canvas"></canvas>
+            
+            <!-- Real-time HUD Telemetry Overlay -->
+            <div class="hud-telemetry-overlay">
+              <div class="telemetry-cluster top-left">
+                <div class="telemetry-item">
+                  <span class="t-label">LATENCY</span>
+                  <span class="t-value value-optimal" id="live-ping">4.2<small>ms</small></span>
+                </div>
+                <div class="telemetry-item">
+                  <span class="t-label">RENDER</span>
+                  <span class="t-value" id="live-fps">120.0<small>FPS</small></span>
+                </div>
+                <div class="telemetry-item">
+                  <span class="t-label">CAPTURE</span>
+                  <span class="t-value" id="live-cap">1.20<small>ms</small></span>
+                </div>
+              </div>
+
+              <div class="telemetry-cluster top-right">
+                <div class="telemetry-item right">
+                  <span class="t-label">BITRATE</span>
+                  <span class="t-value" id="live-bitrate">38.4<small>Mbps</small></span>
+                </div>
+                <div class="telemetry-item right">
+                  <span class="t-label">FEC PARITY</span>
+                  <span class="t-value value-emerald">REED-SOLOMON 4:1</span>
+                </div>
+                <div class="telemetry-item right">
+                  <span class="t-label">PACKET LOSS</span>
+                  <span class="t-value value-optimal">0.00%</span>
+                </div>
+              </div>
+
+              <!-- Real-time sparkline graph at bottom -->
+              <div class="telemetry-sparkline-row">
+                <div class="sparkline-info">
+                  <span>FRAME PACING JITTER: <strong id="live-jitter">0.18ms</strong></span>
+                  <span>METAL VSYNC: SYNCHRONIZED</span>
+                </div>
+                <canvas id="sparkline-canvas" width="460" height="42"></canvas>
+              </div>
+
+              <!-- Controller HUD Indicators -->
+              <div class="virtual-hud-controllers">
+                <div class="controller-pill active">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 9 18.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                  <span>P1: DualSense 5</span>
+                </div>
+                <div class="controller-pill">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5zm4 4h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
+                  <span>P2: Apple Pencil Pro</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="frame-glass-footer">
+            <span class="pipeline-spec">Pipeline: <strong>DXGI 1.2 VRAM → NVENC P1 CBR → UDP/FEC → Apple VideoToolbox → Metal 3</strong></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dynamic Display Refresh Rate Tech Banner -->
+  <aside class="tech-banner-strip">
+    <div class="tech-banner-inner">
+      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+        <span class="tech-banner-badge">
+          <span class="tech-banner-pulse"></span>
+          HARDWARE ACCELERATION
+        </span>
+        <span class="tech-banner-title">Dynamic Display Refresh Rate (60Hz / 120Hz / 144Hz Native Negotiation & 4.07ms Hardware Pacing)</span>
+      </div>
+      <div class="tech-banner-metrics">
+        <span>Frame Pacing: <strong class="tech-banner-highlight">4.07ms Hardware V-Sync</strong></span>
+        <span>•</span>
+        <span>Negotiation: <strong class="tech-banner-stat">60Hz / 120Hz / 144Hz</strong></span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Metrics Strip -->
+  <section class="metrics-strip">
+    <div class="container metrics-grid">
+      <div class="metric-box">
+        <div class="metric-num"><span class="counter" data-target="15">&lt;15</span><small>ms</small></div>
+        <div class="metric-name">Target End-to-End Latency</div>
+        <div class="metric-desc">Direct VRAM to NVENC without host RAM roundtrips</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-num"><span class="counter" data-target="120">120</span><small>Hz</small></div>
+        <div class="metric-name">iPad ProMotion Sync</div>
+        <div class="metric-desc">Native CAMetalLayer triple-buffering refresh</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-num"><span class="counter" data-target="4096">4096</span><small>Levels</small></div>
+        <div class="metric-name">Apple Pencil Pressure</div>
+        <div class="metric-desc">Direct Windows Ink & Wintab digitizer pass-through</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-num"><span class="counter" data-target="100">100</span><small>%</small></div>
+        <div class="metric-name">Firewall & NAT Bypass</div>
+        <div class="metric-desc">Campus, hotel & enterprise TURN edge mesh</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section id="features" class="features-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="hud-chip">
+          <span class="chip-bracket">[</span>
+          <span class="chip-label">NEXT-GEN ARCHITECTURE</span>
+          <span class="chip-bracket">]</span>
+        </div>
+        <h2 class="section-title">Built Different. Engineered for Sub-Millisecond Perfection.</h2>
+        <p class="section-subtitle">
+          While legacy tools run on decade-old CPU buffers and abandoned mobile ports, 
+          AetherStream unifies modern DirectX 12, Apple Silicon Metal, and dynamic UDP FEC.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card cyber-card">
+          <div class="card-glow-edge"></div>
+          <div class="feature-icon-wrapper cyan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <h3 class="feature-title">Direct VRAM GPU Capture</h3>
+          <p class="feature-text">
+            Minimizes host CPU memory copying. Direct3D 11 `IDXGIOutputDuplication` maps textures straight into NVENC/hardware video encoding pipelines with low latency.
+          </p>
+          <div class="feature-badge">DXGI 1.2+ VRAM Direct</div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card cyber-card">
+          <div class="card-glow-edge"></div>
+          <div class="feature-icon-wrapper violet">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+          </div>
+          <h3 class="feature-title">Instant 6-Digit Room Code</h3>
+          <p class="feature-text">
+            No signup barriers, no email confirmations, no manual port forwarding. Launch host, share 6 digits, and your friends or secondary screens connect in under 3 seconds.
+          </p>
+          <div class="feature-badge">Zero Friction P2P</div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card cyber-card">
+          <div class="card-glow-edge"></div>
+          <div class="feature-icon-wrapper magenta">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <h3 class="feature-title">Apple Pencil 4096-Level Pressure</h3>
+          <p class="feature-text">
+            Turns your iPad into a professional high-end graphics tablet. Continuous pressure, azimuth angle, and tilt forwarding to ZBrush, Blender, Clip Studio, and Photoshop with sub-8ms response.
+          </p>
+          <div class="feature-badge">Windows Ink & Wintab Bridge</div>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card cyber-card">
+          <div class="card-glow-edge"></div>
+          <div class="feature-icon-wrapper emerald">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 0-10 10c0 5.52 4.48 10 10 10 1.2 0 2.2-.9 2.2-2 0-.52-.2-.99-.54-1.35-.34-.36-.55-.85-.55-1.4 0-1.1.9-2 2-2h2.4c5.29 0 9.6-4.31 9.6-9.6 0-5.3-4.31-9.6-9.6-9.6z"/><circle cx="6.5" cy="11.5" r="1.5"/><circle cx="9.5" cy="7.5" r="1.5"/><circle cx="14.5" cy="7.5" r="1.5"/><circle cx="17.5" cy="11.5" r="1.5"/></svg>
+          </div>
+          <h3 class="feature-title">4:4:4 Chroma & 10-bit HDR</h3>
+          <p class="feature-text">
+            Say goodbye to blurry red text and color banding. Uncompressed subpixel rendering renders razor-sharp code in VSCode, color grade in DaVinci Resolve, and pristine game textures.
+          </p>
+          <div class="feature-badge">Full RGB Fidelity</div>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feature-card cyber-card">
+          <div class="card-glow-edge"></div>
+          <div class="feature-icon-wrapper cyan">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3 class="feature-title">DXGI 1.2+ Multi-Monitor VRAM Capture</h3>
+          <p class="feature-text">
+            Seamlessly capture active physical displays with Windows DXGI 1.2+ zero-copy Desktop Duplication API. Select and switch between connected displays on the fly with hardware-accelerated VRAM frame streaming.
+          </p>
+          <div class="feature-badge">Zero-Copy VRAM Capture</div>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feature-card cyber-card">
+          <div class="card-glow-edge"></div>
+          <div class="feature-icon-wrapper violet">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="feature-title">4-Player Couch Co-op & ViGEm</h3>
+          <p class="feature-text">
+            Play local multiplayer games with friends anywhere in the world. Host PC creates four virtual Xbox 360 / DualShock 4 controllers over ViGEmBus with individual button remapping.
+          </p>
+          <div class="feature-badge">Low-Jitter Party Play</div>
+        </div>
+
+        <!-- Feature 7 -->
+        <div class="feature-card cyber-card">
+          <div class="card-glow-edge"></div>
+          <div class="feature-icon-wrapper magenta">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="feature-title">100% Firewall Bypass TURN Mesh</h3>
+          <p class="feature-text">
+            University Wi-Fi, strict corporate NATs, and hotel firewalls block traditional UDP ports. Our global 35+ edge node TURN mesh punctures through any symmetric NAT with TLS fallback.
+          </p>
+          <div class="feature-badge">Anywhere Connectivity</div>
+        </div>
+
+        <!-- Feature 8 -->
+        <div class="feature-card cyber-card">
+          <div class="card-glow-edge"></div>
+          <div class="feature-icon-wrapper emerald">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <h3 class="feature-title">Mobile On-Device AI Upscaling</h3>
+          <p class="feature-text">
+            Stream 1080p bandwidth and leverage Apple Neural Engine (MetalFX Super Resolution) on your iPad/iPhone to upscale to razor-sharp 4K locally with zero host GPU penalty.
+          </p>
+          <div class="feature-badge">MetalFX & CoreML</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Latency Measurement Simulator -->
+  <section id="simulator" class="simulator-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="hud-chip">
+          <span class="chip-bracket">[</span>
+          <span class="chip-label">INTERACTIVE TELEMETRY LAB</span>
+          <span class="chip-bracket">]</span>
+        </div>
+        <h2 class="section-title">Ultra-Low Latency Pipeline Simulator</h2>
+        <p class="section-subtitle">
+          Test and visualize how AetherStream dismantles frame delay at every single millisecond checkpoint across real network topologies.
+        </p>
+      </div>
+
+      <div class="simulator-dashboard cyber-card">
+        <div class="sim-controls-grid">
+          <!-- Control 1: Network Topology -->
+          <div class="sim-control-group">
+            <label class="sim-label">NETWORK TOPOLOGY</label>
+            <div class="sim-radio-cards" id="sim-network-select">
+              <button class="sim-btn active" data-network="lan" data-ping="0.6">
+                <span class="sim-btn-title">Direct Wi-Fi 6 LAN</span>
+                <span class="sim-btn-val">0.6ms PING</span>
+              </button>
+              <button class="sim-btn" data-network="5g" data-ping="9.4">
+                <span class="sim-btn-title">5G Ultra-Wideband</span>
+                <span class="sim-btn-val">9.4ms PING</span>
+              </button>
+              <button class="sim-btn" data-network="turn" data-ping="14.8">
+                <span class="sim-btn-title">Strict Campus Wi-Fi (TURN)</span>
+                <span class="sim-btn-val">14.8ms PING</span>
+              </button>
+              <button class="sim-btn" data-network="public" data-ping="26.0">
+                <span class="sim-btn-title">Crowded Public Hotspot</span>
+                <span class="sim-btn-val">26.0ms PING</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Control 2: Codec & Display -->
+          <div class="sim-subcontrols-row">
+            <div class="sim-control-item">
+              <label class="sim-label">HARDWARE CODEC</label>
+              <div class="sim-toggle-group" id="sim-codec-select">
+                <button class="sim-toggle-btn active" data-codec="hevc" data-enc="0.8" data-dec="1.1">HEVC (NVENC + VT)</button>
+                <button class="sim-toggle-btn" data-codec="h264" data-enc="0.6" data-dec="0.9">H.264 Baseline</button>
+                <button class="sim-toggle-btn" data-codec="av1" data-enc="1.4" data-dec="1.6">AV1 Next-Gen</button>
+              </div>
+            </div>
+
+            <div class="sim-control-item">
+              <label class="sim-label">REFRESH RATE</label>
+              <div class="sim-toggle-group" id="sim-fps-select">
+                <button class="sim-toggle-btn active" data-fps="120" data-interval="8.33">120Hz ProMotion</button>
+                <button class="sim-toggle-btn" data-fps="60" data-interval="16.66">60Hz Standard</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simulation Results Display -->
+        <div class="sim-results-panel">
+          <div class="total-latency-banner">
+            <div class="total-latency-label">ESTIMATED END-TO-END LATENCY</div>
+            <div class="total-latency-value" id="sim-total-latency">
+              <span class="latency-figure">4.80</span><span class="latency-unit">ms</span>
+            </div>
+            <div class="total-latency-badge" id="sim-grade-badge">SUB-10MS ULTRA LOW LATENCY</div>
+          </div>
+
+          <!-- Pipeline Segment Visualizer -->
+          <div class="pipeline-breakdown-bar">
+            <div class="pipe-segment seg-capture" id="seg-capture" style="width: 15%;" title="DirectX GPU Capture">
+              <span class="seg-name">CAPTURE</span>
+              <span class="seg-val" id="val-capture">1.20ms</span>
+            </div>
+            <div class="pipe-segment seg-encode" id="seg-encode" style="width: 20%;" title="NVENC Hardware Encode">
+              <span class="seg-name">ENCODE</span>
+              <span class="seg-val" id="val-encode">0.80ms</span>
+            </div>
+            <div class="pipe-segment seg-network" id="seg-network" style="width: 35%;" title="Network P2P / TURN Transmission">
+              <span class="seg-name">NETWORK</span>
+              <span class="seg-val" id="val-network">0.60ms</span>
+            </div>
+            <div class="pipe-segment seg-decode" id="seg-decode" style="width: 25%;" title="Apple VideoToolbox Decode">
+              <span class="seg-name">DECODE</span>
+              <span class="seg-val" id="val-decode">1.10ms</span>
+            </div>
+            <div class="pipe-segment seg-render" id="seg-render" style="width: 15%;" title="Metal ProMotion Triple Buffer">
+              <span class="seg-name">RENDER</span>
+              <span class="seg-val" id="val-render">0.90ms</span>
+            </div>
+          </div>
+
+          <!-- Benchmark Comparison Bars -->
+          <div class="sim-benchmark-comparison">
+            <div class="bench-row">
+              <div class="bench-label aether">
+                <span class="bench-logo">★ AetherStream</span>
+                <span class="bench-time" id="bench-aether">4.8 ms</span>
+              </div>
+              <div class="bench-bar-track">
+                <div class="bench-bar-fill bar-cyan" id="bench-bar-aether" style="width: 14%;"></div>
+              </div>
+            </div>
+
+            <div class="bench-row">
+              <div class="bench-label">
+                <span class="bench-logo">Commercial Solution A</span>
+                <span class="bench-time" id="bench-tool-a">12.8 ms</span>
+              </div>
+              <div class="bench-bar-track">
+                <div class="bench-bar-fill bar-violet" id="bench-bar-tool-a" style="width: 42%;"></div>
+              </div>
+            </div>
+
+            <div class="bench-row">
+              <div class="bench-label">
+                <span class="bench-logo">Open-Source Solution B</span>
+                <span class="bench-time" id="bench-tool-b">15.2 ms</span>
+              </div>
+              <div class="bench-bar-track">
+                <div class="bench-bar-fill bar-amber" id="bench-bar-tool-b" style="width: 50%;"></div>
+              </div>
+            </div>
+
+            <div class="bench-row">
+              <div class="bench-label">
+                <span class="bench-logo">Traditional RDP / VNC</span>
+                <span class="bench-time" id="bench-rdp">64.0 ms</span>
+              </div>
+              <div class="bench-bar-track">
+                <div class="bench-bar-fill bar-red" id="bench-bar-rdp" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Click-To-Reaction Reflex Tester -->
+          <div class="reflex-tester-box">
+            <div class="reflex-desc">
+              <strong>Live Perception Test:</strong> Click the trigger button below to measure your finger-to-screen reaction latency compared with AetherStream's frame time.
+            </div>
+            <button class="btn btn-emerald btn-md" id="btn-reflex-trigger">
+              ⚡ Click When Screen Flashes Neon
+            </button>
+            <div class="reflex-result" id="reflex-result">Ready for trigger test...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Streaming Solution Comparison Table -->
+  <section id="comparison" class="comparison-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="hud-chip">
+          <span class="chip-bracket">[</span>
+          <span class="chip-label">ENGINEERING BENCHMARK</span>
+          <span class="chip-bracket">]</span>
+        </div>
+        <h2 class="section-title">Solutions Comparison</h2>
+        <p class="section-subtitle">
+          Engineered from the ground up for esports gamers and high-precision creators.
+        </p>
+      </div>
+
+      <div class="table-responsive cyber-card">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th class="col-feature">FEATURE / CAPABILITY</th>
+              <th class="col-competitor">Commercial Solution</th>
+              <th class="col-competitor">Open-Source Tool</th>
+              <th class="col-hero-brand">
+                <div class="brand-th-badge">
+                  <span>AETHERSTREAM</span>
+                  <small>Next-Gen Standard</small>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="feature-title-cell">
+                <strong>Native iOS App (iPad & iPhone)</strong>
+                <span>Seamless ProMotion 120Hz Metal client</span>
+              </td>
+              <td class="status-cell status-bad">
+                <svg class="icon-bad" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                <span>Abandoned / Web Only</span>
+              </td>
+              <td class="status-cell status-mid">
+                <svg class="icon-mid" viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
+                <span>Basic iOS Port (No UI)</span>
+              </td>
+              <td class="status-cell status-best highlight-cell">
+                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                <strong>Native Metal 3 + 120Hz ProMotion</strong>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="feature-title-cell">
+                <strong>Setup Time & Onboarding</strong>
+                <span>Friction to stream your PC screen</span>
+              </td>
+              <td class="status-cell status-mid">
+                <span>Account Required + Friends List</span>
+              </td>
+              <td class="status-cell status-bad">
+                <svg class="icon-bad" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                <span>Port Forward + PIN Pairing + Manual IP</span>
+              </td>
+              <td class="status-cell status-best highlight-cell">
+                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                <strong>&lt; 5 Seconds (Instant 6-Digit Code)</strong>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="feature-title-cell">
+                <strong>Campus / Corporate Firewall Bypass</strong>
+                <span>Puncturing Symmetric NAT without VPN</span>
+              </td>
+              <td class="status-cell status-mid">
+                <span>Partial (High WAN Latency)</span>
+              </td>
+              <td class="status-cell status-bad">
+                <svg class="icon-bad" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                <span>Fails Completely (Requires Tailscale)</span>
+              </td>
+              <td class="status-cell status-best highlight-cell">
+                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                <strong>100% Penetration (35+ TURN Edge Mesh)</strong>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="feature-title-cell">
+                <strong>Apple Pencil 4096-Level Pressure</strong>
+                <span>ZBrush / Blender / Photoshop remote digitizer</span>
+              </td>
+              <td class="status-cell status-bad">
+                <svg class="icon-bad" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                <span>Unsupported</span>
+              </td>
+              <td class="status-cell status-bad">
+                <svg class="icon-bad" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                <span>Unsupported</span>
+              </td>
+              <td class="status-cell status-best highlight-cell">
+                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                <strong>4096 Levels + Tilt + Sub-8ms Azimuth</strong>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="feature-title-cell">
+                <strong>DXGI 1.2+ Multi-Monitor VRAM Capture</strong>
+                <span>Zero-copy capture & instant monitor switching</span>
+              </td>
+              <td class="status-cell status-mid">
+                <span>Locked behind enterprise paywall</span>
+              </td>
+              <td class="status-cell status-mid">
+                <span>Manual config & capture overhead</span>
+              </td>
+              <td class="status-cell status-best highlight-cell">
+                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                <strong>Hardware Zero-Copy DXGI Duplication</strong>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="feature-title-cell">
+                <strong>4:4:4 True RGB Chroma Subsampling</strong>
+                <span>Zero text blurring in VSCode and terminal</span>
+              </td>
+              <td class="status-cell status-mid">
+                <span>Locked behind $9.99/mo Paywall</span>
+              </td>
+              <td class="status-cell status-mid">
+                <span>Config file tinkering needed</span>
+              </td>
+              <td class="status-cell status-best highlight-cell">
+                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                <strong>Included in Pro (50% cheaper)</strong>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="feature-title-cell">
+                <strong>Mobile On-Device AI Upscaling</strong>
+                <span>1080p stream to 4K Retina view</span>
+              </td>
+              <td class="status-cell status-bad">
+                <svg class="icon-bad" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                <span>None</span>
+              </td>
+              <td class="status-cell status-bad">
+                <svg class="icon-bad" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                <span>None</span>
+              </td>
+              <td class="status-cell status-best highlight-cell">
+                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+                <strong>Apple MetalFX & CoreML Super Res</strong>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="feature-title-cell">
+                <strong>Pricing & Economics</strong>
+                <span>Value for independent creators & gamers</span>
+              </td>
+              <td class="status-cell status-bad">
+                <span class="price-strike">$9.99 / mo</span>
+                <span class="price-note">(Warp Paywall)</span>
+              </td>
+              <td class="status-cell status-mid">
+                <span>Free (High maintenance cost)</span>
+              </td>
+              <td class="status-cell status-best highlight-cell">
+                <div class="price-hero-cell">
+                  <strong>Free P2P / Pro $4.99</strong>
+                  <span>(Half the price of commercial plans)</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Creator Section: Apple Pencil Spotlight -->
+  <section id="pencil" class="pencil-section">
+    <div class="container">
+      <div class="pencil-layout">
+        <div class="pencil-content">
+          <div class="hud-chip">
+            <span class="chip-bracket">[</span>
+            <span class="chip-label">DIGITAL ARTIST ARSENAL</span>
+            <span class="chip-bracket">]</span>
+          </div>
+          <h2 class="section-title">
+            Replace High-End <span class="neon-text-cyan">Graphics Tablets</span><br>
+            With Your Existing iPad.
+          </h2>
+          <p class="section-lead">
+            AetherStream bridges Apple Pencil pressure dynamics directly to Windows Ink and Wintab APIs over low-jitter UDP.
+          </p>
+
+          <div class="pencil-features-list">
+            <div class="pf-item">
+              <div class="pf-bullet">01</div>
+              <div class="pf-info">
+                <h4>4096 Pressure Levels & Tilt Forwarding</h4>
+                <p>Sculpt organically in ZBrush or paint with natural watercolor bleed in Clip Studio with sub-8ms perceived pen response.</p>
+              </div>
+            </div>
+            <div class="pf-item">
+              <div class="pf-bullet">02</div>
+              <div class="pf-info">
+                <h4>Apple Pencil Hover Detection & Double-Tap</h4>
+                <p>Hover cursor preview matches Windows cursor coordinates with zero lag. Double-tap gesture switches brushes instantly.</p>
+              </div>
+            </div>
+            <div class="pf-item">
+              <div class="pf-bullet">03</div>
+              <div class="pf-info">
+                <h4>Custom Aspect Ratio Matching</h4>
+                <p>The host GPU automatically creates a native 3:2 or 4:3 virtual canvas, eliminating black bars and distorted proportions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pencil-interactive-card cyber-card">
+          <div class="canvas-header">
+            <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
+            <span class="canvas-title">Apple Pencil Pressure Test Sandbox</span>
+            <button class="btn btn-sm btn-outline" id="btn-clear-drawing">Clear</button>
+          </div>
+          <canvas id="drawing-canvas" width="460" height="320" class="interactive-drawing-canvas"></canvas>
+          <div class="canvas-footer">
+            <div class="pressure-gauge">
+              <span>SIMULATED PRESSURE:</span>
+              <div class="pressure-bar-track">
+                <div class="pressure-bar-fill" id="pressure-fill" style="width: 25%;"></div>
+              </div>
+              <span id="pressure-text">1024 / 4096</span>
+            </div>
+            <small class="canvas-tip">Draw above using mouse or touch/stylus to test sub-pixel smoothing!</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Tiers Section -->
+  <section id="pricing" class="pricing-section">
+    <div class="container">
+      <div class="section-header text-center">
+        <div class="hud-chip">
+          <span class="chip-bracket">[</span>
+          <span class="chip-label">TRANSPARENT PRICING</span>
+          <span class="chip-bracket">]</span>
+        </div>
+        <h2 class="section-title">Zero Paywalled Bullsh*t. 100% Cyber Value.</h2>
+        <p class="section-subtitle">
+          Free forever for LAN gamers. More than 50% savings compared to standard commercial subscriptions.
+        </p>
+
+        <!-- Billing Toggle -->
+        <div class="billing-toggle-container">
+          <span class="billing-label" id="label-monthly">Monthly</span>
+          <button class="toggle-switch" id="billing-switch" aria-label="Toggle annual billing">
+            <span class="toggle-slider"></span>
+          </button>
+          <span class="billing-label active" id="label-annual">
+            Annual <span class="badge-save">SAVE 20% + 2 MO FREE</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- FREE TIER -->
+        <div class="pricing-card cyber-card">
+          <div class="plan-header">
+            <span class="plan-badge">COMMUNITY</span>
+            <h3 class="plan-name">Free</h3>
+            <p class="plan-desc">For pure LAN gaming, friends couch co-op, and casual remote desktop.</p>
+            <div class="plan-price">
+              <span class="currency">$</span>
+              <span class="price-val">0</span>
+              <span class="period">/ forever</span>
+            </div>
+          </div>
+
+          <div class="plan-divider"></div>
+
+          <ul class="plan-features">
+            <li><span class="chk">✓</span> 1080p 60/120Hz P2P Streaming</li>
+            <li><span class="chk">✓</span> Sub-5ms Direct LAN Connection</li>
+            <li><span class="chk">✓</span> 6-Digit Room Code Instant Access</li>
+            <li><span class="chk">✓</span> Full Touch Gamepad Controls</li>
+            <li><span class="chk">✓</span> 2-Player Local Couch Co-op</li>
+            <li><span class="chk">✓</span> Discord Community Support</li>
+            <li class="disabled"><span class="cross">✕</span> Dedicated Global TURN Cloud Relay</li>
+            <li class="disabled"><span class="cross">✕</span> Apple Pencil 4096-Level Pressure</li>
+            <li class="disabled"><span class="cross">✕</span> Multi-Monitor VRAM Switching</li>
+          </ul>
+
+          <a href="#downloads" class="btn btn-outline btn-block">Download Free Host</a>
+        </div>
+
+        <!-- PRO TIER (HERO TIER) -->
+        <div class="pricing-card cyber-card hero-plan">
+          <div class="popular-ribbon">BEST CHOICE</div>
+          <div class="card-glow-edge"></div>
+          
+          <div class="plan-header">
+            <span class="plan-badge plan-badge-cyan">PRO CREATOR & GAMER</span>
+            <h3 class="plan-name">Aether Pro</h3>
+            <p class="plan-desc">High-speed TURN relay, Apple Pencil Pro direct mapping, multi-monitor switching & 4:4:4 True Color.</p>
+            <div class="plan-price">
+              <span class="currency">$</span>
+              <span class="price-val" id="pro-price">3.25</span>
+              <span class="period" id="pro-period">/ mo ($39.00 billed annually)</span>
+            </div>
+            <div class="price-strike-tag">Monthly $4.00/mo (Save vs Commercial Plans)</div>
+          </div>
+
+          <div class="plan-divider"></div>
+
+          <ul class="plan-features">
+            <li><span class="chk cyan">★</span> <strong>100% Firewall Bypass High-Speed TURN Relay</strong> (38+ edge nodes)</li>
+            <li><span class="chk cyan">★</span> <strong>Apple Pencil Pro 4096 Pressure & Tilt Direct Mapping</strong></li>
+            <li><span class="chk cyan">★</span> <strong>DXGI 1.2+ Multi-Monitor VRAM Real-Time Switching</strong></li>
+            <li><span class="chk cyan">★</span> <strong>4:4:4 True Color & 10-bit HDR Lossless</strong></li>
+            <li><span class="chk cyan">★</span> <strong>Mobile MetalFX AI Super Resolution</strong> (1080p → 4K)</li>
+            <li><span class="chk cyan">★</span> <strong>4-Player Local Co-op Virtual Gamepads</strong></li>
+            <li><span class="chk cyan">★</span> Priority High-Bandwidth UDP Pacing</li>
+            <li><span class="chk cyan">★</span> VIP Discord Support & Early Feature Betas</li>
+          </ul>
+
+          <button class="btn btn-primary btn-block glow-btn" id="btn-buy-pro">
+            Subscribe to Aether Pro
+          </button>
+        </div>
+
+        <!-- STUDIO / TEAM TIER -->
+        <div class="pricing-card cyber-card">
+          <div class="plan-header">
+            <span class="plan-badge">STUDIO & ENTERPRISE</span>
+            <h3 class="plan-name">Studio / Enterprise</h3>
+            <p class="plan-desc">For game dev studios, VFX houses, and security-critical creative teams.</p>
+            <div class="plan-price">
+              <span class="currency">$</span>
+              <span class="price-val" id="studio-price">30.00</span>
+              <span class="period" id="studio-period">/ seat/mo (or ₩39,000/seat/mo)</span>
+            </div>
+            <div class="price-strike-tag">Dedicated Studio & Enterprise Deployment</div>
+          </div>
+
+          <div class="plan-divider"></div>
+
+          <ul class="plan-features">
+            <li><span class="chk">✓</span> <strong>Everything in Aether Pro Included</strong></li>
+            <li><span class="chk">✓</span> <strong>Multi-Seat Real-Time Collaboration & Input Arbitration</strong></li>
+            <li><span class="chk">✓</span> <strong>Dynamic Forensic Watermarking</strong> (Leak prevention)</li>
+            <li><span class="chk">✓</span> <strong>99.99% Dedicated Bandwidth Relay SLA</strong> (10Gbps enterprise pipes)</li>
+            <li><span class="chk">✓</span> <strong>SSO / SAML & Okta Integration + Detailed Audit Logs</strong></li>
+            <li><span class="chk">✓</span> Centralized Admin & Team Access Controls</li>
+            <li><span class="chk">✓</span> Custom On-Premise TURN Relay Deployment</li>
+            <li><span class="chk">✓</span> 24/7 Dedicated Account Engineer</li>
+          </ul>
+
+          <button class="btn btn-outline btn-block" id="btn-buy-studio">Purchase Studio License</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download & Get Started Section -->
+  <section id="downloads" class="downloads-section">
+    <div class="container">
+      <div class="download-box cyber-card">
+        <div class="download-content">
+          <h2 class="section-title">Ready for Pure Cybernetic Flow?</h2>
+          <p class="download-lead">
+            Download the host for Windows, install the iOS client from TestFlight, 
+            and stream your entire PC in less time than it takes to read this sentence.
+          </p>
+
+          <div class="os-cards-grid">
+            <div class="os-card">
+              <div class="os-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-13.051-1.949"/></svg>
+              </div>
+              <div class="os-info">
+                <h4 data-i18n="dl.win_title">Windows Host Server</h4>
+                <p data-i18n="dl.win_desc">Windows 10 / 11 (64-bit) • NVIDIA / AMD / Intel GPU</p>
+                <div class="os-meta">Installer .exe • 2.58 MB • zerodoc Inc.</div>
+              </div>
+              <a href="../dist/zerodoc_AetherStream_Setup_v0.1.0.exe" class="btn btn-cyan btn-md" download style="text-decoration:none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                <span data-i18n="dl.win_btn">Download Setup.exe</span>
+              </a>
+            </div>
+
+            <div class="os-card" id="testflight">
+              <div class="os-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.85c.65-.8 1.1-1.92.98-3.04-1 .04-2.17.67-2.86 1.47-.6.69-1.13 1.83-.99 2.93 1.11.09 2.22-.56 2.87-1.36z"/></svg>
+              </div>
+              <div class="os-info">
+                <h4>iOS & iPadOS Client</h4>
+                <p>iOS 16+ • iPadOS 16+ • 120Hz ProMotion Native</p>
+                <div class="os-meta">TestFlight Beta Build #142 • Instant Invite</div>
+              </div>
+              <button class="btn btn-violet btn-md" id="btn-dl-ios">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                Join TestFlight
+              </button>
+            </div>
+          </div>
+
+          <!-- Official User Guide Callout Banner -->
+          <div class="download-guide-banner cyber-card" style="margin-top: 24px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; background: #0A0A0A; border: 1px solid #222222;">
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" style="width: 32px; height: 32px; flex-shrink: 0;">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+              </svg>
+              <div>
+                <h4 style="font-size: 1rem; color: #FFFFFF; margin-bottom: 4px;">First Time Here? Read the Official User Manual</h4>
+                <p style="font-size: 0.82rem; color: #888888; margin: 0;">Complete step-by-step guide: host setup, 6-digit room codes, shortcuts, and troubleshooting.</p>
+              </div>
+            </div>
+            <a href="../docs/USER_GUIDE.md" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="flex-shrink: 0; white-space: nowrap;">
+              Read Official Guide →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="container faq-container">
+      <div class="section-header text-center">
+        <div class="hud-chip">
+          <span class="chip-bracket">[</span>
+          <span class="chip-label">FREQUENTLY ASKED QUESTIONS</span>
+          <span class="chip-bracket">]</span>
+        </div>
+        <h2 class="section-title">Technical Deep Dive & Inquiries</h2>
+      </div>
+
+      <div class="faq-accordion">
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Why does AetherStream pierce through university and hotel Wi-Fi when traditional P2P streamers fail?</span>
+            <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Traditional streaming tools rely strictly on direct P2P socket communication. When routers use Symmetric NAT or block outbound UDP ports (common in dorms, universities, and enterprise corporate firewalls), direct hole punching fails without complex VPN configuration.
+            </p>
+            <p>
+              AetherStream Pro integrates 35+ global edge TURN relays that automatically step in when P2P is blocked, encapsulating low-latency UDP packets over TLS/WebSocket fallback on standard HTTPS ports (443), guaranteeing instant connectivity anywhere on Earth.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How does Apple Pencil pressure pass-through achieve sub-8ms latency?</span>
+            <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>
+              On iOS, Apple Pencil touch events are sampled at 240Hz. AetherStream encodes the 4096 pressure levels, tilt azimuth, and normalized touch coordinates into a dedicated lightweight 16-byte UDP packet (`0x20 INPUT_EVENT`). 
+            </p>
+            <p>
+              On the Windows Host, our driver injects these inputs directly into the Windows Ink Digitizer Subsystem and Wintab API, bypassing the Windows message queue delay.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How does AetherStream capture multi-monitor setups on Windows?</span>
+            <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>
+              AetherStream utilizes native Windows DXGI 1.2+ Desktop Duplication APIs to access the GPU's VRAM directly without CPU memory copies. You can stream any physically attached, active display and switch between multiple monitors instantly with full hardware acceleration.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Is the Community Free tier really free forever?</span>
+            <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <p>
+              Yes, 100%. P2P streaming over your local network uses zero cloud server bandwidth, so we will never paywall LAN 120Hz streaming, 1080p gaming, 6-digit room codes, or dual controllers. Pro subscriptions fund our high-speed global TURN relay infrastructure and specialized artist features.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-wrapper">
+    <div class="container footer-container">
+      <div class="footer-brand-col">
+        <a href="#" class="brand-logo">
+          <div class="logo-glyph mini">
+            <polygon points="20,2 38,34 2,34" stroke="#00F0FF" stroke-width="3" fill="#0D1017"/>
+          </div>
+          <span class="brand-name">Aether<span class="neon-text-cyan">Stream</span></span>
+        </a>
+        <p class="footer-tagline">
+          The next-generation ultra-low latency game and desktop streaming system. 
+          Zero-Copy DXGI. 120Hz ProMotion. Sub-10ms.
+        </p>
+        <div class="footer-socials">
+          <a href="https://github.com/AetherStream" target="_blank" class="social-icon" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          </a>
+          <a href="https://discord.gg/aetherstream" target="_blank" class="social-icon" aria-label="Discord">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          </a>
+          <a href="https://twitter.com/AetherStreamApp" target="_blank" class="social-icon" aria-label="Twitter">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.936 9.936 0 0024 4.59z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <h5>Product</h5>
+          <a href="#features">Architecture</a>
+          <a href="#comparison">Solutions Comparison</a>
+          <a href="#pencil">Apple Pencil Pro</a>
+          <a href="#simulator">Latency Simulator</a>
+          <a href="join.html">Discord Web Bridge</a>
+          <a href="#pricing">Pricing Plans</a>
+        </div>
+        <div class="footer-col">
+          <h5>Developers</h5>
+          <a href="../docs/USER_GUIDE.md" target="_blank" rel="noopener noreferrer" style="color: #FFFFFF; font-weight: 700;">★ Official User Guide (Manual)</a>
+          <a href="../docs/PROTOCOL.md">Protocol Spec (v0.1.0)</a>
+          <a href="../docs/ARCHITECTURE.md">System Architecture</a>
+          <a href="../docs/DESIGN_SYSTEM.md">Cyberpunk Design System</a>
+          <a href="../docs/MONETIZATION_STRATEGY.md">Monetization Strategy</a>
+          <a href="https://github.com/pqowp90/AetherStream">GitHub Repository</a>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <a href="#">About Us</a>
+          <a href="#">Careers (We're Hiring)</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Security & Bug Bounty</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom container">
+      <div class="footer-copy">
+        © 2026 AetherStream Systems Inc. Engineered for absolute low-latency excellence.
+      </div>
+      <div class="telemetry-pill-mini">
+        <span class="status-dot-pulse"></span>
+        <span>ALL SYSTEMS OPERATIONAL • Alpha v0.1.0 READY</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Neo-Brutalist Checkout Modal -->
+  <div class="checkout-modal-backdrop" id="modal-checkout">
+    <div class="checkout-dialog">
+      <div class="checkout-topbar">
+        <div class="checkout-brand">
+          <svg viewBox="0 0 100 100" width="16" height="16">
+            <polygon points="22,22 78,22 78,34 44,66 78,66 78,78 22,78 22,66 56,34 22,34" fill="#FFFFFF"/>
+          </svg>
+          <span>zerodoc AetherStream Checkout</span>
+        </div>
+        <button class="checkout-close-btn" id="btn-close-checkout">&times;</button>
+      </div>
+
+      <div class="checkout-body">
+        <!-- Selected Plan Summary Card -->
+        <div class="checkout-plan-summary">
+          <div>
+            <div class="summary-title" id="checkout-plan-title">Aether Pro (Annual Plan)</div>
+            <div class="summary-desc" id="checkout-plan-desc">38+ Global TURN Relays · Apple Pencil Pro 4096 Pressure · 120Hz ProMotion</div>
+          </div>
+          <div class="summary-pricing">
+            <div class="summary-amount" id="checkout-plan-amount">$39.00</div>
+            <div class="summary-cycle" id="checkout-plan-cycle">/ billed yearly ($3.25/mo equivalent)</div>
+          </div>
+        </div>
+
+        <!-- Payment Method Selector -->
+        <div>
+          <div class="checkout-section-label">SELECT PAYMENT METHOD (1-CLICK NEO-PAY)</div>
+          <div class="payment-methods-grid">
+            <button type="button" class="pay-method-btn active" data-method="stripe">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="5" width="20" height="14" rx="0"/>
+                <line x1="2" y1="10" x2="22" y2="10"/>
+              </svg>
+              <span>Card / Apple Pay</span>
+              <span class="pay-tag">Stripe</span>
+            </button>
+            <button type="button" class="pay-method-btn" data-method="kakaopay">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.9 5.3 4.7 6.7l-1.2 4.4c-.1.4.3.7.6.5l5.2-3.4c.2 0 .5.1.7.1 5.5 0 10-3.6 10-8s-4.5-8-10-8z"/>
+              </svg>
+              <span>KakaoPay</span>
+              <span class="pay-tag">Kakao</span>
+            </button>
+            <button type="button" class="pay-method-btn" data-method="tosspay">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M8 12h8M12 8v8"/>
+              </svg>
+              <span>TossPay</span>
+              <span class="pay-tag">Toss</span>
+            </button>
+            <button type="button" class="pay-method-btn" data-method="naverpay">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16.5 3H7.5C5 3 3 5 3 7.5v9C3 19 5 21 7.5 21h9c2.5 0 4.5-2 4.5-4.5v-9C21 5 19 3 16.5 3zM9 16.5l-3-4.5V16.5H4.5v-9H6l3 4.5V7.5H10.5v9H9zm9 0h-4.5v-9H18v9z"/>
+              </svg>
+              <span>NaverPay</span>
+              <span class="pay-tag">Naver</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Customer Identity / Email -->
+        <div class="checkout-input-group">
+          <label class="checkout-section-label" for="checkout-email">LICENSE RECIPIENT EMAIL</label>
+          <input type="email" id="checkout-email" class="checkout-input" placeholder="you@company.com" required>
+        </div>
+
+        <!-- Checkout Action Button -->
+        <button type="button" class="checkout-action-btn" id="btn-submit-payment">
+          <span id="btn-pay-text">AUTHORIZE $39.00 & INSTANTLY DISPATCH LICENSE</span>
+        </button>
+
+        <div class="checkout-status-msg" id="checkout-status-msg"></div>
+
+        <!-- Interactive License Key Generation Preview -->
+        <div class="checkout-license-preview" id="checkout-license-box">
+          <div class="license-hud-header">
+            <span>[ TRANSACTION APPROVED • LICENSE ISSUED ]</span>
+            <span>STATUS: ACTIVE</span>
+          </div>
+          <div class="license-key-box" id="generated-license-key">
+            AETH-PRO-XXXX-XXXX-XXXX
+          </div>
+          <div class="license-meta-row">
+            <span>LICENSE TIER: <strong id="license-tier-text">Aether Pro</strong></span>
+            <span>VALIDITY: <strong>PERPETUAL / 1-YR UPDATES</strong></span>
+          </div>
+          <div style="font-size:0.75rem; color:#888888; font-family:var(--font-mono, monospace); line-height:1.4;">
+            Paste this key into the AetherStream Host Desktop Settings window to instantly unlock Pro/Studio capabilities. A backup certificate has been dispatched to your email.
+          </div>
+        </div>
+
+        <div class="checkout-guarantee">
+          <span>End-to-end 256-bit encrypted checkout • 14-day zero-questions money-back guarantee</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Join Modal -->
+  <div class="modal-backdrop" id="join-modal">
+    <div class="modal-card cyber-card">
+      <button class="modal-close" id="modal-close-btn">&times;</button>
+      <div class="modal-header">
+        <div class="modal-hud-tag">[ INSTANT PEER LINK ]</div>
+        <h3>Enter 6-Digit Room Code</h3>
+        <p>No login needed. Instantly join your friend's game or secondary display stream.</p>
+      </div>
+
+      <div class="modal-body">
+        <div class="code-inputs" id="modal-code-inputs">
+          <input type="text" maxlength="1" class="code-box modal-box" data-midx="0" placeholder="•" autofocus>
+          <input type="text" maxlength="1" class="code-box modal-box" data-midx="1" placeholder="•">
+          <input type="text" maxlength="1" class="code-box modal-box" data-midx="2" placeholder="•">
+          <span class="code-dash">-</span>
+          <input type="text" maxlength="1" class="code-box modal-box" data-midx="3" placeholder="•">
+          <input type="text" maxlength="1" class="code-box modal-box" data-midx="4" placeholder="•">
+          <input type="text" maxlength="1" class="code-box modal-box" data-midx="5" placeholder="•">
+        </div>
+        
+        <div class="stream-role-select">
+          <label><input type="radio" name="modal-role" value="gamepad" checked> <span>🎮 Controller (P2 Player)</span></label>
+          <label><input type="radio" name="modal-role" value="spectator"> <span>👁️ Spectator (View Only)</span></label>
+          <label><input type="radio" name="modal-role" value="pencil"> <span>✏️ Apple Pencil Digitizer</span></label>
+        </div>
+
+        <button class="btn btn-primary btn-block glow-btn" id="btn-modal-connect">
+          Connect to Stream Now
+        </button>
+        <div class="modal-status-msg" id="modal-status"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Google Auth Modal -->
+  <div class="auth-modal-backdrop" id="google-auth-modal">
+    <div class="google-auth-dialog">
+      <div class="auth-dialog-topbar">
+        <div class="auth-dialog-brand">
+          <svg viewBox="0 0 100 100" width="16" height="16">
+            <polygon points="22,22 78,22 78,34 44,66 78,66 78,78 22,78 22,66 56,34 22,34" fill="#FFFFFF"/>
+          </svg>
+          <span>zerodoc AetherStream Account Link</span>
+        </div>
+        <button class="auth-dialog-close" id="btn-close-google-modal">&times;</button>
+      </div>
+      <div class="auth-dialog-body">
+        <div class="google-prompt-card">
+          <div class="google-logo-large">
+            <svg viewBox="0 0 24 24" width="36" height="36">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+          </div>
+          <div class="auth-title">Sign in with Google</div>
+          <div class="auth-subtitle">
+            Select a Google account to continue to AetherStream Cloud Pairing service.
+          </div>
+        </div>
+        <div class="account-selector-box" id="auth-account-options-list"></div>
+        <div class="scope-checklist-box">
+          <div class="scope-heading">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="0" ry="0"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <span>Required Permissions for Account Pairing</span>
+          </div>
+          <div class="scope-item">
+            <span class="scope-check-icon">✔</span>
+            <span><strong>Basic Profile Information</strong>: Account identification & host device registry sync</span>
+          </div>
+          <div class="scope-item">
+            <span class="scope-check-icon">✔</span>
+            <span><strong>Google Drive File Integration</strong>: AetherStream installer mirror & virtual controller profile backup</span>
+          </div>
+        </div>
+        <div class="auth-actions-group">
+          <button class="btn-auth-confirm" id="btn-confirm-google-login">
+            Continue with Google
+          </button>
+          <button class="btn-auth-cancel" id="btn-cancel-google-modal">
+            Cancel
+          </button>
+        </div>
+        <div class="auth-security-notice">
+          zerodoc Inc. never collects or transmits your password to external servers.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="auth-global-toast" class="auth-toast-notification"></div>
+
+  <script src="app.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>

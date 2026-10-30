@@ -1,0 +1,24 @@
+{
+  "version": "0.1.0",
+  "channel": "alpha",
+  "release_date": "2026-10-30",
+  "minimum_version": "0.1.0",
+  "downloads": {
+    "windows": {
+      "installer_url": "https://github.com/pqowp90/AetherStream-Release/releases/download/v0.1.0/zerodoc_AetherStream_Setup_v0.1.0.exe",
+      "portable_url": "https://github.com/pqowp90/AetherStream-Release/releases/download/v0.1.0/aether-server-v0.1.0-windows-x64.zip"
+    },
+    "android": {
+      "apk_url": "https://github.com/pqowp90/AetherStream-Release/releases/download/v0.1.0/zerodoc_AetherStream_v0.1.0.apk"
+    }
+  },
+  "changelog": [
+    "DXGI 1.2+ VRAM Zero-Copy ultra-low latency desktop/game capture pipeline",
+    "NVIDIA NVENC hardware zero-latency H.264/HEVC encoding",
+    "Windows WASAPI loopback 48kHz stereo sub-5ms low latency audio",
+    "Win32 multi-monitor runtime switching & bi-directional clipboard sync",
+    "UDP FEC packet recovery & RFC 5389 STUN NAT traversal",
+    "Inno Setup 6 one-click Windows installer with automatic firewall setup"
+  ],
+  "message": "AetherStream v0.1.0 Alpha is live. Next-generation low latency streaming."
+}

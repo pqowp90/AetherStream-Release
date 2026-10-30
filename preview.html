@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AetherStream Visual Design System Preview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      border-radius: 0px !important;
+      -webkit-font-smoothing: antialiased;
+    }
+    body {
+      background-color: #000000;
+      color: #FFFFFF;
+      font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      margin: 0;
+      padding: 24px;
+      user-select: none;
+    }
+    .hairline-border {
+      border: 1px solid #222222;
+    }
+    .btn-flat {
+      background-color: #0A0A0A;
+      border: 1px solid #222222;
+      color: #FFFFFF;
+      transition: background-color 0.1s ease, color 0.1s ease;
+    }
+    .btn-flat:active, .btn-flat.active {
+      background-color: #FFFFFF !important;
+      color: #000000 !important;
+      border-color: #FFFFFF !important;
+    }
+    .ghost-layer {
+      transition: opacity 0.15s ease;
+    }
+  </style>
+</head>
+<body class="bg-black text-white p-6">
+  <!-- Verification Bar -->
+  <div class="max-w-4xl mx-auto mb-6 p-3 bg-[#0A0A0A] hairline-border flex flex-wrap items-center justify-between text-xs">
+    <div class="flex items-center gap-3">
+      <div class="w-2.5 h-2.5 bg-white"></div>
+      <span class="font-bold tracking-widest text-white">AETHERSTREAM VISUAL CONFIRMATION SUITE</span>
+      <span class="text-[#888888]">v3.1.0 SOP COMPLIANT</span>
+    </div>
+    <div class="flex items-center gap-4 text-[#888888]">
+      <span>GRADIENTS: <b class="text-white">0%</b></span>
+      <span>RADIUS: <b class="text-white">0px</b></span>
+      <span>METAL: <b class="text-white">0%</b></span>
+      <span>SHADOWS: <b class="text-white">0%</b></span>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <!-- LEFT COLUMN: Official Logo & Gamepad Controls -->
+    <div class="space-y-6">
+
+      <!-- 1. Approved Logo Card -->
+      <div class="p-5 bg-[#0A0A0A] hairline-border">
+        <div class="flex items-center justify-between mb-4 border-b border-[#222222] pb-2">
+          <span class="text-xs font-bold tracking-wider text-white">01. APPROVED LOGO: LINEAR MONOGRAM</span>
+          <span class="text-[10px] text-black bg-white px-1.5 py-0.5 font-bold">OFFICIAL</span>
+        </div>
+        <div class="flex items-center gap-6">
+          <div class="w-20 h-20 bg-black hairline-border flex items-center justify-center p-2">
+            <svg viewBox="0 0 100 100" class="w-16 h-16 fill-white">
+              <polygon points="50,12 88,88 72,88 50,44 28,88 12,88" />
+              <rect x="25" y="60" width="50" height="7" fill="#000000" />
+              <rect x="36" y="62" width="28" height="3" fill="#FFFFFF" />
+            </svg>
+          </div>
+          <div class="space-y-1 text-xs">
+            <div class="font-black tracking-widest text-base">AETHERSTREAM</div>
+            <div class="text-[#888888]">ULTRA-LOW LATENCY STREAMING ENGINE</div>
+            <div class="text-[#444444] text-[11px] pt-1">Pure 2D Flat White • 45° Chamfered Geometry • Zero Shading</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Interactive Flat Gamepad Skin -->
+      <div class="p-5 bg-[#0A0A0A] hairline-border">
+        <div class="flex items-center justify-between mb-4 border-b border-[#222222] pb-2">
+          <span class="text-xs font-bold tracking-wider text-white">02. 100% FLAT GAMEPAD SKIN</span>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] text-[#888888]">GHOST MODE:</span>
+            <button id="toggleGhostBtn" class="text-[10px] px-2 py-0.5 btn-flat">35% ALPHA [ON]</button>
+          </div>
+        </div>
+
+        <div id="gamepadContainer" class="p-6 bg-black hairline-border ghost-layer opacity-35 hover:opacity-90 transition-opacity">
+          <!-- Shoulder Triggers -->
+          <div class="flex justify-between mb-6">
+            <div class="flex gap-2">
+              <button class="btn-flat text-[10px] font-bold px-3 py-1.5" onmousedown="pressBtn('L2')" onmouseup="releaseBtn('L2')">L2</button>
+              <button class="btn-flat text-[10px] font-bold px-3 py-1.5" onmousedown="pressBtn('L1')" onmouseup="releaseBtn('L1')">L1</button>
+            </div>
+            <div class="flex gap-2">
+              <button class="btn-flat text-[10px] font-bold px-3 py-1.5" onmousedown="pressBtn('R1')" onmouseup="releaseBtn('R1')">R1</button>
+              <button class="btn-flat text-[10px] font-bold px-3 py-1.5" onmousedown="pressBtn('R2')" onmouseup="releaseBtn('R2')">R2</button>
+            </div>
+          </div>
+
+          <!-- Bottom: Joystick & ABXY -->
+          <div class="flex justify-between items-center">
+            <!-- 0px Rectangular Joystick Base -->
+            <div id="joystickBase" class="relative w-24 h-24 bg-[#0A0A0A] hairline-border cursor-crosshair flex items-center justify-center">
+              <div class="absolute w-full h-[1px] bg-[#222222]"></div>
+              <div class="absolute h-full w-[1px] bg-[#222222]"></div>
+              <div id="thumbpad" class="w-8 h-8 bg-[#111111] hairline-border flex items-center justify-center pointer-events-none transition-transform duration-75">
+                <div class="w-1.5 h-1.5 bg-white"></div>
+              </div>
+            </div>
+
+            <!-- ABXY Diamond Cluster -->
+            <div class="relative w-28 h-28 bg-[#0A0A0A] hairline-border p-2">
+              <button id="btnY" class="absolute top-1 left-10 w-8 h-8 btn-flat font-black text-xs" onmousedown="pressBtn('Y')" onmouseup="releaseBtn('Y')">Y</button>
+              <button id="btnX" class="absolute top-10 left-1 w-8 h-8 btn-flat font-black text-xs" onmousedown="pressBtn('X')" onmouseup="releaseBtn('X')">X</button>
+              <button id="btnB" class="absolute top-10 right-1 w-8 h-8 btn-flat font-black text-xs" onmousedown="pressBtn('B')" onmouseup="releaseBtn('B')">B</button>
+              <button id="btnA" class="absolute bottom-1 left-10 w-8 h-8 btn-flat font-black text-xs" onmousedown="pressBtn('A')" onmouseup="releaseBtn('A')">A</button>
+            </div>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-[#222222] flex justify-between text-[10px] text-[#888888]">
+            <span>STICK: <b id="stickCoords" class="text-white">X: 0.00 | Y: 0.00</b></span>
+            <span>LAST INPUT: <b id="lastInput" class="text-white">NONE</b></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN: Performance HUD & Stream Config -->
+    <div class="space-y-6">
+
+      <!-- 3. Minimalist Performance HUD -->
+      <div class="p-5 bg-[#0A0A0A] hairline-border">
+        <div class="flex items-center justify-between mb-4 border-b border-[#222222] pb-2">
+          <span class="text-xs font-bold tracking-wider text-white">03. 100% FLAT PERFORMANCE HUD</span>
+          <button id="hudExpandBtn" class="text-[10px] px-2 py-0.5 btn-flat">EXPAND [OFF]</button>
+        </div>
+
+        <div id="hudPill" class="p-3 bg-black hairline-border flex items-center justify-between text-xs cursor-pointer hover:border-[#444444] transition-colors">
+          <div class="flex items-center gap-2">
+            <div class="w-1.5 h-1.5 bg-white"></div>
+            <span><b id="liveFps">60</b> <span class="text-[#888888] text-[10px]">FPS</span></span>
+          </div>
+          <div class="w-[1px] h-3 bg-[#222222]"></div>
+          <div>
+            <span><b id="livePing">3.8</b> <span class="text-[#888888] text-[10px]">ms</span></span>
+          </div>
+          <div class="w-[1px] h-3 bg-[#222222]"></div>
+          <div>
+            <span class="text-[#888888]">BIT:</span> <b id="liveBitrate">45M</b>
+          </div>
+        </div>
+
+        <div id="hudExpanded" class="mt-4 p-4 bg-[#0A0A0A] hairline-border space-y-3 hidden">
+          <div class="grid grid-cols-4 gap-2 text-center text-xs">
+            <div class="p-2 bg-[#111111] hairline-border">
+              <div class="text-[9px] text-[#888888]">FPS</div>
+              <div class="font-black text-sm">60</div>
+            </div>
+            <div class="p-2 bg-[#111111] hairline-border">
+              <div class="text-[9px] text-[#888888]">RTT</div>
+              <div class="font-black text-sm">3.8ms</div>
+            </div>
+            <div class="p-2 bg-[#111111] hairline-border">
+              <div class="text-[9px] text-[#888888]">DECODE</div>
+              <div class="font-black text-sm">1.9ms</div>
+            </div>
+            <div class="p-2 bg-[#111111] hairline-border">
+              <div class="text-[9px] text-[#888888]">LOSS</div>
+              <div class="font-black text-sm">0.0%</div>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <div class="flex justify-between text-[9px] text-[#888888]">
+              <span>BANDWIDTH REAL-TIME (UDP CBR)</span>
+              <span id="canvasPeak">PEAK: 48.2 Mbps</span>
+            </div>
+            <canvas id="sparklineCanvas" width="400" height="50" class="w-full h-12 bg-black hairline-border"></canvas>
+          </div>
+
+          <div class="flex justify-between text-[9px] text-[#444444] pt-1">
+            <span>CODEC: HEVC ZERO-LATENCY (NVENC P1)</span>
+            <span>DISPLAY: 1440p @ 60Hz</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Stream Config -->
+      <div class="p-5 bg-[#0A0A0A] hairline-border space-y-4">
+        <div class="flex items-center justify-between border-b border-[#222222] pb-2">
+          <span class="text-xs font-bold tracking-wider text-white">04. STREAM CONFIGURATION</span>
+          <span class="text-[10px] text-[#888888]">NEO-BRUTALIST CONTROLS</span>
+        </div>
+
+        <div class="space-y-1.5">
+          <div class="text-[10px] text-[#888888]">TARGET CADENCE</div>
+          <div class="grid grid-cols-2 gap-2">
+            <button class="btn-flat active text-xs font-bold py-2">60 FPS [16.6ms]</button>
+            <button class="btn-flat text-xs font-bold py-2">120 FPS [8.3ms]</button>
+          </div>
+        </div>
+
+        <div class="space-y-1.5">
+          <div class="flex justify-between text-[10px]">
+            <span class="text-[#888888]">BITRATE LIMIT</span>
+            <span id="bitrateVal" class="font-bold">50 Mbps</span>
+          </div>
+          <div class="grid grid-cols-4 gap-1.5">
+            <button class="btn-flat text-xs py-1" onclick="setBitrate(25)">25M</button>
+            <button class="btn-flat active text-xs py-1" onclick="setBitrate(50)">50M</button>
+            <button class="btn-flat text-xs py-1" onclick="setBitrate(75)">75M</button>
+            <button class="btn-flat text-xs py-1" onclick="setBitrate(100)">100M</button>
+          </div>
+        </div>
+
+        <div class="space-y-2 pt-2 border-t border-[#222222]">
+          <div class="flex items-center justify-between text-xs">
+            <span>4:4:4 TRUE COLOR CHROMA</span>
+            <button class="btn-flat px-2 py-0.5 text-[10px]">ACTIVE [X]</button>
+          </div>
+          <div class="flex items-center justify-between text-xs">
+            <span>BIDIRECTIONAL CLIPBOARD</span>
+            <button class="btn-flat px-2 py-0.5 text-[10px]">ACTIVE [X]</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const joystickBase = document.getElementById('joystickBase');
+    const thumbpad = document.getElementById('thumbpad');
+    const stickCoords = document.getElementById('stickCoords');
+    let isDragging = false;
+
+    joystickBase.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      updateJoystick(e);
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging) updateJoystick(e);
+    });
+    window.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        thumbpad.style.transform = 'translate(0px, 0px)';
+        stickCoords.innerText = 'X: 0.00 | Y: 0.00';
+      }
+    });
+
+    function updateJoystick(e) {
+      const rect = joystickBase.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      let dx = e.clientX - centerX;
+      let dy = e.clientY - centerY;
+      const maxDist = 32;
+      const dist = Math.hypot(dx, dy);
+      if (dist > maxDist) {
+        dx = (dx / dist) * maxDist;
+        dy = (dy / dist) * maxDist;
+      }
+      thumbpad.style.transform = `translate(${dx}px, ${dy}px)`;
+      stickCoords.innerText = `X: ${(dx / maxDist).toFixed(2)} | Y: ${(-dy / maxDist).toFixed(2)}`;
+    }
+
+    function pressBtn(name) {
+      document.getElementById('lastInput').innerText = `BTN_${name} [DOWN]`;
+      const el = document.getElementById(`btn${name}`);
+      if (el) el.classList.add('active');
+    }
+    function releaseBtn(name) {
+      document.getElementById('lastInput').innerText = `BTN_${name} [UP]`;
+      const el = document.getElementById(`btn${name}`);
+      if (el) el.classList.remove('active');
+    }
+
+    let ghostActive = true;
+    document.getElementById('toggleGhostBtn').addEventListener('click', () => {
+      ghostActive = !ghostActive;
+      const container = document.getElementById('gamepadContainer');
+      const btn = document.getElementById('toggleGhostBtn');
+      if (ghostActive) {
+        container.classList.add('opacity-35');
+        btn.innerText = '35% ALPHA [ON]';
+      } else {
+        container.classList.remove('opacity-35');
+        btn.innerText = '100% ALPHA [OFF]';
+      }
+    });
+
+    let hudExpanded = false;
+    document.getElementById('hudExpandBtn').addEventListener('click', () => {
+      hudExpanded = !hudExpanded;
+      document.getElementById('hudExpanded').classList.toggle('hidden', !hudExpanded);
+      document.getElementById('hudExpandBtn').innerText = hudExpanded ? 'EXPAND [ON]' : 'EXPAND [OFF]';
+    });
+
+    function setBitrate(val) {
+      document.getElementById('bitrateVal').innerText = `${val} Mbps`;
+      document.querySelectorAll('[onclick^="setBitrate"]').forEach(b => b.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    const canvas = document.getElementById('sparklineCanvas');
+    const ctx = canvas.getContext('2d');
+    let points = Array(50).fill(35);
+
+    function drawSparkline() {
+      points.shift();
+      const nextVal = 35 + (Math.random() * 12 - 6);
+      points.push(nextVal);
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = '#222222';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, canvas.height - 1);
+      ctx.lineTo(canvas.width, canvas.height - 1);
+      ctx.stroke();
+
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      const step = canvas.width / (points.length - 1);
+      points.forEach((p, i) => {
+        const x = i * step;
+        const y = canvas.height - ((p - 20) / 35) * canvas.height;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      const lastX = canvas.width - 2;
+      const lastY = canvas.height - ((points[points.length - 1] - 20) / 35) * canvas.height;
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(lastX - 2, lastY - 2, 4, 4);
+
+      document.getElementById('livePing').innerText = (3.5 + Math.random() * 0.8).toFixed(1);
+      document.getElementById('liveFps').innerText = Math.random() > 0.05 ? '60' : '59';
+
+      requestAnimationFrame(drawSparkline);
+    }
+    drawSparkline();
+  </script>
+</body>
+</html>

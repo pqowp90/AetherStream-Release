@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zerodoc AetherStream - Windows Host &amp; Client UI Preview</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+    body {
+      background: #050505;
+      color: #FFFFFF;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      word-break: keep-all;
+      letter-spacing: -0.02em;
+      padding: 24px;
+      line-height: 1.5;
+    }
+    .mono {
+      font-family: 'JetBrains Mono', Consolas, monospace;
+    }
+    header.report-header {
+      border-bottom: 1px solid #222222;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border: 1px solid #333333;
+      background: #111111;
+      font-size: 11px;
+      font-weight: 700;
+      color: #888888;
+    }
+    .badge-accent {
+      border-color: #00FF88;
+      color: #00FF88;
+      background: #051a0e;
+    }
+    .badge-cyan {
+      border-color: #00F0FF;
+      color: #00F0FF;
+      background: #04161a;
+    }
+
+    /* Window Container */
+    .app-window {
+      background: #080808;
+      border: 1px solid #222222;
+      max-width: 1040px;
+      margin: 0 auto 30px auto;
+    }
+
+    /* 1. Titlebar */
+    .app-titlebar {
+      background: #000000;
+      border-bottom: 1px solid #222222;
+      height: 42px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 16px;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .monogram-box {
+      width: 22px;
+      height: 22px;
+      background: #FFFFFF;
+      color: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 13px;
+    }
+    .window-controls {
+      display: flex;
+    }
+    .win-btn {
+      width: 42px;
+      height: 41px;
+      background: transparent;
+      border: none;
+      color: #888888;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .win-btn:hover {
+      background: #1c1c1c;
+      color: #FFFFFF;
+    }
+
+    /* 2. Mode Switcher Tabs */
+    .mode-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #0A0A0A;
+      border-bottom: 1px solid #222222;
+    }
+    .mode-tab {
+      height: 45px;
+      border: none;
+      background: #111111;
+      color: #888888;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: none;
+    }
+    .mode-tab.active {
+      background: #FFFFFF;
+      color: #000000;
+      font-weight: 800;
+    }
+    .mode-tab:first-child {
+      border-right: 1px solid #222222;
+    }
+
+    /* 3. Status Bar */
+    .status-bar {
+      background: #0D0D0D;
+      border-bottom: 1px solid #222222;
+      height: 46px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      font-size: 12px;
+    }
+    .status-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .dot-live {
+      width: 8px;
+      height: 8px;
+      background: #00FF88;
+      display: inline-block;
+    }
+    .dot-cyan {
+      width: 8px;
+      height: 8px;
+      background: #00F0FF;
+      display: inline-block;
+    }
+    .status-badges {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* 4. Body Content Grid */
+    .content-body {
+      padding: 20px;
+      min-height: 520px;
+    }
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+      gap: 20px;
+    }
+    .card {
+      background: #0D0D0D;
+      border: 1px solid #222222;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    .card:last-child {
+      margin-bottom: 0;
+    }
+    .card-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #888888;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Inputs & Buttons */
+    .roomcode-box {
+      background: #000000;
+      border: 1px solid #333333;
+      padding: 12px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .roomcode-input {
+      background: transparent;
+      border: none;
+      color: #00F0FF;
+      font-size: 28px;
+      font-weight: 900;
+      text-align: center;
+      width: 100%;
+      text-transform: uppercase;
+      outline: none;
+      letter-spacing: 0.1em;
+    }
+    .roomcode-input::placeholder {
+      color: #333333;
+    }
+    .btn-solid-accent {
+      width: 100%;
+      height: 48px;
+      background: #FFFFFF;
+      color: #000000;
+      border: 1px solid #FFFFFF;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-solid-accent:hover {
+      background: #00FF88;
+      border-color: #00FF88;
+    }
+    .btn-outline {
+      width: 100%;
+      height: 40px;
+      background: #141414;
+      color: #FFFFFF;
+      border: 1px solid #333333;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-outline:hover {
+      background: #222222;
+      border-color: #555555;
+    }
+    .btn-cyan-outline {
+      border-color: #00F0FF;
+      color: #00F0FF;
+      background: #0c181a;
+      height: 42px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .btn-cyan-outline:hover {
+      background: #00F0FF;
+      color: #000000;
+    }
+
+    /* Manual IP Grid */
+    .ip-grid {
+      display: grid;
+      grid-template-columns: 1fr 100px;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .form-label {
+      font-size: 10px;
+      color: #888888;
+      margin-bottom: 4px;
+    }
+    .text-input {
+      background: #000000;
+      border: 1px solid #333333;
+      color: #FFFFFF;
+      padding: 8px 10px;
+      font-size: 12px;
+      width: 100%;
+      outline: none;
+    }
+
+    /* Telemetry Table */
+    .telemetry-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #181818;
+      font-size: 11px;
+    }
+    .telemetry-row:last-child {
+      border-bottom: none;
+    }
+    .telemetry-label {
+      color: #666666;
+    }
+    .telemetry-value {
+      font-weight: 700;
+    }
+
+    /* Console */
+    .console-box {
+      background: #000000;
+      border: 1px solid #222222;
+      height: 450px;
+      padding: 12px;
+      font-size: 11px;
+      color: #BBBBBB;
+      overflow-y: auto;
+      line-height: 1.6;
+    }
+
+    /* 5. Footer */
+    .app-footer {
+      background: #000000;
+      border-top: 1px solid #222222;
+      height: 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+    .footer-btns {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Floating Remote Viewer Preview Modal */
+    .viewer-mockup {
+      background: #000000;
+      border: 1px solid #333333;
+      max-width: 1040px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .viewer-hud {
+      background: #0A0A0A;
+      border-bottom: 1px solid #222222;
+      height: 46px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 16px;
+      font-size: 11px;
+    }
+    .viewer-surface {
+      height: 380px;
+      background: #030303;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #222222;
+    }
+    .surface-watermark {
+      text-align: center;
+    }
+    .target-dot {
+      width: 12px;
+      height: 12px;
+      background: #00F0FF;
+      position: absolute;
+      top: 40%;
+      left: 60%;
+      transform: translate(-50%, -50%);
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Report Header -->
+  <header class="report-header">
+    <div>
+      <div style="font-size: 11px; font-weight: 800; color: #888888; margin-bottom: 4px;" class="mono">
+        ZERODOC INC. // DESIGN &amp; CLIENT ENGINEERING REPORT
+      </div>
+      <h1 style="font-size: 22px; font-weight: 900; letter-spacing: -0.03em;">
+        AetherStream Windows Host &amp; Remote Client UI/UX System
+      </h1>
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <span class="badge badge-accent">100% NEO-BRUTALISM</span>
+      <span class="badge badge-cyan">0px BORDER-RADIUS</span>
+      <span class="badge">v0.1.0 Alpha</span>
+    </div>
+  </header>
+
+  <!-- Interactive Controls Notice -->
+  <div style="max-width: 1040px; margin: 0 auto 12px auto; display: flex; justify-content: space-between; align-items: center;">
+    <div style="font-size: 12px; color: #888888;">
+      💡 아래 탭 버튼을 클릭하여 <strong style="color: #FFF;">[HOST MODE]</strong>와 <strong style="color: #00F0FF;">[CLIENT MODE]</strong> 인터페이스를 즉시 전환해 보실 수 있습니다.
+    </div>
+    <div style="font-size: 11px; color: #00FF88;" class="mono">
+      ● STUN P2P DIRECT DIRECT-CONNECT READY
+    </div>
+  </div>
+
+  <!-- Main Window Frame -->
+  <div class="app-window">
+    <!-- 1. Custom Titlebar -->
+    <div class="app-titlebar">
+      <div class="brand-group">
+        <div class="monogram-box mono">Z</div>
+        <div style="font-size: 13px; font-weight: 700; color: #FFFFFF;">ZERODOC // AETHERSTREAM</div>
+        <div class="badge mono" style="font-size: 10px; padding: 2px 6px;">v0.1.0 Alpha</div>
+      </div>
+      <div class="window-controls">
+        <button class="win-btn">—</button>
+        <button class="win-btn">↘</button>
+        <button class="win-btn">✕</button>
+      </div>
+    </div>
+
+    <!-- 2. Mode Switcher Tabs -->
+    <div class="mode-bar">
+      <button id="tabHost" class="mode-tab" onclick="switchMode('host')">
+        <span>📡</span>
+        <span class="mono">HOST MODE (화면 송출 대시보드)</span>
+      </button>
+      <button id="tabClient" class="mode-tab active" onclick="switchMode('client')">
+        <span>🎮</span>
+        <span class="mono">CLIENT MODE (원격 스트림 접속)</span>
+      </button>
+    </div>
+
+    <!-- 3. Status Bar -->
+    <div class="status-bar">
+      <div class="status-left">
+        <span id="statusDot" class="dot-cyan"></span>
+        <span id="statusText" class="mono" style="font-weight: 700; color: #00F0FF;">CLIENT ENGINE READY (P2P 접속 대기)</span>
+        <span style="color: #444444;">|</span>
+        <span id="latencySummary" class="mono" style="color: #888888;">Target RTT: Sub-15ms (Ultra Low Latency)</span>
+      </div>
+      <div class="status-badges mono">
+        <span id="b1" class="badge badge-cyan">RFC 5389 STUN</span>
+        <span id="b2" class="badge">DIRECT UDP</span>
+        <span id="b3" class="badge">DIRECT P2P</span>
+      </div>
+    </div>
+
+    <!-- 4. Content Area -->
+    <div class="content-body">
+
+      <!-- [A] CLIENT MODE VIEW (Default Preview) -->
+      <div id="viewClient" class="grid-2col">
+        <!-- Left Column -->
+        <div>
+          <!-- 6-Digit Room Code Card -->
+          <div class="card">
+            <div class="card-title">
+              <span class="mono">P2P 6-DIGIT ROOM CODE CONNECT</span>
+              <span class="badge badge-accent mono" style="font-size: 9px; padding: 2px 5px;">RFC 5389 STUN NAT</span>
+            </div>
+            <p style="font-size: 11px; color: #AAAAAA; margin-bottom: 10px;">
+              상대방 호스트 PC 화면에 표시된 6자리 룸코드를 입력하십시오:
+            </p>
+            <div class="roomcode-box">
+              <input type="text" class="roomcode-input mono" value="90RQMB" maxlength="6" spellcheck="false" placeholder="# ROOM CODE">
+            </div>
+            <button class="btn-solid-accent" onclick="simulateConnect()">
+              ▶ 초저지연 P2P 스트림 접속
+            </button>
+            <div style="font-size: 10px; color: #666666; margin-top: 8px;">
+              * 포트포워딩 없이 NAT 방화벽을 자동 통과하여 호스트와 1:1 직접 연결됩니다.
+            </div>
+          </div>
+
+          <!-- Manual IP:Port Direct Connect -->
+          <div class="card">
+            <div class="card-title">
+              <span class="mono">MANUAL IP : PORT DIRECT CONNECT (LAN / WAN)</span>
+            </div>
+            <div class="ip-grid">
+              <div>
+                <div class="form-label mono">HOST IP ADDRESS</div>
+                <input type="text" class="text-input mono" value="192.168.1.100">
+              </div>
+              <div>
+                <div class="form-label mono">UDP PORT</div>
+                <input type="text" class="text-input mono" value="47998">
+              </div>
+            </div>
+            <button class="btn-outline mono" onclick="simulateConnect()">
+              🔗 수동 엔드포인트 다이렉트 접속
+            </button>
+          </div>
+
+          <!-- Session Telemetry Card -->
+          <div class="card">
+            <div class="card-title">
+              <span class="mono">SESSION TELEMETRY &amp; VIEWER</span>
+              <span id="sessionStatusBadge" class="badge badge-accent mono" style="font-size: 9px; padding: 2px 5px;">STREAMING (ACTIVE)</span>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div class="telemetry-row mono">
+                <span class="telemetry-label">TARGET HOST:</span>
+                <span class="telemetry-value" style="color: #00F0FF;">192.168.1.100:47998 [#90rqMB]</span>
+              </div>
+              <div class="telemetry-row mono">
+                <span class="telemetry-label">ROUND-TRIP PING:</span>
+                <span class="telemetry-value" style="color: #00FF88;">1.2 ms (LAN P2P)</span>
+              </div>
+              <div class="telemetry-row mono">
+                <span class="telemetry-label">FRAMES / FPS:</span>
+                <span class="telemetry-value">3,600 frames (60 FPS)</span>
+              </div>
+              <div class="telemetry-row mono">
+                <span class="telemetry-label">CODEC / RESOLUTION:</span>
+                <span class="telemetry-value" style="color: #AAAAAA;">1920x1080 @ 60Hz NVENC</span>
+              </div>
+            </div>
+            <button class="btn-outline btn-cyan-outline mono" onclick="scrollToViewer()">
+              🗔 원격 스트리밍 뷰어 창 열기
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Column: Console -->
+        <div class="card" style="margin-bottom: 0;">
+          <div class="card-title">
+            <span class="mono">CLIENT P2P NETWORK &amp; DIAGNOSTICS CONSOLE</span>
+            <button class="badge" style="cursor: pointer;" onclick="clearConsole('clientConsole')">지우기</button>
+          </div>
+          <div id="clientConsole" class="console-box mono">
+[11:20:00] [*] AetherStream 클라이언트 서브시스템 초기화 완료
+[11:20:01] [*] 로컬 네트워크 인터페이스 자동 감지: 192.168.1.50
+[11:20:02] [*] 룸코드 [#90rqMB] STUN 역해석: 192.168.1.100:47998
+[11:20:02] [*] UDP 바인딩 완료 (Ephemeral Port: 52140)
+[11:20:02] [Client] Handshake Request 송출 완료 -> 192.168.1.100:47998
+[11:20:02] [+] Handshake Response 수신 완료: 192.168.1.100:47998 (1920x1080 @ 60fps NVENC)
+[11:20:02] [P2P] Glass-to-Glass RTT: ~9.2ms (Ultra Low Latency LAN)
+[11:20:03] [+] 비디오 슬라이스 스트림 수신 활성화 (Opcode: 0x10)
+[11:20:04] [FEC] XOR FEC 패리티 에러 복구 블록 대기: 패킷 손실률 0.00%
+[11:20:05] [Input] Win32 Raw Input 캡처 파이프라인 가동 (마우스 / 키보드 즉시 디스패치)
+          </div>
+        </div>
+      </div>
+
+      <!-- [B] HOST MODE VIEW -->
+      <div id="viewHost" class="grid-2col" style="display: none;">
+        <!-- Left Column -->
+        <div>
+          <!-- Google Auth Card -->
+          <div class="card">
+            <div class="card-title">
+              <span class="mono">GOOGLE CLOUD ACCOUNT</span>
+              <span class="badge badge-accent mono" style="font-size: 9px; padding: 2px 5px;">PRO / LINKED</span>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: center;">
+              <div style="width: 36px; height: 36px; background: #141414; border: 1px solid #333333; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #00F0FF;" class="mono">
+                Z
+              </div>
+              <div style="flex: 1;">
+                <div style="font-weight: 700; font-size: 13px;">zerodoc Host Pro</div>
+                <div style="font-size: 11px; color: #888888;" class="mono">zerodoc.host@gmail.com</div>
+              </div>
+              <button class="badge" style="cursor: pointer; color: #FF5555; border-color: #552222; background: #1a0808;">로그아웃</button>
+            </div>
+          </div>
+
+          <!-- Host Room Code Card -->
+          <div class="card">
+            <div class="card-title">
+              <span class="mono">P2P DIRECT CONNECT ROOM CODE</span>
+              <span class="mono" style="font-size: 10px; color: #00FF88; font-weight: 700;">LAN / P2P READY</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 120px; gap: 10px; margin-bottom: 10px;">
+              <div class="roomcode-box" style="margin-bottom: 0;">
+                <div class="mono" style="font-size: 26px; font-weight: 900; color: #00F0FF;"># 90rqMB</div>
+              </div>
+              <button class="btn-solid-accent mono" style="height: auto;" onclick="alert('룸코드가 클립보드에 복사되었습니다!')">
+                📋 복사
+              </button>
+            </div>
+            <div style="font-size: 11px; color: #666666;">
+              상대방 윈도우 PC(클라이언트 모드) 또는 모바일 앱에서 위 6자리를 입력하면 즉시 초저지연 P2P 스트림이 연결됩니다.
+            </div>
+          </div>
+
+          <!-- Monitor Switcher -->
+          <div class="card">
+            <div class="card-title mono">DISPLAY MONITOR SWITCHER</div>
+            <select class="text-input mono" style="height: 36px; margin-bottom: 8px;">
+              <option>[1] Monitor 1 - 1920x1080 @ 60Hz (Primary)</option>
+              <option>[2] Monitor 2 - 1920x1080 @ 60Hz</option>
+              <option>[3] Monitor 3 - 1024x600 @ 60Hz</option>
+            </select>
+            <div style="font-size: 11px; color: #666666;">
+              현재 3개의 디스플레이가 감지되었습니다. 실시간 무중단 화면 전환 가능.
+            </div>
+          </div>
+
+          <!-- Multiplayer Slots -->
+          <div class="card">
+            <div class="card-title">
+              <span class="mono">MULTIPLAYER SLOTS (ViGEmBus 4-PLAYER)</span>
+              <span class="mono" style="color: #00FF88; font-size: 10px; font-weight: 700;">4 SLOTS READY</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <div class="badge" style="padding: 8px; font-size: 11px; text-align: left; color: #AAAAAA;">🎮 1P: 대기 중</div>
+              <div class="badge" style="padding: 8px; font-size: 11px; text-align: left; color: #555555;">🎮 2P: 대기 중</div>
+              <div class="badge" style="padding: 8px; font-size: 11px; text-align: left; color: #555555;">🎮 3P: 대기 중</div>
+              <div class="badge" style="padding: 8px; font-size: 11px; text-align: left; color: #555555;">🎮 4P: 대기 중</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Host Console -->
+        <div class="card" style="margin-bottom: 0;">
+          <div class="card-title">
+            <span class="mono">HOST ENGINE LIVE TELEMETRY &amp; LOGS</span>
+            <button class="badge" style="cursor: pointer;" onclick="clearConsole('hostConsole')">지우기</button>
+          </div>
+          <div id="hostConsole" class="console-box mono">
+[11:19:00] [+] Hardware Video Encoder Ready: H264 (Preset: Ultra-Low Latency, Intra-refresh: Enabled, B-frames: 0)
+[11:19:00] [+] Win32 Input Injector Ready: Screen mapped to 1920x1080
+[11:19:00] [+] UDP Stream Socket bound on port 47998
+[11:19:00] [+] UDP Input Socket bound on port 47999
+[11:19:00] ==================================================
+[11:19:00]   🎮 AetherStream Party Play &amp; P2P Direct Connect 🎮
+[11:19:00]   Active Room Code (LAN/LTE): 90rqMB
+[11:19:00]   Multiplayer Slots: 4 Independent Virtual Gamepads (ViGEmBus)
+[11:19:00] ==================================================
+[11:19:05] Glass-to-Packet Latency: ~3.2 ms
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Footer -->
+    <div class="app-footer">
+      <div id="footerControls" class="footer-btns">
+        <button class="btn-outline" style="width: 140px; height: 36px; background: #221111; color: #FF5555; border-color: #552222;">✕ 세션 연결 해제</button>
+        <button class="btn-outline" style="width: 130px; height: 36px;" onclick="scrollToViewer()">🗔 뷰어 창 띄우기</button>
+      </div>
+      <div class="footer-btns">
+        <button class="btn-outline" style="width: 150px; height: 36px;">🗔 트레이로 최소화</button>
+        <button class="btn-outline" style="width: 130px; height: 36px;">🌐 공식 웹사이트</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Streaming Viewer Window Preview Section -->
+  <div style="max-width: 1040px; margin: 30px auto 10px auto;">
+    <div style="font-size: 11px; font-weight: 800; color: #888888; margin-bottom: 6px;" class="mono">
+      DEDICATED WINDOW COMPONENT // CLIENT VIEWER WINDOW (F11 FULLSCREEN SUPPORT)
+    </div>
+    <h2 style="font-size: 18px; font-weight: 900; margin-bottom: 12px;">
+      독립 원격 스트리밍 뷰어 창 (ClientViewerWindow)
+    </h2>
+  </div>
+
+  <div id="viewerSection" class="viewer-mockup">
+    <!-- Top HUD Bar -->
+    <div class="viewer-hud mono">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="monogram-box" style="width: 18px; height: 18px; font-size: 11px;">Z</div>
+        <span style="font-weight: 800; color: #FFFFFF;">STREAM VIEWER</span>
+        <span class="badge badge-cyan" style="font-size: 10px; padding: 2px 6px;"># 90rqMB (192.168.1.100:47998)</span>
+      </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <span class="badge badge-accent" style="font-size: 10px;">● RTT: 1.2ms</span>
+        <span class="badge" style="font-size: 10px; color: #FFF;">FPS: 60</span>
+        <span class="badge" style="font-size: 10px;">1920x1080 (NVENC 0-Copy)</span>
+        <span class="badge badge-accent" style="font-size: 10px;">FEC LOSS: 0.00%</span>
+      </div>
+
+      <div style="display: flex; gap: 6px;">
+        <button class="badge" style="cursor: pointer;">⛶ 전체화면 (F11)</button>
+        <button class="badge" style="cursor: pointer; color: #FF5555; border-color: #552222; background: #1a0808;">✕ 세션 종료 (ESC)</button>
+      </div>
+    </div>
+
+    <!-- Video Canvas Surface -->
+    <div class="viewer-surface">
+      <div class="target-dot"></div>
+      <div class="surface-watermark">
+        <div style="width: 48px; height: 48px; border: 1px solid #00FF88; background: #000; margin: 0 auto 16px auto; display: flex; align-items: center; justify-content: center; color: #00FF88; font-size: 20px;">
+          ▶
+        </div>
+        <div class="mono" style="font-size: 16px; font-weight: 900; color: #FFFFFF;">
+          ZERODOC AETHERSTREAM REMOTE DISPLAY ACTIVE
+        </div>
+        <div style="font-size: 12px; color: #888888; margin-top: 8px;">
+          P2P Ultra Low-Latency Direct VRAM Stream | All Keyboard &amp; Mouse Inputs Active
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchMode(mode) {
+      const tabHost = document.getElementById('tabHost');
+      const tabClient = document.getElementById('tabClient');
+      const viewHost = document.getElementById('viewHost');
+      const viewClient = document.getElementById('viewClient');
+      const statusText = document.getElementById('statusText');
+      const statusDot = document.getElementById('statusDot');
+      const latencySummary = document.getElementById('latencySummary');
+      const b1 = document.getElementById('b1');
+      const b2 = document.getElementById('b2');
+      const b3 = document.getElementById('b3');
+      const footerControls = document.getElementById('footerControls');
+
+      if (mode === 'host') {
+        tabHost.classList.add('active');
+        tabClient.classList.remove('active');
+        viewHost.style.display = 'grid';
+        viewClient.style.display = 'none';
+
+        statusText.innerText = 'HOST ENGINE ACTIVE (상시 스트리밍 대기 중)';
+        statusText.style.color = '#00FF88';
+        statusDot.className = 'dot-live';
+        latencySummary.innerText = 'Glass-to-Packet: ~3.2ms (Direct VRAM)';
+
+        b1.innerText = 'NVENC v12.2';
+        b1.className = 'badge badge-cyan';
+        b2.innerText = 'WASAPI 48kHz';
+        b3.innerText = 'UDP 47998';
+
+        footerControls.innerHTML = `
+          <button class="btn-outline" style="width: 140px; height: 36px;">⏹ 서버 일시정지</button>
+          <button class="btn-outline" style="width: 120px; height: 36px;">🔄 서버 재기동</button>
+        `;
+      } else {
+        tabClient.classList.add('active');
+        tabHost.classList.remove('active');
+        viewClient.style.display = 'grid';
+        viewHost.style.display = 'none';
+
+        statusText.innerText = 'CLIENT ENGINE READY (P2P 접속 대기)';
+        statusText.style.color = '#00F0FF';
+        statusDot.className = 'dot-cyan';
+        latencySummary.innerText = 'Target RTT: Sub-15ms (Ultra Low Latency)';
+
+        b1.innerText = 'RFC 5389 STUN';
+        b1.className = 'badge badge-cyan';
+        b2.innerText = 'DIRECT UDP';
+        b3.innerText = 'DIRECT P2P';
+
+        footerControls.innerHTML = `
+          <button class="btn-outline" style="width: 140px; height: 36px; background: #221111; color: #FF5555; border-color: #552222;">✕ 세션 연결 해제</button>
+          <button class="btn-outline" style="width: 130px; height: 36px;" onclick="scrollToViewer()">🗔 뷰어 창 띄우기</button>
+        `;
+      }
+    }
+
+    function scrollToViewer() {
+      document.getElementById('viewerSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function simulateConnect() {
+      const consoleBox = document.getElementById('clientConsole');
+      const now = new Date().toTimeString().split(' ')[0];
+      consoleBox.innerHTML += `\n[${now}] [*] P2P 다이렉트 소켓 핸드셰이크 요청 재전송... (RTT: 1.2ms)`;
+      consoleBox.scrollTop = consoleBox.scrollHeight;
+      scrollToViewer();
+    }
+
+    function clearConsole(id) {
+      document.getElementById(id).innerHTML = '';
+    }
+  </script>
+</body>
+</html>

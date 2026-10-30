@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AetherStream - 보안 화면/창 선택 공유 피커 (Visual-First Preview)</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      border-radius: 0px !important;
+      -webkit-font-smoothing: antialiased;
+    }
+    body {
+      background-color: #000000;
+      color: #FFFFFF;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      margin: 0;
+      padding: 32px 16px;
+      word-break: keep-all;
+      letter-spacing: -0.02em;
+    }
+    .mono {
+      font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    .hairline-border {
+      border: 1px solid #222222;
+    }
+    .hairline-border-b {
+      border-bottom: 1px solid #222222;
+    }
+    .hairline-border-t {
+      border-top: 1px solid #222222;
+    }
+    .tab-btn {
+      background-color: #0A0A0A;
+      color: #888888;
+      border: 1px solid #222222;
+      transition: all 0.1s ease;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background-color: #FFFFFF;
+      color: #000000;
+      font-weight: 700;
+      border-color: #FFFFFF;
+    }
+    .target-card {
+      background-color: #050505;
+      border: 1px solid #222222;
+      cursor: pointer;
+      transition: border-color 0.1s ease, background-color 0.1s ease;
+    }
+    .target-card:hover {
+      border-color: #666666;
+      background-color: #0E0E0E;
+    }
+    .target-card.selected {
+      border-color: #FFFFFF;
+      background-color: #121212;
+      box-shadow: inset 0 0 0 1px #FFFFFF;
+    }
+    .btn-solid-white {
+      background-color: #FFFFFF;
+      color: #000000;
+      border: 1px solid #FFFFFF;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.1s ease;
+    }
+    .btn-solid-white:hover {
+      opacity: 0.9;
+    }
+    .btn-solid-dark {
+      background-color: #0A0A0A;
+      color: #FFFFFF;
+      border: 1px solid #222222;
+      cursor: pointer;
+      transition: background-color 0.1s ease;
+    }
+    .btn-solid-dark:hover {
+      background-color: #1A1A1A;
+      border-color: #444444;
+    }
+    .badge-secure {
+      background-color: #000000;
+      border: 1px solid #00FF66;
+      color: #00FF66;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 2px 6px;
+    }
+    .badge-warn {
+      background-color: #000000;
+      border: 1px solid #FFB800;
+      color: #FFB800;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 2px 6px;
+    }
+  </style>
+</head>
+<body class="bg-black text-white">
+
+  <!-- SOP Compliance Header Bar -->
+  <div class="max-w-4xl mx-auto mb-6 p-3 bg-[#0A0A0A] hairline-border flex flex-wrap items-center justify-between text-xs mono">
+    <div class="flex items-center gap-3">
+      <div class="w-2.5 h-2.5 bg-white"></div>
+      <span class="font-bold tracking-wider text-white">ZERODOC AETHERSTREAM SECURITY SPEC</span>
+      <span class="text-[#888888]">[ v0.1.0 ALPHA HOST CONTROL ]</span>
+    </div>
+    <div class="flex items-center gap-4 text-[#888888]">
+      <span>ZERO-TRUST: <b class="text-white">ENFORCED</b></span>
+      <span>INPUT SANDBOX: <b class="text-white">ACTIVE</b></span>
+      <span>RADIUS: <b class="text-white">0px</b></span>
+    </div>
+  </div>
+
+  <!-- Main Security Modal Container -->
+  <div class="max-w-4xl mx-auto bg-[#000000] hairline-border">
+    
+    <!-- Modal Header -->
+    <div class="p-6 hairline-border-b flex items-start justify-between">
+      <div>
+        <div class="flex items-center gap-3 mb-2">
+          <span class="mono text-xs text-[#888888] tracking-widest">[ SECURITY DIRECTIVE: EXPLICIT SHARE ]</span>
+          <span class="badge-secure">ROOM CODE #7K9X2A PENDING</span>
+        </div>
+        <h1 class="text-2xl font-bold tracking-tight text-white m-0">스트리밍 공유 대상 선택</h1>
+        <p class="text-sm text-[#AAAAAA] mt-1 m-0">
+          게스트가 호스트의 개인정보나 백그라운드 화면을 무단으로 열람할 수 없도록, 공유할 대상을 지정해야 스트림이 활성화됩니다.
+        </p>
+      </div>
+      <button class="mono text-xs px-3 py-1 btn-solid-dark" onclick="alert('공유 거부 처리되었습니다.')">거부 / 닫기</button>
+    </div>
+
+    <!-- Category Tabs (전체 화면 vs 특정 창) -->
+    <div class="px-6 pt-4 flex gap-2 hairline-border-b bg-[#050505]">
+      <button id="tab-window" class="tab-btn active px-5 py-2.5 text-xs mono" onclick="switchTab('window')">
+        특정 창 단독 공유 (권장 / 보안 격리)
+      </button>
+      <button id="tab-screen" class="tab-btn px-5 py-2.5 text-xs mono" onclick="switchTab('screen')">
+        전체 화면 공유 (Display)
+      </button>
+    </div>
+
+    <!-- Tab Content: WINDOWS (특정 창 선택) -->
+    <div id="content-window" class="p-6">
+      <div class="flex items-center justify-between mb-4">
+        <span class="mono text-xs text-[#888888]">실행 중인 활성 애플리케이션 창 (4개 감지됨)</span>
+        <span class="mono text-xs text-[#00FF66]">✓ 선택한 창 영역 외 입력 및 화면 100% 격리 차단</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Target 1: Game Window (Recommended) -->
+        <div class="target-card selected p-4" onclick="selectCard(this, 'Cyberpunk 2077 (144Hz D3D12)', 'window')">
+          <div class="flex items-center justify-between mb-3">
+            <span class="badge-secure">HWND: 0x004F2A10</span>
+            <span class="mono text-xs text-white font-bold">1920x1080 @ 144Hz</span>
+          </div>
+          <div class="h-28 bg-[#111111] hairline-border flex flex-col items-center justify-center p-3 text-center mb-3">
+            <div class="mono text-xs text-[#00FF66] font-bold mb-1">[ GAME RENDER TARGET ]</div>
+            <div class="text-sm font-semibold text-white">Cyberpunk 2077 v2.1</div>
+            <div class="mono text-[10px] text-[#888888] mt-1">DirectX 12 Ultimate · VRAM Zero-Copy</div>
+          </div>
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-[#CCCCCC]">게스트 패드 2P~4P 조작 허용</span>
+            <span class="mono text-white font-bold">[선택됨]</span>
+          </div>
+        </div>
+
+        <!-- Target 2: Creative Tool -->
+        <div class="target-card p-4" onclick="selectCard(this, 'Adobe Photoshop 2026', 'window')">
+          <div class="flex items-center justify-between mb-3">
+            <span class="badge-secure">HWND: 0x001B9820</span>
+            <span class="mono text-xs text-[#888888]">2560x1440 @ 120Hz</span>
+          </div>
+          <div class="h-28 bg-[#0E0E0E] hairline-border flex flex-col items-center justify-center p-3 text-center mb-3">
+            <div class="mono text-xs text-[#AAAAAA] font-bold mb-1">[ WORKSPACE CANVAS ]</div>
+            <div class="text-sm font-semibold text-white">Adobe Photoshop 2026</div>
+            <div class="mono text-[10px] text-[#888888] mt-1">Apple Pencil 4096 필압 모드 호환</div>
+          </div>
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-[#888888]">캔버스 영역만 입력 허용</span>
+            <span class="mono text-[#888888]">[클릭하여 선택]</span>
+          </div>
+        </div>
+
+        <!-- Target 3: 3D Engine -->
+        <div class="target-card p-4" onclick="selectCard(this, 'Blender 4.2 LTS', 'window')">
+          <div class="flex items-center justify-between mb-3">
+            <span class="badge-secure">HWND: 0x0078A140</span>
+            <span class="mono text-xs text-[#888888]">1920x1080 @ 60Hz</span>
+          </div>
+          <div class="h-28 bg-[#0E0E0E] hairline-border flex flex-col items-center justify-center p-3 text-center mb-3">
+            <div class="mono text-xs text-[#AAAAAA] font-bold mb-1">[ 3D VIEWPORT ]</div>
+            <div class="text-sm font-semibold text-white">Blender 4.2 LTS (Character_Rig.blend)</div>
+            <div class="mono text-[10px] text-[#888888] mt-1">OpenGL / Vulkan Viewport</div>
+          </div>
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-[#888888]">뷰포트 제어 및 관전</span>
+            <span class="mono text-[#888888]">[클릭하여 선택]</span>
+          </div>
+        </div>
+
+        <!-- Target 4: Code / Terminal -->
+        <div class="target-card p-4" onclick="selectCard(this, 'Visual Studio Code', 'window')">
+          <div class="flex items-center justify-between mb-3">
+            <span class="badge-secure">HWND: 0x0032F090</span>
+            <span class="mono text-xs text-[#888888]">1920x1080 @ 60Hz</span>
+          </div>
+          <div class="h-28 bg-[#0E0E0E] hairline-border flex flex-col items-center justify-center p-3 text-center mb-3">
+            <div class="mono text-xs text-[#AAAAAA] font-bold mb-1">[ DEV IDE ]</div>
+            <div class="text-sm font-semibold text-white">Visual Studio Code (AetherStream)</div>
+            <div class="mono text-[10px] text-[#888888] mt-1">Live Share Code Review</div>
+          </div>
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-[#888888]">단일 창 스트리밍</span>
+            <span class="mono text-[#888888]">[클릭하여 선택]</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tab Content: FULLSCREEN (전체 화면 선택) -->
+    <div id="content-screen" class="p-6 hidden">
+      <div class="flex items-center justify-between mb-4">
+        <span class="mono text-xs text-[#888888]">연결된 디스플레이 모니터 (2대 감지됨)</span>
+        <span class="badge-warn">주의: 바탕화면 및 다른 모든 창이 그대로 노출됩니다</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Display 1 -->
+        <div class="target-card p-4" onclick="selectCard(this, '디스플레이 1 (주 모니터 - 3840x2160)', 'screen')">
+          <div class="flex items-center justify-between mb-3">
+            <span class="mono text-xs font-bold text-white">DISPLAY 1 (PRIMARY)</span>
+            <span class="mono text-xs text-[#888888]">4K UHD 144Hz</span>
+          </div>
+          <div class="h-28 bg-[#0E0E0E] hairline-border flex flex-col items-center justify-center p-3 text-center mb-3">
+            <div class="mono text-xs text-[#FFB800] font-bold mb-1">[ ENTIRE DESKTOP ]</div>
+            <div class="text-sm font-semibold text-white">3840 x 2160 @ 144Hz</div>
+            <div class="mono text-[10px] text-[#888888] mt-1">Samsung Odyssey G9 / RTX 4090</div>
+          </div>
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-[#888888]">모든 윈도우 조작 허용</span>
+            <span class="mono text-[#888888]">[클릭하여 선택]</span>
+          </div>
+        </div>
+
+        <!-- Display 2 -->
+        <div class="target-card p-4" onclick="selectCard(this, '디스플레이 2 (보조 모니터 - 1920x1080)', 'screen')">
+          <div class="flex items-center justify-between mb-3">
+            <span class="mono text-xs font-bold text-white">DISPLAY 2 (SECONDARY)</span>
+            <span class="mono text-xs text-[#888888]">FHD 120Hz</span>
+          </div>
+          <div class="h-28 bg-[#0E0E0E] hairline-border flex flex-col items-center justify-center p-3 text-center mb-3">
+            <div class="mono text-xs text-[#FFB800] font-bold mb-1">[ ENTIRE DESKTOP ]</div>
+            <div class="text-sm font-semibold text-white">1920 x 1080 @ 120Hz</div>
+            <div class="mono text-[10px] text-[#888888] mt-1">LG UltraGear / DisplayPort 2</div>
+          </div>
+          <div class="flex items-center justify-between text-xs">
+            <span class="text-[#888888]">보조 모니터 단독 공유</span>
+            <span class="mono text-[#888888]">[클릭하여 선택]</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Security Options Bar -->
+    <div class="px-6 py-4 bg-[#0A0A0A] hairline-border-t flex flex-wrap items-center justify-between gap-4 text-xs">
+      <div class="flex items-center gap-6">
+        <label class="flex items-center gap-2 cursor-pointer select-none">
+          <input type="checkbox" checked class="w-4 h-4 bg-black border border-[#444444] checked:bg-white checked:border-white">
+          <span class="text-white">마우스/키보드 입력을 선택한 창 영역 내부로 엄격히 제한 (Input Sandboxing)</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer select-none">
+          <input type="checkbox" checked class="w-4 h-4 bg-black border border-[#444444] checked:bg-white checked:border-white">
+          <span class="text-white">클립보드(복사/붙여넣기) 전송 차단</span>
+        </label>
+      </div>
+      <div class="mono text-[#888888]">
+        선택된 타깃: <b id="selected-target-text" class="text-white">Cyberpunk 2077 (144Hz D3D12)</b>
+      </div>
+    </div>
+
+    <!-- Modal Footer Controls -->
+    <div class="p-6 hairline-border-t bg-[#000000] flex items-center justify-between">
+      <div class="mono text-xs text-[#888888]">
+        룸코드 <b class="text-white">#7K9X2A</b> (게스트 대기 중 · 대기 시간: 00:14)
+      </div>
+      <div class="flex items-center gap-3">
+        <button class="px-5 py-2.5 text-xs mono btn-solid-dark" onclick="alert('세션을 취소하고 연결을 종료합니다.')">연결 거부</button>
+        <button class="px-6 py-2.5 text-xs mono btn-solid-white" onclick="startStreaming()">[✓ 선택한 대상 스트리밍 시작]</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentTarget = "Cyberpunk 2077 (144Hz D3D12)";
+    let currentMode = "window";
+
+    function switchTab(tab) {
+      currentMode = tab;
+      const tabWin = document.getElementById('tab-window');
+      const tabScr = document.getElementById('tab-screen');
+      const cntWin = document.getElementById('content-window');
+      const cntScr = document.getElementById('content-screen');
+
+      if (tab === 'window') {
+        tabWin.classList.add('active');
+        tabScr.classList.remove('active');
+        cntWin.classList.remove('hidden');
+        cntScr.classList.add('hidden');
+      } else {
+        tabScr.classList.add('active');
+        tabWin.classList.remove('active');
+        cntScr.classList.remove('hidden');
+        cntWin.classList.add('hidden');
+      }
+    }
+
+    function selectCard(cardElem, targetName, mode) {
+      document.querySelectorAll('.target-card').forEach(c => {
+        c.classList.remove('selected');
+        const badge = c.querySelector('.mono.text-white.font-bold') || c.querySelector('.mono.text-\\[\\#888888\\]:last-child');
+        if (badge && badge.innerText.includes('선택')) {
+          badge.className = "mono text-[#888888]";
+          badge.innerText = "[클릭하여 선택]";
+        }
+      });
+
+      cardElem.classList.add('selected');
+      const selectedBadge = cardElem.querySelector('.mono:last-child');
+      if (selectedBadge) {
+        selectedBadge.className = "mono text-white font-bold";
+        selectedBadge.innerText = "[선택됨]";
+      }
+
+      currentTarget = targetName;
+      document.getElementById('selected-target-text').innerText = targetName;
+    }
+
+    function startStreaming() {
+      alert(`[AetherStream 보안 스트리밍 개시]\n대상: ${currentTarget}\n모드: ${currentMode === 'window' ? '특정 창 단독 스트리밍 (입력 샌드박스 활성화)' : '전체 화면 스트리밍'}\n\n게스트에게 지정된 화면 전송을 시작합니다.`);
+    }
+  </script>
+</body>
+</html>
