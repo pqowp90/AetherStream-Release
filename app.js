@@ -461,9 +461,12 @@ function getReflexCopy(lang) {
     primed: dict["reflex.btn_primed"] || "⚡ 지금 탭하세요! (TAP NOW!)",
     premature: dict["reflex.btn_premature"] || "⚡ 너무 빨랐습니다! 다시 시도",
     again: dict["reflex.btn_again"] || "⚡ 다시 테스트하기",
+    cardPlaceholder: dict["reflex.card_placeholder"] || "준비 완료 · 버튼을 눌러 측정을 시작하세요",
     statusPriming: dict["reflex.status_priming"] || "센서 반응 대기 중... (초록색이 켜질 때 즉시 탭하세요)",
     errPremature: dict["reflex.err_premature"] || "<strong>너무 빨랐습니다!</strong> 초록색이 켜진 후 탭하세요.",
-    resultTemplate: dict["reflex.result_template"] || "당신의 반응속도: <strong>{time}ms</strong> | AetherStream 지연시간: <strong>8.8ms</strong> (인간 반응속도보다 20배 이상 빠릅니다)"
+    lblUser: dict["reflex.lbl_user"] || "당신의 반응속도",
+    lblAether: dict["reflex.lbl_aether"] || "AetherStream 초저지연",
+    noteFaster: dict["reflex.note_faster"] || "인간 시각 반응속도보다 약 20배 이상 빠릅니다"
   };
 }
 
@@ -475,14 +478,42 @@ function initReflexTester() {
   let state = 'idle'; // 'idle' | 'waiting' | 'primed'
   let startTime = 0;
   let timeoutId = null;
+  let lastReflexTime = null;
+
+  function renderResult(reflexTime) {
+    const copy = getReflexCopy(getActiveLang());
+    result.style.color = '';
+    result.innerHTML = `
+      <div class="reflex-grid">
+        <div class="reflex-col user">
+          <span class="reflex-label">${copy.lblUser}</span>
+          <span class="reflex-val user-val">${reflexTime}<small>ms</small></span>
+        </div>
+        <div class="reflex-vs">VS</div>
+        <div class="reflex-col aether">
+          <span class="reflex-label">${copy.lblAether}</span>
+          <span class="reflex-val aether-val">8.8<small>ms</small></span>
+        </div>
+      </div>
+      <div class="reflex-comparison-badge">
+        ⚡ ${copy.noteFaster}
+      </div>
+    `;
+  }
 
   function updateIdleText() {
+    const copy = getReflexCopy(getActiveLang());
     if (state === 'idle') {
-      const copy = getReflexCopy(getActiveLang());
       btn.style.background = '';
       btn.style.borderColor = '';
       btn.style.color = '';
-      btn.innerHTML = `<span class="reflex-btn-text">${copy.idle}</span>`;
+      btn.innerHTML = `<span class="reflex-btn-text">${lastReflexTime !== null ? copy.again : copy.idle}</span>`;
+      if (lastReflexTime !== null) {
+        renderResult(lastReflexTime);
+      } else {
+        result.style.color = '';
+        result.innerHTML = `<span class="reflex-status-text reflex-status-idle" data-i18n="reflex.card_placeholder">${copy.cardPlaceholder}</span>`;
+      }
     }
   }
 
@@ -505,8 +536,8 @@ function initReflexTester() {
       btn.style.fontWeight = '800';
       btn.innerHTML = `<span class="reflex-btn-text">${copy.waiting}</span>`;
 
-      result.style.color = '#888888';
-      result.innerHTML = `<span>${copy.statusPriming}</span>`;
+      result.style.color = '';
+      result.innerHTML = `<span class="reflex-status-text reflex-status-waiting">${copy.statusPriming}</span>`;
 
       const delay = Math.floor(Math.random() * 2200) + 1200;
       timeoutId = setTimeout(() => {
@@ -530,20 +561,19 @@ function initReflexTester() {
       btn.style.color = '#FFFFFF';
       btn.innerHTML = `<span class="reflex-btn-text">${copy.premature}</span>`;
 
-      result.style.color = '#FF3366';
-      result.innerHTML = copy.errPremature;
+      result.style.color = '';
+      result.innerHTML = `<span class="reflex-status-text reflex-status-error">${copy.errPremature}</span>`;
 
     } else if (state === 'primed') {
       const reflexTime = Math.round(performance.now() - startTime);
+      lastReflexTime = reflexTime;
       state = 'idle';
       btn.style.background = '';
       btn.style.borderColor = '';
       btn.style.color = '';
       btn.innerHTML = `<span class="reflex-btn-text">${copy.again}</span>`;
 
-      result.style.color = '#00FF88';
-      const formatted = copy.resultTemplate.replace('{time}', reflexTime);
-      result.innerHTML = formatted;
+      renderResult(reflexTime);
     }
   }
 

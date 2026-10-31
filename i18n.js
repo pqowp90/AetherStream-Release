@@ -91,6 +91,9 @@ const translations = {
     "reflex.status_priming": "센서 반응 대기 중... (초록색이 켜질 때 즉시 탭하세요)",
     "reflex.err_premature": "<strong>너무 빨랐습니다!</strong> 초록색이 켜진 후 탭하세요.",
     "reflex.result_template": "당신의 반응속도: <strong>{time}ms</strong> | AetherStream 지연시간: <strong>8.8ms</strong> (인간 반응속도보다 20배 이상 빠릅니다)",
+    "reflex.lbl_user": "당신의 반응속도",
+    "reflex.lbl_aether": "AetherStream 초저지연",
+    "reflex.note_faster": "인간 시각 반응속도보다 약 20배 이상 빠릅니다",
 
     // Downloads
     "dl.tag": "[ MULTI-PLATFORM ECOSYSTEM ]",
@@ -191,6 +194,9 @@ const translations = {
     "reflex.status_priming": "Sensor priming... (Tap immediately when button turns green)",
     "reflex.err_premature": "<strong>Too fast!</strong> Wait until the button turns green.",
     "reflex.result_template": "Your reaction speed: <strong>{time}ms</strong> | AetherStream latency: <strong>8.8ms</strong> (>20x faster than human perception)",
+    "reflex.lbl_user": "Your Reaction",
+    "reflex.lbl_aether": "AetherStream Ultra-low Latency",
+    "reflex.note_faster": "Over 20x faster than human visual reflex",
 
     // Downloads
     "dl.tag": "[ MULTI-PLATFORM ECOSYSTEM ]",
@@ -291,6 +297,9 @@ const translations = {
     "reflex.status_priming": "センサー待機中...（緑色に点灯したら即座にタップしてください）",
     "reflex.err_premature": "<strong>早すぎました！</strong> 緑色に変わった後にタップしてください。",
     "reflex.result_template": "あなたの反応速度: <strong>{time}ms</strong> | AetherStream遅延: <strong>8.8ms</strong>（人間の反応速度より20倍以上高速です）",
+    "reflex.lbl_user": "あなたの反応速度",
+    "reflex.lbl_aether": "AetherStream 超低遅延",
+    "reflex.note_faster": "人間の視覚反応速度より約20倍高速です",
 
     // Downloads
     "dl.tag": "[ MULTI-PLATFORM ECOSYSTEM ]",
@@ -391,6 +400,9 @@ const translations = {
     "reflex.status_priming": "传感器准备中...（变绿时请立即点击）",
     "reflex.err_premature": "<strong>太快了！</strong> 请在变绿后再点击。",
     "reflex.result_template": "您的反应速度: <strong>{time}ms</strong> | AetherStream 延迟: <strong>8.8ms</strong>（比人类反应速度快20倍以上）",
+    "reflex.lbl_user": "您的反应速度",
+    "reflex.lbl_aether": "AetherStream 超低延迟",
+    "reflex.note_faster": "比人类视觉反应速度快 20 倍以上",
 
     // Downloads
     "dl.tag": "[ MULTI-PLATFORM ECOSYSTEM ]",
@@ -491,6 +503,9 @@ const translations = {
     "reflex.status_priming": "Preparando sensor... (Toca en cuanto el botón se ponga verde)",
     "reflex.err_premature": "<strong>¡Demasiado rápido!</strong> Espera a que el botón se ponga verde.",
     "reflex.result_template": "Tu velocidad de reacción: <strong>{time}ms</strong> | Latencia de AetherStream: <strong>8.8ms</strong> (más de 20 veces más rápido que la percepción humana)",
+    "reflex.lbl_user": "Tu reacción",
+    "reflex.lbl_aether": "Latencia ultra-baja AetherStream",
+    "reflex.note_faster": "Más de 20 veces más rápido que la percepción humana",
 
     // Downloads
     "dl.tag": "[ MULTI-PLATFORM ECOSYSTEM ]",

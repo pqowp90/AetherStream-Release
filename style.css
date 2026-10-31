@@ -1684,25 +1684,111 @@ p, .hero-subtitle, .hero-lead, .feature-desc, .plan-desc, .faq-answer {
 .reflex-result-card {
   width: 100%;
   padding: 12px 14px;
-  background: #080808;
-  border: 1px solid #1C1C1C;
+  background: #0A0A0A;
+  border: 1px solid #222222;
   border-radius: 0px;
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  color: #CCCCCC;
-  min-height: 42px;
+  min-height: 48px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
   box-sizing: border-box;
-  word-break: keep-all;
-  line-height: 1.45;
 }
 
-.reflex-tester-action {
-  display: flex;
+.reflex-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.reflex-col {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: center;
+  min-width: 0;
+}
+
+.reflex-label {
+  font-size: 0.72rem;
+  color: #888888;
+  font-family: var(--font-sans);
+  word-break: keep-all;
+  line-height: 1.2;
+}
+
+.reflex-val {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.reflex-val.user-val {
+  color: #FFFFFF;
+}
+
+.reflex-val.aether-val {
+  color: #00FF88;
+}
+
+.reflex-val small {
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin-left: 2px;
+  color: #888888;
+}
+
+.reflex-vs {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #444444;
+  padding: 0 4px;
+  user-select: none;
+}
+
+.reflex-comparison-badge {
+  margin-top: 2px;
+  padding: 6px 10px;
+  background: rgba(0, 255, 136, 0.08);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  border-radius: 0px;
+  color: #00FF88;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+  word-break: keep-all;
+  line-height: 1.3;
+}
+
+.reflex-status-text {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  word-break: keep-all;
+  color: #888888;
+}
+
+.reflex-status-text.reflex-status-idle {
+  color: #888888;
+}
+
+.reflex-status-text.reflex-status-waiting {
+  color: #FFAA00;
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.reflex-status-text.reflex-status-error {
+  color: #FF3366;
+  font-weight: 700;
 }
 
 .sim-results-panel {
@@ -1849,29 +1935,6 @@ p, .hero-subtitle, .hero-lead, .feature-desc, .plan-desc, .faq-answer {
 .bar-amber { background: #888888; }
 .bar-red { background: #FFFFFF; }
 
-/* Reflex Tester */
-.reflex-tester-box {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(13, 16, 23, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 16px 24px;
-}
-
-.reflex-desc {
-  font-size: 0.88rem;
-  color: var(--text-muted);
-  max-width: 450px;
-}
-
-.reflex-result {
-  font-family: var(--font-mono);
-  font-size: 0.88rem;
-  color: var(--color-cyan);
-  font-weight: 600;
-}
 
 /* Comparison Matrix Section */
 .comparison-section {

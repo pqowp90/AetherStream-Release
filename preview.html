@@ -429,15 +429,23 @@
             </div>
           </div>
 
-          <!-- Quick Interactive Reflex Tester -->
+          <!-- Quick Interactive Reflex Tester (Enhanced Neo-Brutalist) -->
           <div class="reflex-tester-box">
-            <div>
-              <div style="font-size: 0.82rem; font-weight: 700; color: #FFFFFF;">반응속도 즉석 테스트</div>
-              <div style="font-size: 0.72rem; color: #888888;">클릭하여 인간 반응속도와 지연시간을 실측하세요</div>
+            <div class="reflex-header">
+              <div class="reflex-title-group">
+                <span class="reflex-badge">[ HUMAN VS AETHERSTREAM ]</span>
+                <h4 class="reflex-title">인간 시각 반응속도 실측 테스트</h4>
+              </div>
+              <div class="reflex-desc">초록색 신호가 켜지는 즉시 버튼을 탭하여 지연시간과 비교하세요.</div>
             </div>
-            <div class="reflex-tester-action">
-              <span id="reflex-result" style="font-family: var(--font-mono); font-size: 0.85rem; color: #FFFFFF;">대기 중</span>
-              <button id="btn-reflex-trigger" class="btn btn-outline btn-sm">테스트 시작</button>
+            
+            <div class="reflex-interactive-area">
+              <button id="btn-reflex-trigger" class="btn btn-reflex">
+                <span class="reflex-btn-text">⚡ 반응속도 측정 시작</span>
+              </button>
+              <div id="reflex-result" class="reflex-result-card">
+                <span class="reflex-status-text reflex-status-idle">준비 완료 · 버튼을 눌러 측정을 시작하세요</span>
+              </div>
             </div>
           </div>
         </div>
