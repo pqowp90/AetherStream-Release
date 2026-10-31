@@ -459,7 +459,70 @@ p, .hero-subtitle, .hero-lead, .feature-desc, .plan-desc, .faq-answer {
   white-space: nowrap;
 }
 
-/* Lang Switcher */
+/* Lang Switcher & Modern Swiss Select Dropdown */
+.lang-dropdown-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  background: #0A0A0A;
+  border: 1px solid #222222;
+  border-radius: 0px;
+  height: 28px;
+  box-sizing: border-box;
+}
+
+.lang-dropdown-wrapper:hover,
+.lang-dropdown-wrapper:focus-within {
+  border-color: #444444;
+}
+
+.lang-select-box {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  color: #CCCCCC;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  border: none;
+  outline: none;
+  padding: 4px 24px 4px 8px;
+  cursor: pointer;
+  border-radius: 0px;
+  line-height: 1;
+}
+
+.lang-select-box:focus {
+  color: #FFFFFF;
+}
+
+.lang-select-box option {
+  background: #0A0A0A;
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 6px 10px;
+}
+
+.lang-dropdown-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #888888;
+  pointer-events: none;
+}
+
+.lang-dropdown-wrapper:hover::after {
+  border-top-color: #FFFFFF;
+}
+
 .lang-switcher {
   display: inline-flex;
   align-items: center;
@@ -1533,19 +1596,327 @@ p, .hero-subtitle, .hero-lead, .feature-desc, .plan-desc, .faq-answer {
 #pb-render { background: var(--color-emerald); }
 #bd-render { color: var(--color-emerald); }
 
-/* Reflex Tester Box */
-.reflex-tester-box {
-  margin-top: 24px;
-  padding: 16px;
-  background: #000000;
-  border: 1px solid #222222;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+/* ==========================================================================
+   Side-by-Side Visual Latency Comparison Widget (Legacy vs AetherStream)
+   ========================================================================== */
+.visual-comparison-card {
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
+  background: #0A0A0A;
+  border: 1px solid #222222;
+  border-radius: 0px;
+  padding: 24px;
+  margin-bottom: 32px;
+  position: relative;
+}
+
+.vc-header {
+  margin-bottom: 20px;
+}
+
+.vc-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.vc-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-cyan);
+  letter-spacing: 0.06em;
+}
+
+.vc-fps-indicator {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #888888;
+  padding: 2px 8px;
+  background: #141414;
+  border: 1px solid #222222;
+}
+
+.vc-heading {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+  word-break: keep-all;
+}
+
+.vc-subtitle {
+  font-size: 0.85rem;
+  color: #888888;
+  margin: 0;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.vc-viewports-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.vc-viewport {
+  background: #000000;
+  border: 1px solid #222222;
+  border-radius: 0px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.vc-viewport.vc-legacy {
+  border-top: 2px solid #FF5500;
+}
+
+.vc-viewport.vc-aether {
+  border-top: 2px solid #00FF88;
+}
+
+.vc-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 14px;
+  background: #080808;
+  border-bottom: 1px solid #1A1A1A;
+}
+
+.vc-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vc-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 0px;
+  flex-shrink: 0;
+}
+
+.legacy-dot {
+  background: #FF5500;
+}
+
+.aether-dot {
+  background: #00FF88;
+  box-shadow: 0 0 6px #00FF88;
+}
+
+.vc-panel-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+}
+
+.vc-panel-metric {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.metric-legacy {
+  color: #FF5500;
+}
+
+.metric-aether {
+  color: #00FF88;
+}
+
+.vc-canvas-container {
+  position: relative;
+  width: 100%;
+  background: #050505;
+  cursor: crosshair;
+  touch-action: none;
+  overflow: hidden;
+}
+
+.vc-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.vc-overlay-tag {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 3px 6px;
+  background: rgba(0, 0, 0, 0.88);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.tag-legacy {
+  color: #FF5500;
+  border: 1px solid #FF5500;
+}
+
+.tag-aether {
+  color: #00FF88;
+  border: 1px solid #00FF88;
+}
+
+.vc-panel-details {
+  padding: 14px;
+  background: #080808;
+  border-top: 1px solid #1A1A1A;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vc-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.vc-detail-key {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: #666666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.vc-detail-val {
+  font-size: 0.78rem;
+  color: #AAAAAA;
+  line-height: 1.45;
+  word-break: keep-all;
+}
+
+.val-warning {
+  color: #FFAA88;
+}
+
+.val-emerald {
+  color: #88FFAA;
+}
+
+/* Reflex Tester Box Enhanced (Neo-Brutalist & Instant Tap) */
+.reflex-tester-box {
+  margin-top: 24px;
+  padding: 18px;
+  background: #000000;
+  border: 1px solid #222222;
+  border-radius: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.reflex-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reflex-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.reflex-badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-cyan);
+  letter-spacing: 0.05em;
+}
+
+.reflex-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.reflex-desc {
+  font-size: 0.76rem;
+  color: #888888;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.reflex-interactive-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.btn-reflex {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 16px;
+  border-radius: 0px;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 800;
+  cursor: pointer;
+  background: #111111;
+  color: #FFFFFF;
+  border: 1px solid #333333;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.1s ease, border-color 0.1s ease, color 0.1s ease;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.btn-reflex:hover {
+  background: #1A1A1A;
+  border-color: #555555;
+}
+
+.reflex-result-card {
+  width: 100%;
+  padding: 12px 14px;
+  background: #080808;
+  border: 1px solid #1C1C1C;
+  border-radius: 0px;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: #CCCCCC;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  word-break: keep-all;
+  line-height: 1.45;
 }
 
 .reflex-tester-action {
@@ -3289,6 +3660,10 @@ p, .hero-subtitle, .hero-lead, .feature-desc, .plan-desc, .faq-answer {
   .simulator-grid {
     grid-template-columns: 1fr !important;
     gap: 20px !important;
+  }
+  .vc-viewports-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
   }
   .pipeline-flow-grid {
     flex-direction: column !important;

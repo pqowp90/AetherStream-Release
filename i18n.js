@@ -1,349 +1,649 @@
 /**
  * zerodoc AetherStream - Complete Professional i18n Translation Engine
- * 100% Localized Korean (KO) and English (EN) Dictionaries
- * Refined Brand Copy: High-End Tech Voice & Industry Standard Tone
+ * 5 Top Global Gaming Market Languages:
+ *   - ko: 한국어 (Korean)
+ *   - en: English (Global)
+ *   - ja: 日本語 (Japanese)
+ *   - zh: 简体中文 (Simplified Chinese)
+ *   - es: Español (Spanish)
+ * 100% Brand Compliant: Strict Zero-Mention of Competitor Trademarks
  */
 
 const translations = {
   ko: {
     // Nav
-    "nav.features": "주요 기능",
-    "nav.android": "안드로이드",
-    "nav.versus": "기술 스펙 비교",
-    "nav.simulator": "지연시간 랩",
-    "nav.pencil": "펜슬 프로",
-    "nav.pricing": "요금제",
-    "nav.quick_code": "룸코드 접속",
-    "nav.download": "다운로드",
+    "nav.brand_sub": "초저지연 원격 스트리밍",
+    "nav.pillars": "핵심 전략",
+    "nav.lab": "지연시간 랩",
+    "nav.architecture": "아키텍처",
+    "nav.downloads": "다운로드",
     "nav.guide": "공식 가이드",
-    "nav.relay_status": "릴레이: 38개 노드 가동",
+    "nav.relay_active": "글로벌 릴레이 활성화",
 
     // Hero
-    "hero.chip_company": "ZERODOC INC.",
-    "hero.chip_tagline": "초저지연 도전 · 차세대 리모트 게이밍 엔진",
+    "hero.version": "v0.1.0 Alpha",
+    "hero.badge": "초저지연 120Hz/144Hz 원격 스트리밍 엔진",
     "hero.title": "내 PC 그대로,<br><span style='color:#FFFFFF;'>모바일에서 120Hz · 144Hz 초저지연으로.</span>",
-    "hero.subtitle": "독자적 DXGI VRAM 직접 캡처와 NVENC CBR, Apple Metal 3 및 Android NDK 하드웨어 가속으로 모바일에서 끊김 없는 120Hz · 144Hz 초저지연 게이밍을 즐기세요.",
-    "hero.btn_download": "윈도우 호스트 설치파일 다운로드 (.exe)",
-    "hero.btn_guide": "공식 사용자 매뉴얼",
-    "hero.btn_roomcode": "6자리 룸코드 입력",
-    "hero.metric_capture": "DXGI GPU 캡처 지연",
-    "hero.metric_fps": "아이폰/패드 ProMotion",
-    "hero.metric_color": "트루컬러 텍스트 무손실",
-    "hero.metric_coop": "동시 로컬 코옵 지원",
+    "hero.lead": "독자적 DXGI VRAM 직접 캡처와 NVENC CBR, Apple Metal 3 및 Android NDK 하드웨어 가속으로 모바일에서 끊김 없는 120Hz · 144Hz 초저지연 게이밍을 즐기세요.",
+    "hero.btn_win": "Windows 호스트 다운로드 (.exe)",
+    "hero.btn_win_meta": "v0.1.0 Alpha · Win 10/11 x64",
+    "hero.btn_room": "6자리 룸코드 빠른 접속",
+    "hero.btn_room_meta": "초저지연 P2P 직결",
 
-    // Stream Viewport
-    "stream.active": "스트리밍 연결됨: ROOM AE78X9",
-    "stream.stats": "120.0 FPS / 2.1ms",
+    // Spec Grid
+    "spec.1.label": "GPU VRAM 캡처",
+    "spec.2.label": "다중 플랫폼 주사율",
+    "spec.3.label": "인코더 파이프라인",
+    "spec.4.label": "종단간 지연시간",
 
-    // Features Section
-    "features.tag": "CORE ARCHITECTURE",
-    "features.title": "초저지연을 향한 타협 없는 엔지니어링.",
-    "features.subtitle": "zerodoc의 독자적 저지연 파이프라인으로 타협 없는 스트리밍을 경험하세요.",
-    "feat.1.title": "아이폰 & 아이패드 120Hz ProMotion",
-    "feat.1.desc": "Apple Metal 3 하드웨어 셰이더와 VideoToolbox 제로카피 디코딩으로 120프레임 초고주사율 화면을 부드럽게 렌더링합니다.",
-    "feat.2.title": "원클릭 6자리 룸코드 P2P 직결",
-    "feat.2.desc": "복잡한 네트워크 설정 없이 6자리 룸코드만으로 태블릿과 모바일 기기에서 호스트 PC로 즉시 P2P 연결됩니다.",
-    "feat.3.title": "NVIDIA NVENC 초저지연 하드웨어 인코딩",
-    "feat.3.desc": "GTX 1660 SUPER부터 RTX 4090까지 튜링/에이다 세대 하드웨어 인코더를 직접 제어하여 B-프레임 없는 초저지연 프레임을 송출합니다.",
-    "feat.4.title": "친구와 함께 4인 파티플레이 코옵",
-    "feat.4.desc": "친구 4명이 각자의 폰이나 패드로 접속해도 ViGEmBus 가상 엑스박스 패드로 자동 분배되어 철권, 피파, 오버쿡을 로컬 협동 플레이할 수 있습니다.",
-    "feat.5.title": "다중 모니터 원클릭 실시간 스위칭",
-    "feat.5.desc": "집에 듀얼, 트리플 모니터를 쓰고 있어도 모바일 화면에서 원클릭으로 모니터를 실시간 전환하며 작업할 수 있습니다.",
-    "feat.6.title": "WASAPI 48kHz 무손실 오디오 루프백",
-    "feat.6.desc": "Windows 오디오 세션을 직접 캡처하여 5ms 슬라이스 PCM으로 무지연 전송, 싱크 밀림 없는 선명한 사운드를 들려줍니다.",
+    // Monitor HUD
+    "hud.ping": "종단간 지연",
+    "hud.fps": "동기화 주사율",
+    "hud.bitrate": "비트레이트",
+    "hud.loss": "패킷 손실",
+    "hud.jitter": "프레임 페이싱 지터:",
 
-    // Versus Table
-    "versus.title": "기술 솔루션 심층 비교 분석",
-    "versus.subtitle": "독자적 저지연 파이프라인과 모바일 네이티브 최적화로 이뤄낸 차세대 표준.",
-    "versus.th_spec": "핵심 스펙 및 기능",
-    "versus.th_zerodoc": "zerodoc AetherStream",
-    "versus.th_commercial": "기존 상용 솔루션 A",
-    "versus.th_opensource": "기존 오픈소스 솔루션 B",
-    "versus.row1_lbl": "iOS / iPadOS 정식 지원",
-    "versus.row1_v1": "완벽 지원 (120Hz Metal)",
-    "versus.row1_v2": "미지원 (모바일 미제공)",
-    "versus.row1_v3": "지원 (오픈소스 앱)",
-    "versus.row2_lbl": "안드로이드 네이티브 지원",
-    "versus.row2_v1": "지원 (144Hz Jetpack Compose)",
-    "versus.row2_v2": "지원 (구형 UI)",
-    "versus.row2_v3": "지원",
-    "versus.row3_lbl": "P2P 접속 방식",
-    "versus.row3_v1": "6자리 룸코드 P2P 직결",
-    "versus.row3_v2": "중앙 서버 로그인 필수",
-    "versus.row3_v3": "수동 네트워크 세팅 필요",
-    "versus.row4_lbl": "4인 로컬 코옵 (파티플레이)",
-    "versus.row4_v1": "기본 내장 (ViGEmBus 가상 패드)",
-    "versus.row4_v2": "지원 (PC 클라이언트 한정)",
-    "versus.row4_v3": "설정 복잡",
-    "versus.row5_lbl": "4:4:4 트루컬러 & HDR",
-    "versus.row5_v1": "무료 기본 지원",
-    "versus.row5_v2": "유료 구독 필요",
-    "versus.row5_v3": "수동 설정 지원",
-    "versus.row6_lbl": "윈도우 인스톨러 용량",
-    "versus.row6_v1": "2.58 MB (초경량 단일 파일)",
-    "versus.row6_v2": "~45 MB",
-    "versus.row6_v3": "~80 MB (보조 프로그램 포함)",
+    // Pillars
+    "pillar.tag": "[ CORE STRATEGIC PILLARS ]",
+    "pillar.title": "타협 없는 하이엔드 엔지니어링 4대 핵심 전략",
+    "pillar.lead": "기존 상용 솔루션의 고질적인 프레임 페이싱 결함과 레이턴시 한계를 극복하기 위해 설계된 독자 파이프라인.",
+    "pillar.1.title": "120Hz / 144Hz 하드웨어 주사율 완벽 동기화",
+    "pillar.1.desc": "디스플레이 주사율과 V-Sync 하드웨어 클록을 마이크로초 단위로 일치시켜 프레임 드랍과 티어링 현상을 원천 방지합니다.",
+    "pillar.2.title": "DXGI 1.2+ VRAM 제로카피 직접 파이프라인",
+    "pillar.2.desc": "CPU 시스템 메모리 복사 단계(RAM Copy)를 완전히 제거하고 GPU VRAM 내부에서 NVENC 하드웨어 인코더로 직결합니다.",
+    "pillar.3.title": "Apple Pencil Pro 4096레벨 필압 & 틸트",
+    "pillar.3.desc": "고가의 전문 액정 타블렛을 대체하는 정밀 입력 파이프라인. 압력, 각도 감도, 호버링 데이터를 무지연 전송합니다.",
+    "pillar.4.title": "4인 로컬 코옵 가상 게임패드 (ViGEmBus)",
+    "pillar.4.desc": "추가 동글 없이 모바일 기기를 최대 4대의 가상 Xbox 360 게임패드로 PC에 즉시 마운트하여 협동 플레이를 지원합니다.",
 
-    // Simulator
-    "sim.tag": "INTERACTIVE LAB",
-    "sim.title": "실시간 지연시간 벤치마크 랩",
-    "sim.subtitle": "네트워크 핑과 비트레이트를 직접 조절하며 초저지연 프레임 복원율을 실시간으로 확인하세요.",
-    "sim.network_ping": "네트워크 지연 (RTT)",
-    "sim.bitrate": "스트리밍 대역폭",
-    "sim.packet_loss": "패킷 유실 시뮬레이션",
-    "sim.total_latency": "총 유리창 지연시간 (Glass-to-Glass)",
-    "sim.fec_status": "XOR FEC 에러 정정 상태",
+    // Latency Lab & Visual Comparison
+    "lab.tag": "[ HARDWARE LATENCY LAB & ARCHITECTURE ]",
+    "lab.title": "실시간 종단간 지연시간 및 파이프라인 분석",
+    "lab.lead": "캡처, 인코딩, 네트워크 패킷팅, 디코딩, 디스플레이 렌더링에 이르는 전 과정 실측 데이터.",
+    "pipeline.title": "ZERODOC ZERO-COPY HARDWARE PIPELINE",
+    "pipeline.target": "SUB-10MS END-TO-END TARGET",
 
-    // Reflex
-    "reflex.tag": "REACTION TEST",
-    "reflex.title": "게이머 동체시력 & 반응속도 벤치마크",
-    "reflex.subtitle": "화면이 초록색으로 바뀔 때 즉시 클릭하세요. 스트리밍 지연이 실제 에임과 입력에 미치는 영향을 측정합니다.",
-    "reflex.start": "클릭하여 시작",
-    "reflex.waiting": "대기 중... 초록색이 되면 즉시 클릭하세요!",
-    "reflex.click_now": "지금 클릭하세요!",
-    "reflex.result": "당신의 반응속도:",
+    // Visual Comparison Card
+    "vc.badge": "[ LIVE INTERACTIVE DEMO ]",
+    "vc.fps_tag": "60Hz vs 120Hz/144Hz DUAL RENDER",
+    "vc.heading": "지연시간 체감 비교: 기존 일반 원격 스트리밍 vs AetherStream",
+    "vc.subtitle": "캔버스 위에서 마우스를 움직이거나 터치하여 조작 지연시간의 차이를 직접 체감하세요. (미조작 시 자동 궤적 시뮬레이션 동작)",
+    "vc.legacy_name": "기존 일반 원격 솔루션",
+    "vc.legacy_metric": "60 FPS · 85.0ms 고지연",
+    "vc.legacy_overlay": "INPUT LAG: +85.0ms (밀림 및 잔상 발생)",
+    "vc.legacy_pipe_key": "처리 파이프라인",
+    "vc.legacy_pipe_val": "GDI / 일반 캡처 → CPU 소프트웨어 인코더 → TCP 버퍼링 → 범용 렌더러",
+    "vc.legacy_exp_key": "실제 사용자 체감",
+    "vc.legacy_exp_val": "마우스 커서 드래그 시 확연한 꼬리표 밀림 현상, FPS 조준 빗나감, 펜 필기 딜레이",
+    "vc.aether_name": "AetherStream 독자 파이프라인",
+    "vc.aether_metric": "120Hz/144Hz · 8.8ms 초저지연",
+    "vc.aether_overlay": "ZERO-COPY VRAM: 8.8ms (1:1 하드웨어 즉시 일치)",
+    "vc.aether_pipe_key": "처리 파이프라인",
+    "vc.aether_pipe_val": "DXGI 1.2+ VRAM → NVENC CBR 저지연 → UDP/FEC 제로버퍼 → Metal 3 / Vulkan",
+    "vc.aether_exp_key": "실제 사용자 체감",
+    "vc.aether_exp_val": "손끝과 화면의 완전한 1:1 일치, 고주사율 부드러운 동기화, 잔상 0%",
 
-    // Pencil Pro
-    "pencil.tag": "DIGITAL ARTISTS",
-    "pencil.title": "Apple Pencil Pro 4096단계 필압 샌드박스",
-    "pencil.subtitle": "아이패드를 고가의 전문 액정 타블렛처럼. 포토샵, 블렌더 3D 조각을 위한 4096레벨 필압과 틸트(기울기)를 실시간 초저지연으로 지원합니다.",
+    // Latency Simulator Controls
+    "sim.controls_title": "환경별 시뮬레이션 파라미터",
+    "sim.lbl_net": "네트워크 연결 환경",
+    "sim.net_lan": "초고속 Wi-Fi 6 (LAN)",
+    "sim.net_5g": "5G 모바일 네트워크",
+    "sim.net_wan": "광대역 원격 인터넷 (WAN)",
+    "sim.lbl_codec": "하드웨어 가속 코덱",
+    "sim.lbl_fps": "디스플레이 주사율 동기화",
+    "sim.results_tag": "[ 실측 종단간 지연시간 ]",
+    "sim.bd_cap": "DXGI 1.2+ VRAM 프레임 캡처",
+    "sim.bd_enc": "NVENC 하드웨어 CBR 인코딩",
+    "sim.bd_net": "UDP 전송 & FEC 에러 복구",
+    "sim.bd_dec": "VideoToolbox / MediaCodec NDK 디코딩",
+    "sim.bd_ren": "Metal 3 / Vulkan 하드웨어 V-Sync 렌더링",
 
-    // Pricing
-    "pricing.tag": "TRANSPARENT PRICING",
-    "pricing.title": "단순하고 투명한 요금제",
-    "pricing.subtitle": "핵심 초저지연 기능은 영원히 무료. 프로 기능은 합리적인 정액제로 제공됩니다.",
-    "pricing.monthly": "월간 결제",
-    "pricing.annual": "연간 결제 (25% 할인)",
-    "plan.free.title": "Community (무료)",
-    "plan.free.price": "₩0",
-    "plan.free.period": "/ 영구 무료 ($0 Forever)",
-    "plan.free.f1": "1080p 60-144Hz P2P 초저지연 스트리밍",
-    "plan.free.f2": "6자리 P2P 룸코드 무제한 접속",
-    "plan.free.f3": "4:2:0 표준 화질 인코딩",
-    "plan.free.f4": "4인 로컬 코옵 게임패드 기본 지원",
-    "plan.free.btn": "지금 무료로 시작하기",
-    "plan.pro.title": "Aether Pro",
-    "plan.pro.price": "₩4,083",
-    "plan.pro.period": "/ 월 (연 ₩49,000 결제, 월 ₩5,500)",
-    "plan.pro.f1": "전 세계 38개 TURN 클라우드 릴레이 (초저지연 글로벌 라우팅)",
-    "plan.pro.f2": "Apple Pencil Pro 4096단계 필압/틸트 다이렉트 매핑",
-    "plan.pro.f3": "무제한 헤드리스 가상 디스플레이 생성",
-    "plan.pro.f4": "4:4:4 True Color & 10-bit HDR 무손실",
-    "plan.pro.f5": "모바일 MetalFX AI 초해상도 업스케일링",
-    "plan.pro.btn": "Pro 14일 무료 체험",
-    "plan.studio.title": "Studio / Enterprise",
-    "plan.studio.price": "₩39,000",
-    "plan.studio.period": "/ 사용자/월",
-    "plan.studio.f1": "Pro 플랜의 모든 기능 포함",
-    "plan.studio.f2": "실시간 다자간 동시 협업 및 입력 중재",
-    "plan.studio.f3": "동적 포렌식 보안 워터마킹 (유출 방지)",
-    "plan.studio.f4": "99.99% 전용 대역폭 SLA 보증",
-    "plan.studio.f5": "SSO / SAML 사내 계정 및 감사 로그",
-    "plan.studio.btn": "기업 영업팀 문의하기",
+    // Reflex Tester
+    "reflex.badge": "[ HUMAN VS AETHERSTREAM ]",
+    "reflex.title": "인간 시각 반응속도 실측 테스트",
+    "reflex.desc": "초록색 신호가 켜지는 즉시 버튼을 탭하여 지연시간과 비교하세요.",
+    "reflex.btn_idle": "⚡ 반응속도 측정 시작",
+    "reflex.btn_waiting": "⏳ 대기... 초록색으로 변할 때 탭!",
+    "reflex.btn_primed": "⚡ 지금 탭하세요! (TAP NOW!)",
+    "reflex.btn_premature": "⚡ 너무 빨랐습니다! 다시 시도",
+    "reflex.btn_again": "⚡ 다시 테스트하기",
+    "reflex.card_placeholder": "준비 완료 · 버튼을 눌러 측정을 시작하세요",
+    "reflex.status_priming": "센서 반응 대기 중... (초록색이 켜질 때 즉시 탭하세요)",
+    "reflex.err_premature": "<strong>너무 빨랐습니다!</strong> 초록색이 켜진 후 탭하세요.",
+    "reflex.result_template": "당신의 반응속도: <strong>{time}ms</strong> | AetherStream 지연시간: <strong>8.8ms</strong> (인간 반응속도보다 20배 이상 빠릅니다)",
 
     // Downloads
-    "dl.tag": "GET STARTED",
-    "dl.title": "지금 바로 친구들과 시작하세요",
-    "dl.subtitle": "호스트 PC에 인스톨러를 설치하고, 모바일에서 6자리 코드를 입력하면 즉시 연결됩니다.",
-    "dl.win_title": "Windows 호스트 서버",
-    "dl.win_desc": "내 데스크톱 PC 화면과 소리를 초저지연으로 송출하는 공식 호스트 프로그램입니다.",
-    "dl.win_btn": "윈도우 인스톨러 다운로드 (.exe)",
-    "dl.android_title": "안드로이드 클라이언트",
-    "dl.android_desc": "갤럭시 스마트폰과 태블릿을 위한 144Hz 초저지연 네이티브 클라이언트입니다.",
-    "dl.android_btn": "APK 릴리즈 확인",
+    "dl.tag": "[ MULTI-PLATFORM ECOSYSTEM ]",
+    "dl.title": "전 플랫폼 네이티브 클라이언트 다운로드",
+    "dl.lead": "Windows 게이밍 호스트와 모든 스마트폰, 태블릿을 연결하는 통합 에코시스템.",
+    "dl.win_title": "Windows 호스트 엔진",
+    "dl.win_desc": "DXGI 1.2+ VRAM 캡처와 NVENC CBR 초저지연 스트리밍 서버.",
+    "dl.win_btn": "Windows 호스트 다운로드 (.exe)",
+    "dl.android_title": "Android 네이티브 클라이언트",
+    "dl.android_desc": "Jetpack Compose & MediaCodec NDK 가속 144Hz 지원 클라이언트.",
+    "dl.android_btn": "Android APK 다운로드 (.apk)",
     "dl.ios_title": "iOS & iPadOS 클라이언트",
-    "dl.ios_desc": "아이폰과 아이패드 120Hz ProMotion 화면을 위한 Apple Metal 3 클라이언트입니다.",
-    "dl.ios_btn": "GitHub 소스 & 빌드 가이드",
-
-    // Modal
-    "modal.title": "6자리 룸코드로 접속",
-    "modal.desc": "호스트 PC 화면에 뜬 6자리 영숫자 코드(예: AE78X9)를 입력하세요.",
-    "modal.connect_btn": "즉시 P2P 연결 시작",
+    "dl.ios_desc": "Apple VideoToolbox & Metal 3 120Hz ProMotion 렌더러.",
+    "dl.ios_btn": "iOS 빌드 가이드 & 소스코드",
 
     // Footer
-    "footer.rights": "주식회사 제로독 | 대표이사 직속 프로젝트 AetherStream. All rights reserved."
+    "footer.rights": "주식회사 제로독 (zerodoc Inc.) · AetherStream All Rights Reserved."
   },
 
   en: {
     // Nav
-    "nav.features": "Features",
-    "nav.android": "Android",
-    "nav.versus": "Technical Comparison",
-    "nav.simulator": "Latency Lab",
-    "nav.pencil": "Pencil Pro",
-    "nav.pricing": "Pricing",
-    "nav.quick_code": "Enter 6-Digit Code",
-    "nav.download": "Get Started",
+    "nav.brand_sub": "Ultra-Low Latency Remote Streaming",
+    "nav.pillars": "Core Strategy",
+    "nav.lab": "Latency Lab",
+    "nav.architecture": "Architecture",
+    "nav.downloads": "Downloads",
     "nav.guide": "User Guide",
-    "nav.relay_status": "RELAY: 38 NODES ONLINE",
+    "nav.relay_active": "GLOBAL RELAYS ACTIVE",
 
     // Hero
-    "hero.chip_company": "ZERODOC INC.",
-    "hero.chip_tagline": "ULTRA-LOW LATENCY GAMING ENGINE",
-    "hero.title": "Your PC Anywhere,<br><span style='color:#FFFFFF;'>In 120Hz & 144Hz Ultra-Low Latency.</span>",
-    "hero.subtitle": "Proprietary DXGI VRAM Direct Capture with NVENC CBR, Apple Metal 3, and Android NDK hardware acceleration. Connect instantly via 6-digit room code for uncompromising low-latency gaming and precision stylus workflows.",
-    "hero.btn_download": "Download Host Installer (.exe)",
-    "hero.btn_guide": "Official User Guide",
-    "hero.btn_roomcode": "Enter 6-Digit Code",
-    "hero.metric_capture": "DXGI GPU Capture Latency",
-    "hero.metric_fps": "iPhone / iPad ProMotion",
-    "hero.metric_color": "True Color Text Fidelity",
-    "hero.metric_coop": "Simultaneous Local Co-op",
+    "hero.version": "v0.1.0 Alpha",
+    "hero.badge": "Ultra-Low Latency 120Hz/144Hz Remote Streaming Engine",
+    "hero.title": "Your PC, Everywhere.<br><span style='color:#FFFFFF;'>At 120Hz · 144Hz Ultra-Low Latency.</span>",
+    "hero.lead": "Proprietary DXGI Direct VRAM capture, NVENC CBR, Apple Metal 3, and Android NDK hardware acceleration enable tear-free 120Hz/144Hz ultra-low latency gaming anywhere.",
+    "hero.btn_win": "Download Windows Host (.exe)",
+    "hero.btn_win_meta": "v0.1.0 Alpha · Win 10/11 x64",
+    "hero.btn_room": "Quick Connect via Room Code",
+    "hero.btn_room_meta": "Instant Direct P2P Link",
 
-    // Stream Viewport
-    "stream.active": "STREAM ACTIVE: ROOM AE78X9",
-    "stream.stats": "120.0 FPS / 2.1ms",
+    // Spec Grid
+    "spec.1.label": "GPU VRAM Capture",
+    "spec.2.label": "Display Refresh",
+    "spec.3.label": "Hardware Encoder",
+    "spec.4.label": "End-to-End Latency",
 
-    // Features Section
-    "features.tag": "CORE ARCHITECTURE",
-    "features.title": "Uncompromised Low-Latency Engineering.",
-    "features.subtitle": "Experience uncompromised low-latency streaming with zerodoc's proprietary graphics pipeline.",
-    "feat.1.title": "iPhone & iPad 120Hz ProMotion",
-    "feat.1.desc": "Smooth 120 FPS high-refresh rate rendering powered by Apple Metal 3 hardware shaders and zero-copy VideoToolbox decoding.",
-    "feat.2.title": "Instant 6-Digit Room Code Direct P2P",
-    "feat.2.desc": "Zero complex network configuration. Enter the 6-digit code shown on your host to establish an instant direct P2P streaming session.",
-    "feat.3.title": "NVIDIA NVENC Ultra-Low Latency",
-    "feat.3.desc": "Directly controls Turing/Ada Lovelace NVENC hardware encoders from GTX 1660 SUPER to RTX 4090 with zero B-frames.",
-    "feat.4.title": "4-Player Party Play Local Co-Op",
-    "feat.4.desc": "Connect up to 4 mobile devices seamlessly mapped to virtual ViGEmBus Xbox controllers for local multiplayer games.",
-    "feat.5.title": "Multi-Monitor Instant Switch",
-    "feat.5.desc": "Switch seamlessly between multiple desktop displays with a single tap from your phone without restarting streams.",
-    "feat.6.title": "WASAPI 48kHz Lossless Loopback Audio",
-    "feat.6.desc": "Direct Windows audio capture in 5ms PCM slices for lag-free, crystal-clear spatial audio with zero sync drift.",
+    // Monitor HUD
+    "hud.ping": "End-to-End",
+    "hud.fps": "Sync Refresh",
+    "hud.bitrate": "Bitrate",
+    "hud.loss": "Packet Loss",
+    "hud.jitter": "Frame Pacing Jitter:",
 
-    // Versus Table
-    "versus.title": "Technical Architecture Comparison",
-    "versus.subtitle": "Engineered from the ground up for native mobile performance and uncompromised streaming telemetry.",
-    "versus.th_spec": "Key Specifications & Features",
-    "versus.th_zerodoc": "zerodoc AetherStream",
-    "versus.th_commercial": "Commercial Solution A",
-    "versus.th_opensource": "Open-Source Solution B",
-    "versus.row1_lbl": "iOS / iPadOS Native Support",
-    "versus.row1_v1": "Full Native (120Hz Metal)",
-    "versus.row1_v2": "None (Unsupported on Mobile)",
-    "versus.row1_v3": "Supported (Open-source App)",
-    "versus.row2_lbl": "Android Native Support",
-    "versus.row2_v1": "Full Native (144Hz Jetpack Compose)",
-    "versus.row2_v2": "Legacy UI",
-    "versus.row2_v3": "Supported",
-    "versus.row3_lbl": "P2P Connection Method",
-    "versus.row3_v1": "6-Digit Room Code Direct P2P",
-    "versus.row3_v2": "Central Cloud Account Required",
-    "versus.row3_v3": "Manual Network Configuration",
-    "versus.row4_lbl": "4-Player Local Co-Op",
-    "versus.row4_v1": "Built-in (ViGEmBus Virtual Gamepads)",
-    "versus.row4_v2": "Supported (Desktop clients only)",
-    "versus.row4_v3": "Complex Manual Setup",
-    "versus.row5_lbl": "4:4:4 True Color & HDR",
-    "versus.row5_v1": "Included Free",
-    "versus.row5_v2": "Paid Subscription Required",
-    "versus.row5_v3": "Manual Configuration",
-    "versus.row6_lbl": "Windows Installer Package Size",
-    "versus.row6_v1": "2.58 MB (Ultra-Lightweight)",
-    "versus.row6_v2": "~45 MB",
-    "versus.row6_v3": "~80 MB (with helper tools)",
+    // Pillars
+    "pillar.tag": "[ CORE STRATEGIC PILLARS ]",
+    "pillar.title": "Four Pillars of Uncompromising High-End Engineering",
+    "pillar.lead": "A purpose-built proprietary pipeline engineered to overcome conventional remote desktop pacing defects and latency ceilings.",
+    "pillar.1.title": "120Hz / 144Hz Hardware Refresh Synchronization",
+    "pillar.1.desc": "Microsecond-level alignment between display refresh rates and hardware V-Sync clocks eliminates frame pacing stutter and screen tearing.",
+    "pillar.2.title": "DXGI 1.2+ VRAM Zero-Copy Direct Pipeline",
+    "pillar.2.desc": "Eliminates intermediate CPU RAM copies entirely, feeding frames directly from GPU VRAM straight into the NVENC hardware encoder.",
+    "pillar.3.title": "Apple Pencil Pro 4096-Level Pressure & Tilt",
+    "pillar.3.desc": "Turns iPads into high-end graphics drawing tablets with deterministic pressure curve, tilt tracking, and hover detection.",
+    "pillar.4.title": "4-Player Local Co-op Virtual Gamepad (ViGEmBus)",
+    "pillar.4.desc": "Mounts mobile devices as up to 4 virtual Xbox 360 controllers with zero dongles for seamless local party multiplayer.",
 
-    // Simulator
-    "sim.tag": "INTERACTIVE LAB",
-    "sim.title": "Interactive Latency Lab",
-    "sim.subtitle": "Adjust network ping, jitter, and packet loss in real-time to observe sub-frame ultra-low latency frame recovery.",
-    "sim.network_ping": "Network Latency (RTT)",
-    "sim.bitrate": "Streaming Bandwidth",
-    "sim.packet_loss": "Packet Loss Simulation",
-    "sim.total_latency": "Total Glass-to-Glass Latency",
-    "sim.fec_status": "XOR FEC Recovery Status",
+    // Latency Lab & Visual Comparison
+    "lab.tag": "[ HARDWARE LATENCY LAB & ARCHITECTURE ]",
+    "lab.title": "Real-Time End-to-End Latency & Pipeline Analysis",
+    "lab.lead": "Audited real-world telemetry across GPU capture, encoding, packet transit, decoding, and display rendering.",
+    "pipeline.title": "ZERODOC ZERO-COPY HARDWARE PIPELINE",
+    "pipeline.target": "SUB-10MS END-TO-END TARGET",
 
-    // Reflex
-    "reflex.tag": "REACTION TEST",
-    "reflex.title": "Gamer Reflex Benchmark",
-    "reflex.subtitle": "Click as soon as the box turns green to benchmark your reaction time against stream delay.",
-    "reflex.start": "Click to Start Benchmark",
-    "reflex.waiting": "Waiting... Click as soon as green appears!",
-    "reflex.click_now": "CLICK NOW!",
-    "reflex.result": "Your Reaction Time:",
+    // Visual Comparison Card
+    "vc.badge": "[ LIVE INTERACTIVE DEMO ]",
+    "vc.fps_tag": "60Hz vs 120Hz/144Hz DUAL RENDER",
+    "vc.heading": "Side-by-Side Latency Comparison: Legacy General Remote vs AetherStream",
+    "vc.subtitle": "Move your cursor or touch the canvas to feel the real-time input latency difference. (Auto-simulation runs when idle)",
+    "vc.legacy_name": "Legacy General Remote Solution",
+    "vc.legacy_metric": "60 FPS · 85.0ms High Latency",
+    "vc.legacy_overlay": "INPUT LAG: +85.0ms (Dragging & Ghosting)",
+    "vc.legacy_pipe_key": "Pipeline",
+    "vc.legacy_pipe_val": "GDI Capture → CPU Software Encoder → TCP Buffering → Generic Renderer",
+    "vc.legacy_exp_key": "Real-World Experience",
+    "vc.legacy_exp_val": "Sluggish pointer trailing, missed FPS aim reticle, noticeable stylus stroke drift",
+    "vc.aether_name": "AetherStream Proprietary Pipeline",
+    "vc.aether_metric": "120Hz/144Hz · 8.8ms Ultra-Low Latency",
+    "vc.aether_overlay": "ZERO-COPY VRAM: 8.8ms (1:1 Instant Hardware Sync)",
+    "vc.aether_pipe_key": "Pipeline",
+    "vc.aether_pipe_val": "DXGI 1.2+ VRAM → NVENC CBR → UDP / FEC Zero-Buffer → Metal 3 / Vulkan",
+    "vc.aether_exp_key": "Real-World Experience",
+    "vc.aether_exp_val": "Perfect 1:1 hardware synchronization, zero ghosting, tear-free ProMotion precision",
 
-    // Pencil Pro
-    "pencil.tag": "DIGITAL ARTISTS",
-    "pencil.title": "Apple Pencil Pro 4096-Level Pressure Sandbox",
-    "pencil.subtitle": "Transform your iPad into a professional high-end graphics tablet. Stream Photoshop and Blender with 4096 pressure levels and tilt angle at sub-frame ultra-low latency.",
+    // Latency Simulator Controls
+    "sim.controls_title": "Environment Simulation Parameters",
+    "sim.lbl_net": "Network Environment",
+    "sim.net_lan": "Ultra-Fast Wi-Fi 6 (LAN)",
+    "sim.net_5g": "5G Cellular Network",
+    "sim.net_wan": "Broadband Internet (WAN)",
+    "sim.lbl_codec": "Hardware Acceleration Codec",
+    "sim.lbl_fps": "Display Refresh Negotiation",
+    "sim.results_tag": "[ AUDITED END-TO-END LATENCY ]",
+    "sim.bd_cap": "DXGI 1.2+ VRAM Direct Capture",
+    "sim.bd_enc": "NVENC Hardware CBR Encoding",
+    "sim.bd_net": "UDP Transit & FEC Error Recovery",
+    "sim.bd_dec": "VideoToolbox / MediaCodec NDK Decode",
+    "sim.bd_ren": "Metal 3 / Vulkan Hardware V-Sync Render",
 
-    // Pricing
-    "pricing.tag": "TRANSPARENT PRICING",
-    "pricing.title": "Simple & Transparent Pricing",
-    "pricing.subtitle": "Core ultra-low latency streaming is free forever. Professional features available on flat subscription.",
-    "pricing.monthly": "Monthly Billing",
-    "pricing.annual": "Annual Billing (Save ~20%)",
-    "plan.free.title": "Community (Free)",
-    "plan.free.price": "$0",
-    "plan.free.period": "/ Free Forever ($0)",
-    "plan.free.f1": "1080p 60-144Hz P2P Ultra-Low Latency",
-    "plan.free.f2": "Unlimited 6-Digit Room Code P2P",
-    "plan.free.f3": "4:2:0 Standard Video Encoding",
-    "plan.free.f4": "4-Player Local Co-Op Virtual Gamepads",
-    "plan.free.btn": "Start Free Now",
-    "plan.pro.title": "Aether Pro",
-    "plan.pro.price": "$3.25",
-    "plan.pro.period": "/ mo ($39.00 billed annually, or $4.00/mo)",
-    "plan.pro.f1": "High-Speed TURN Cloud Relay (Ultra-Low Latency Routing)",
-    "plan.pro.f2": "Apple Pencil Pro 4096 Pressure & Tilt Direct Mapping",
-    "plan.pro.f3": "Unlimited Headless Virtual Displays (Custom 120Hz)",
-    "plan.pro.f4": "4:4:4 True Color & 10-bit HDR Lossless",
-    "plan.pro.f5": "Mobile MetalFX AI Super Resolution Upscaling",
-    "plan.pro.btn": "Start 14-Day Free Pro Trial",
-    "plan.studio.title": "Studio / Enterprise",
-    "plan.studio.price": "$30.00",
-    "plan.studio.period": "/ seat/mo (or ₩39,000/seat/mo)",
-    "plan.studio.f1": "Everything in Aether Pro Included",
-    "plan.studio.f2": "Multi-Seat Real-Time Collaboration & Input Arbitration",
-    "plan.studio.f3": "Dynamic Forensic Watermarking (Leak Prevention)",
-    "plan.studio.f4": "99.99% Dedicated Bandwidth Relay SLA",
-    "plan.studio.f5": "SSO / SAML & Centralized Audit Logs Console",
-    "plan.studio.btn": "Contact Studio Sales",
+    // Reflex Tester
+    "reflex.badge": "[ HUMAN VS AETHERSTREAM ]",
+    "reflex.title": "Human Visual Reflex Tester",
+    "reflex.desc": "Tap the button as fast as you can when the signal turns green to compare against stream latency.",
+    "reflex.btn_idle": "⚡ Start Reaction Test",
+    "reflex.btn_waiting": "⏳ Wait... Tap when Green!",
+    "reflex.btn_primed": "⚡ TAP NOW!",
+    "reflex.btn_premature": "⚡ Too Early! Try Again",
+    "reflex.btn_again": "⚡ Test Again",
+    "reflex.card_placeholder": "Ready · Tap the button to start test",
+    "reflex.status_priming": "Sensor priming... (Tap immediately when button turns green)",
+    "reflex.err_premature": "<strong>Too fast!</strong> Wait until the button turns green.",
+    "reflex.result_template": "Your reaction speed: <strong>{time}ms</strong> | AetherStream latency: <strong>8.8ms</strong> (>20x faster than human perception)",
 
     // Downloads
-    "dl.tag": "GET STARTED",
-    "dl.title": "Start Playing With Friends Today",
-    "dl.subtitle": "Install the host on your gaming PC, enter the 6-digit room code on your mobile device, and connect instantly.",
-    "dl.win_title": "Windows Host Server",
-    "dl.win_desc": "High-performance host engine streaming your desktop audio and display with sub-10ms latency.",
-    "dl.win_btn": "Download Windows Installer (.exe)",
-    "dl.android_title": "Android Client",
-    "dl.android_desc": "Native 144Hz client for Galaxy smartphones and tablets powered by Jetpack Compose.",
-    "dl.android_btn": "View APK Releases",
+    "dl.tag": "[ MULTI-PLATFORM ECOSYSTEM ]",
+    "dl.title": "Download Native Clients Across Platforms",
+    "dl.lead": "An integrated zero-latency ecosystem connecting Windows host rigs to all smartphones and tablets.",
+    "dl.win_title": "Windows Host Engine",
+    "dl.win_desc": "Ultra-low latency streaming host engine with DXGI 1.2+ VRAM capture and NVENC CBR.",
+    "dl.win_btn": "Download Windows Host (.exe)",
+    "dl.android_title": "Android Native Client",
+    "dl.android_desc": "Native 144Hz client powered by Jetpack Compose and MediaCodec NDK hardware decoding.",
+    "dl.android_btn": "Download Android APK (.apk)",
     "dl.ios_title": "iOS & iPadOS Client",
-    "dl.ios_desc": "Native Apple Metal 3 client engineered for iPhone and iPad 120Hz ProMotion displays.",
-    "dl.ios_btn": "GitHub Source & Build Guide",
-
-    // Modal
-    "modal.title": "Connect with 6-Digit Room Code",
-    "modal.desc": "Enter the 6-digit alphanumeric room code shown on your host PC (e.g., AE78X9).",
-    "modal.connect_btn": "Start Direct P2P Stream",
+    "dl.ios_desc": "Apple VideoToolbox zero-copy decoding and Metal 3 120Hz ProMotion renderer.",
+    "dl.ios_btn": "iOS Build Guide & Source Code",
 
     // Footer
-    "footer.rights": "zerodoc Inc. | Advanced Remote Desktop Project AetherStream. All rights reserved."
+    "footer.rights": "zerodoc Inc. · AetherStream All Rights Reserved."
+  },
+
+  ja: {
+    // Nav
+    "nav.brand_sub": "超低遅延リモートストリーミング",
+    "nav.pillars": "コア戦略",
+    "nav.lab": "遅延ラボ",
+    "nav.architecture": "アーキテクチャ",
+    "nav.downloads": "ダウンロード",
+    "nav.guide": "公式ガイド",
+    "nav.relay_active": "グローバルリレー稼働中",
+
+    // Hero
+    "hero.version": "v0.1.0 Alpha",
+    "hero.badge": "超低遅延 120Hz/144Hz リモートゲーミングエンジン",
+    "hero.title": "自宅のPCをそのまま、<br><span style='color:#FFFFFF;'>モバイルで120Hz · 144Hz 超低遅延で。</span>",
+    "hero.lead": "独自DXGI VRAM直接キャプチャとNVENC CBR、Apple Metal 3およびAndroid NDKハードウェアアクセラレーションにより、どこでも滑らかな120Hz/144Hzゲーミングを実現します。",
+    "hero.btn_win": "Windowsホストをダウンロード (.exe)",
+    "hero.btn_win_meta": "v0.1.0 Alpha · Win 10/11 x64",
+    "hero.btn_room": "6桁ルームコード高速接続",
+    "hero.btn_room_meta": "超低遅延 P2P直結",
+
+    // Spec Grid
+    "spec.1.label": "GPU VRAM キャプチャ",
+    "spec.2.label": "マルチプラットフォーム周波数",
+    "spec.3.label": "エンコーダ管線",
+    "spec.4.label": "エンドツーエンド遅延",
+
+    // Monitor HUD
+    "hud.ping": "総合遅延",
+    "hud.fps": "同期周波数",
+    "hud.bitrate": "ビットレート",
+    "hud.loss": "パケット損失",
+    "hud.jitter": "フレームジッター:",
+
+    // Pillars
+    "pillar.tag": "[ CORE STRATEGIC PILLARS ]",
+    "pillar.title": "妥協のないハイエンドエンジニアリング4大コア戦略",
+    "pillar.lead": "従来の商用ソリューションにおけるフレームペーシング不良と遅延限界を打破するために設計された独自パイプライン。",
+    "pillar.1.title": "120Hz / 144Hz ハードウェア同期による滑らかな描画",
+    "pillar.1.desc": "ディスプレイのリフレッシュレートとV-Syncクロックをマイクロ秒単位で同期し、カクつきやテアリングを根本から防ぎます。",
+    "pillar.2.title": "DXGI 1.2+ VRAM ゼロコピー直接パイプライン",
+    "pillar.2.desc": "CPUメモリ経由のコピーを全廃し、GPU VRAMからNVENCハードウェアエンコーダへ直結して超低遅延を実現します。",
+    "pillar.3.title": "Apple Pencil Pro 4096段階筆圧＆傾き検知",
+    "pillar.3.desc": "高価なプロ向け液晶タブレットを代替する高精度パイプライン。筆圧、傾き、ホバー操作をミリ秒未満で伝送します。",
+    "pillar.4.title": "4人ローカルマルチプレイ仮想ゲームパッド (ViGEmBus)",
+    "pillar.4.desc": "追加ドングルなしでスマホやタブレットを最大4台の仮想Xbox 360コントローラーとして認識させ、協力プレイを即座に支援します。",
+
+    // Latency Lab & Visual Comparison
+    "lab.tag": "[ HARDWARE LATENCY LAB & ARCHITECTURE ]",
+    "lab.title": "リアルタイム遅延・パイプライン分析ラボ",
+    "lab.lead": "キャプチャ、エンコード、ネットワーク伝送、デコード、画面表示に至る全工程の実測データ。",
+    "pipeline.title": "ZERODOC ZERO-COPY HARDWARE PIPELINE",
+    "pipeline.target": "SUB-10MS END-TO-END TARGET",
+
+    // Visual Comparison Card
+    "vc.badge": "[ LIVE INTERACTIVE DEMO ]",
+    "vc.fps_tag": "60Hz vs 120Hz/144Hz DUAL RENDER",
+    "vc.heading": "遅延時間体感比較: 既存の一般的なリモート vs AetherStream",
+    "vc.subtitle": "キャンバス上でマウスを動かすかタッチして、リアルタイムの入力遅延差を直接体感してください。（無操作時は自動軌跡シミュレーションが動作）",
+    "vc.legacy_name": "既存の一般的なリモートソリューション",
+    "vc.legacy_metric": "60 FPS · 85.0ms 高遅延",
+    "vc.legacy_overlay": "INPUT LAG: +85.0ms (遅れと残像が発生)",
+    "vc.legacy_pipe_key": "処理パイプライン",
+    "vc.legacy_pipe_val": "GDIキャプチャ → CPUソフトウェアエンコーダ → TCPバッファリング → 汎用レンダラー",
+    "vc.legacy_exp_key": "実際の使用感",
+    "vc.legacy_exp_val": "マウスポインターの明らかな遅れ、FPSエイムのズレ、ペン入力の遅延",
+    "vc.aether_name": "AetherStream独自パイプライン",
+    "vc.aether_metric": "120Hz/144Hz · 8.8ms 超低遅延",
+    "vc.aether_overlay": "ZERO-COPY VRAM: 8.8ms (1:1 ハードウェア即時一致)",
+    "vc.aether_pipe_key": "処理パイプライン",
+    "vc.aether_pipe_val": "DXGI 1.2+ VRAM → NVENC CBR 低遅延 → UDP/FEC ゼロバッファ → Metal 3 / Vulkan",
+    "vc.aether_exp_key": "実際の使用感",
+    "vc.aether_exp_val": "手元と画面の完全な1:1一致、高リフレッシュレートの滑らかな同期、残像0%",
+
+    // Latency Simulator Controls
+    "sim.controls_title": "環境別シミュレーションパラメータ",
+    "sim.lbl_net": "ネットワーク接続環境",
+    "sim.net_lan": "超高速 Wi-Fi 6 (LAN)",
+    "sim.net_5g": "5G モバイルネットワーク",
+    "sim.net_wan": "広域インターネット (WAN)",
+    "sim.lbl_codec": "ハードウェアアクセラレーションコーデック",
+    "sim.lbl_fps": "ディスプレイ同期リフレッシュレート",
+    "sim.results_tag": "[ 実測総合遅延時間 ]",
+    "sim.bd_cap": "DXGI 1.2+ VRAM フレームキャプチャ",
+    "sim.bd_enc": "NVENC ハードウェア CBR エンコード",
+    "sim.bd_net": "UDP伝送 & FECエラー復元",
+    "sim.bd_dec": "VideoToolbox / MediaCodec NDK デコード",
+    "sim.bd_ren": "Metal 3 / Vulkan ハードウェア V-Sync 描画",
+
+    // Reflex Tester
+    "reflex.badge": "[ HUMAN VS AETHERSTREAM ]",
+    "reflex.title": "人間の視覚反応速度測定テスト",
+    "reflex.desc": "緑のシグナルが点灯したら即座にボタンをタップして遅延時間と比較してください。",
+    "reflex.btn_idle": "⚡ 反応速度テスト開始",
+    "reflex.btn_waiting": "⏳ 待機中... 緑に変わったらタップ！",
+    "reflex.btn_primed": "⚡ 今すぐタップ！(TAP NOW!)",
+    "reflex.btn_premature": "⚡ 早すぎました！やり直してください",
+    "reflex.btn_again": "⚡ もう一度テスト",
+    "reflex.card_placeholder": "準備完了 · ボタンを押してテストを開始してください",
+    "reflex.status_priming": "センサー待機中...（緑色に点灯したら即座にタップしてください）",
+    "reflex.err_premature": "<strong>早すぎました！</strong> 緑色に変わった後にタップしてください。",
+    "reflex.result_template": "あなたの反応速度: <strong>{time}ms</strong> | AetherStream遅延: <strong>8.8ms</strong>（人間の反応速度より20倍以上高速です）",
+
+    // Downloads
+    "dl.tag": "[ MULTI-PLATFORM ECOSYSTEM ]",
+    "dl.title": "全プラットフォーム ネイティブクライアント ダウンロード",
+    "dl.lead": "Windowsゲーミングホストとすべてのスマートフォン、タブレットを繋ぐ統合エコシステム。",
+    "dl.win_title": "Windowsホストエンジン",
+    "dl.win_desc": "DXGI 1.2+ VRAMキャプチャとNVENC CBR超低遅延ストリーミングサーバー。",
+    "dl.win_btn": "Windowsホストをダウンロード (.exe)",
+    "dl.android_title": "Androidネイティブクライアント",
+    "dl.android_desc": "Jetpack Compose & MediaCodec NDKアクセラレーションによる144Hz対応クライアント。",
+    "dl.android_btn": "Android APKをダウンロード (.apk)",
+    "dl.ios_title": "iOS & iPadOS クライアント",
+    "dl.ios_desc": "Apple VideoToolboxゼロコピーデコードとMetal 3 120Hz ProMotionレンダラー。",
+    "dl.ios_btn": "iOSビルドガイド＆ソースコード",
+
+    // Footer
+    "footer.rights": "株式会社ゼロドック (zerodoc Inc.) · AetherStream All Rights Reserved."
+  },
+
+  zh: {
+    // Nav
+    "nav.brand_sub": "超低延迟远程串流",
+    "nav.pillars": "核心策略",
+    "nav.lab": "延迟实验室",
+    "nav.architecture": "系统架构",
+    "nav.downloads": "客户端下载",
+    "nav.guide": "用户指南",
+    "nav.relay_active": "全球中继节点运行中",
+
+    // Hero
+    "hero.version": "v0.1.0 Alpha",
+    "hero.badge": "超低延迟 120Hz/144Hz 远程游戏引擎",
+    "hero.title": "电脑画质原汁原味，<br><span style='color:#FFFFFF;'>移动端 120Hz · 144Hz 超低延迟畅玩。</span>",
+    "hero.lead": "独创 DXGI 显存直接捕获与 NVENC CBR 编码，结合 Apple Metal 3 及 Android NDK 硬件加速，随时随地享受丝滑 120Hz/144Hz 超低延迟体验。",
+    "hero.btn_win": "下载 Windows 主机端 (.exe)",
+    "hero.btn_win_meta": "v0.1.0 Alpha · Win 10/11 x64",
+    "hero.btn_room": "6位房间码极速连接",
+    "hero.btn_room_meta": "超低延迟 P2P 直连",
+
+    // Spec Grid
+    "spec.1.label": "GPU 显存直接捕获",
+    "spec.2.label": "多平台超高刷新率",
+    "spec.3.label": "硬件编码管线",
+    "spec.4.label": "端到端综合延迟",
+
+    // Monitor HUD
+    "hud.ping": "综合延迟",
+    "hud.fps": "同步刷新率",
+    "hud.bitrate": "实时码率",
+    "hud.loss": "丢包率",
+    "hud.jitter": "帧抖动偏差:",
+
+    // Pillars
+    "pillar.tag": "[ CORE STRATEGIC PILLARS ]",
+    "pillar.title": "不妥协的高端工程四大核心技术支柱",
+    "pillar.lead": "彻底突破传统通用远程桌面由于帧步调失调与高延迟瓶颈而设立的自研专有管线。",
+    "pillar.1.title": "120Hz / 144Hz 硬件级刷新率无缝同步",
+    "pillar.1.desc": "微秒级对齐屏幕刷新率与垂直同步时钟信号，从根本上杜绝画面卡顿与画面撕裂现象。",
+    "pillar.2.title": "DXGI 1.2+ 显存零拷贝直接传输管线",
+    "pillar.2.desc": "彻底消灭 CPU 内存搬运环节，画面帧从 GPU 显存直通 NVENC 硬件编码器，实现极速处理。",
+    "pillar.3.title": "Apple Pencil Pro 4096 级压感与倾斜角感知",
+    "pillar.3.desc": "完美替代昂贵的专业数位屏。以亚毫秒级延迟精准捕获压感、倾斜角与悬停状态，助力数字艺术创作。",
+    "pillar.4.title": "4人本地同屏虚拟手柄支持 (ViGEmBus)",
+    "pillar.4.desc": "无需任何额外适配器，手机与平板即刻虚拟为多达 4 个 Xbox 360 手柄，畅玩本地同屏联机游戏。",
+
+    // Latency Lab & Visual Comparison
+    "lab.tag": "[ HARDWARE LATENCY LAB & ARCHITECTURE ]",
+    "lab.title": "实时端到端延迟与全链路分析实验室",
+    "lab.lead": "覆盖画面捕获、硬件编码、网络发包、客户端解码到显示渲染全流程的实测数据。",
+    "pipeline.title": "ZERODOC ZERO-COPY HARDWARE PIPELINE",
+    "pipeline.target": "SUB-10MS END-TO-END TARGET",
+
+    // Visual Comparison Card
+    "vc.badge": "[ LIVE INTERACTIVE DEMO ]",
+    "vc.fps_tag": "60Hz vs 120Hz/144Hz DUAL RENDER",
+    "vc.heading": "延迟对比体验: 传统通用远程 vs AetherStream",
+    "vc.subtitle": "在画布上移动鼠标或轻触，直接体验实时输入延迟差距。（未操作时将自动运行轨迹模拟）",
+    "vc.legacy_name": "传统通用远程解决方案",
+    "vc.legacy_metric": "60 FPS · 85.0ms 高延迟",
+    "vc.legacy_overlay": "INPUT LAG: +85.0ms (拖影与延迟)",
+    "vc.legacy_pipe_key": "处理管线",
+    "vc.legacy_pipe_val": "GDI 捕获 → CPU 软件编码器 → TCP 缓冲队列 → 通用渲染器",
+    "vc.legacy_exp_key": "实际操作手感",
+    "vc.legacy_exp_val": "鼠标光标严重拖滞尾随、FPS准星偏差、触控笔书写延迟",
+    "vc.aether_name": "AetherStream 专有管线",
+    "vc.aether_metric": "120Hz/144Hz · 8.8ms 超低延迟",
+    "vc.aether_overlay": "ZERO-COPY VRAM: 8.8ms (1:1 硬件即时同步)",
+    "vc.aether_pipe_key": "处理管线",
+    "vc.aether_pipe_val": "DXGI 1.2+ 显存直连 → NVENC CBR 低延迟 → UDP/FEC 零缓冲 → Metal 3 / Vulkan",
+    "vc.aether_exp_key": "实际操作手感",
+    "vc.aether_exp_val": "指尖与屏幕完美 1:1 硬件一致、高刷新率丝滑同步、0% 拖影",
+
+    // Latency Simulator Controls
+    "sim.controls_title": "多场景模拟参数调节",
+    "sim.lbl_net": "网络连接场景",
+    "sim.net_lan": "超高速 Wi-Fi 6 (局域网)",
+    "sim.net_5g": "5G 移动蜂窝网络",
+    "sim.net_wan": "广域宽带互联网 (外网)",
+    "sim.lbl_codec": "硬件加速编解码器",
+    "sim.lbl_fps": "显示设备刷新率同步",
+    "sim.results_tag": "[ 实测端到端综合延迟 ]",
+    "sim.bd_cap": "DXGI 1.2+ 显存帧捕获",
+    "sim.bd_enc": "NVENC 硬件 CBR 极速编码",
+    "sim.bd_net": "UDP 传输与 FEC 纠错恢复",
+    "sim.bd_dec": "VideoToolbox / MediaCodec NDK 硬解",
+    "sim.bd_ren": "Metal 3 / Vulkan 垂直同步渲染",
+
+    // Reflex Tester
+    "reflex.badge": "[ HUMAN VS AETHERSTREAM ]",
+    "reflex.title": "人类视觉反应速度实测",
+    "reflex.desc": "绿色信号灯亮起时请立即点击按钮，与串流延迟进行实时对比。",
+    "reflex.btn_idle": "⚡ 开始反应速度测试",
+    "reflex.btn_waiting": "⏳ 等待中... 变成绿色时立即点击！",
+    "reflex.btn_primed": "⚡ 立即点击！(TAP NOW!)",
+    "reflex.btn_premature": "⚡ 太快了！请重试",
+    "reflex.btn_again": "⚡ 再次测试",
+    "reflex.card_placeholder": "准备就绪 · 点击按钮开始测试",
+    "reflex.status_priming": "传感器准备中...（变绿时请立即点击）",
+    "reflex.err_premature": "<strong>太快了！</strong> 请在变绿后再点击。",
+    "reflex.result_template": "您的反应速度: <strong>{time}ms</strong> | AetherStream 延迟: <strong>8.8ms</strong>（比人类反应速度快20倍以上）",
+
+    // Downloads
+    "dl.tag": "[ MULTI-PLATFORM ECOSYSTEM ]",
+    "dl.title": "多平台原生客户端下载",
+    "dl.lead": "连接高性能 Windows 主机与智能手机、平板电脑的统一生态系统。",
+    "dl.win_title": "Windows 主机端引擎",
+    "dl.win_desc": "配备 DXGI 1.2+ 显存直接捕获与 NVENC CBR 超低延迟串流引擎。",
+    "dl.win_btn": "下载 Windows 主机端 (.exe)",
+    "dl.android_title": "Android 原生客户端",
+    "dl.android_desc": "基于 Jetpack Compose 与 MediaCodec NDK 打造的 144Hz 原生客户端。",
+    "dl.android_btn": "下载 Android APK (.apk)",
+    "dl.ios_title": "iOS & iPadOS 客户端",
+    "dl.ios_desc": "基于 Apple VideoToolbox 零拷贝解码与 Metal 3 120Hz ProMotion 渲染引擎。",
+    "dl.ios_btn": "iOS 源码与构建指南",
+
+    // Footer
+    "footer.rights": "株式会社零狗 (zerodoc Inc.) · AetherStream All Rights Reserved."
+  },
+
+  es: {
+    // Nav
+    "nav.brand_sub": "Streaming Remoto de Latencia Ultrabaja",
+    "nav.pillars": "Pilares Clave",
+    "nav.lab": "Laboratorio de Latencia",
+    "nav.architecture": "Arquitectura",
+    "nav.downloads": "Descargas",
+    "nav.guide": "Manual Oficial",
+    "nav.relay_active": "RELÉS GLOBALES ACTIVOS",
+
+    // Hero
+    "hero.version": "v0.1.0 Alpha",
+    "hero.badge": "Motor de Streaming Remoto a 120Hz/144Hz de Latencia Ultrabaja",
+    "hero.title": "Tu PC en todas partes.<br><span style='color:#FFFFFF;'>A 120Hz · 144Hz con Latencia Ultrabaja.</span>",
+    "hero.lead": "Captura directa DXGI VRAM, codificación NVENC CBR, Apple Metal 3 y aceleración Android NDK para disfrutar de juegos a 120Hz/144Hz sin interrupciones en cualquier lugar.",
+    "hero.btn_win": "Descargar Servidor Windows (.exe)",
+    "hero.btn_win_meta": "v0.1.0 Alpha · Win 10/11 x64",
+    "hero.btn_room": "Conexión Rápida por Código de Sala",
+    "hero.btn_room_meta": "Enlace Directo P2P Instantáneo",
+
+    // Spec Grid
+    "spec.1.label": "Captura GPU VRAM",
+    "spec.2.label": "Frecuencia de Pantalla",
+    "spec.3.label": "Codificador por Hardware",
+    "spec.4.label": "Latencia Extremo a Extremo",
+
+    // Monitor HUD
+    "hud.ping": "Latencia Total",
+    "hud.fps": "Frecuencia Sincronizada",
+    "hud.bitrate": "Tasa de Bits",
+    "hud.loss": "Pérdida de Paquetes",
+    "hud.jitter": "Jitter de Cuadro:",
+
+    // Pillars
+    "pillar.tag": "[ CORE STRATEGIC PILLARS ]",
+    "pillar.title": "Cuatro Pilares de Ingeniería de Alto Rendimiento Sin Concesiones",
+    "pillar.lead": "Una arquitectura propietaria diseñada para superar los defectos de ritmo de fotogramas y la alta latencia de las soluciones remotas convencionales.",
+    "pillar.1.title": "Sincronización de Refresco por Hardware a 120Hz / 144Hz",
+    "pillar.1.desc": "La sincronización a nivel de microsegundos con el reloj V-Sync elimina por completo el tartamudeo de fotogramas y el desgarro de pantalla.",
+    "pillar.2.title": "Pipeline Directo de Copia Cero DXGI 1.2+ VRAM",
+    "pillar.2.desc": "Elimina las copias intermedias en la memoria RAM de la CPU, enviando fotogramas directamente de la VRAM al codificador NVENC.",
+    "pillar.3.title": "Apple Pencil Pro con 4096 Niveles de Presión e Inclinación",
+    "pillar.3.desc": "Convierte tu iPad en una tableta gráfica profesional de alta gama con latencia sub-milisegundo y seguimiento continuo de inclinación.",
+    "pillar.4.title": "Mando Virtual Local para 4 Jugadores (ViGEmBus)",
+    "pillar.4.desc": "Monta dispositivos móviles como hasta 4 mandos Xbox 360 virtuales en tu PC sin adaptadores para juego cooperativo instantáneo.",
+
+    // Latency Lab & Visual Comparison
+    "lab.tag": "[ HARDWARE LATENCY LAB & ARCHITECTURE ]",
+    "lab.title": "Análisis de Latencia Extremo a Extremo en Tiempo Real",
+    "lab.lead": "Telemetría real auditada en captura de GPU, codificación, tránsito de red, decodificación y renderizado.",
+    "pipeline.title": "ZERODOC ZERO-COPY HARDWARE PIPELINE",
+    "pipeline.target": "SUB-10MS END-TO-END TARGET",
+
+    // Visual Comparison Card
+    "vc.badge": "[ LIVE INTERACTIVE DEMO ]",
+    "vc.fps_tag": "60Hz vs 120Hz/144Hz DUAL RENDER",
+    "vc.heading": "Comparativa de Latencia: Solución Remota Convencional vs AetherStream",
+    "vc.subtitle": "Mueve el cursor o toca el lienzo para experimentar la diferencia de latencia en tiempo real. (Simulación automática cuando está inactivo)",
+    "vc.legacy_name": "Solución Remota Convencional",
+    "vc.legacy_metric": "60 FPS · 85.0ms Alta Latencia",
+    "vc.legacy_overlay": "INPUT LAG: +85.0ms (Arrastre y Retardo)",
+    "vc.legacy_pipe_key": "Pipeline de Procesamiento",
+    "vc.legacy_pipe_val": "Captura GDI → Codificador por Software CPU → Búfer TCP → Renderizador Genérico",
+    "vc.legacy_exp_key": "Sensación Real de Uso",
+    "vc.legacy_exp_val": "Arrastre evidente del puntero, fallo en retícula de apuntado FPS, retardo en trazo de lápiz óptico",
+    "vc.aether_name": "Pipeline Propietario AetherStream",
+    "vc.aether_metric": "120Hz/144Hz · 8.8ms Latencia Ultrabaja",
+    "vc.aether_overlay": "ZERO-COPY VRAM: 8.8ms (Sincronización 1:1 Inmediata)",
+    "vc.aether_pipe_key": "Pipeline de Procesamiento",
+    "vc.aether_pipe_val": "DXGI 1.2+ VRAM → NVENC CBR Baja Latencia → UDP/FEC Cero Búfer → Metal 3 / Vulkan",
+    "vc.aether_exp_key": "Sensación Real de Uso",
+    "vc.aether_exp_val": "Sincronización 1:1 perfecta por hardware, cero efecto fantasma, precisión fluida ProMotion",
+
+    // Latency Simulator Controls
+    "sim.controls_title": "Parámetros de Simulación por Entorno",
+    "sim.lbl_net": "Entorno de Red",
+    "sim.net_lan": "Wi-Fi 6 de Alta Velocidad (LAN)",
+    "sim.net_5g": "Red Celular 5G",
+    "sim.net_wan": "Internet de Banda Ancha (WAN)",
+    "sim.lbl_codec": "Códec de Aceleración por Hardware",
+    "sim.lbl_fps": "Sincronización de Refresco de Pantalla",
+    "sim.results_tag": "[ LATENCIA EXTREMO A EXTREMO AUDITADA ]",
+    "sim.bd_cap": "Captura Directa DXGI 1.2+ VRAM",
+    "sim.bd_enc": "Codificación NVENC CBR por Hardware",
+    "sim.bd_net": "Tránsito UDP y Recuperación FEC",
+    "sim.bd_dec": "Decodificación VideoToolbox / MediaCodec NDK",
+    "sim.bd_ren": "Renderizado V-Sync por Hardware Metal 3 / Vulkan",
+
+    // Reflex Tester
+    "reflex.badge": "[ HUMAN VS AETHERSTREAM ]",
+    "reflex.title": "Test de Reflejos Visuales Humanos",
+    "reflex.desc": "Toca el botón tan pronto como se ponga verde para comparar con la latencia del streaming.",
+    "reflex.btn_idle": "⚡ Iniciar Test de Reacción",
+    "reflex.btn_waiting": "⏳ Espera... ¡Toca cuando esté verde!",
+    "reflex.btn_primed": "⚡ ¡TOCA AHORA!",
+    "reflex.btn_premature": "⚡ ¡Demasiado pronto! Inténtalo de nuevo",
+    "reflex.btn_again": "⚡ Probar de nuevo",
+    "reflex.card_placeholder": "Listo · Toca el botón para iniciar",
+    "reflex.status_priming": "Preparando sensor... (Toca en cuanto el botón se ponga verde)",
+    "reflex.err_premature": "<strong>¡Demasiado rápido!</strong> Espera a que el botón se ponga verde.",
+    "reflex.result_template": "Tu velocidad de reacción: <strong>{time}ms</strong> | Latencia de AetherStream: <strong>8.8ms</strong> (más de 20 veces más rápido que la percepción humana)",
+
+    // Downloads
+    "dl.tag": "[ MULTI-PLATFORM ECOSYSTEM ]",
+    "dl.title": "Descarga Clientes Nativos para Cada Plataforma",
+    "dl.lead": "Un ecosistema integrado que conecta tu equipo Windows a todos tus teléfonos y tabletas.",
+    "dl.win_title": "Motor Servidor para Windows",
+    "dl.win_desc": "Servidor de streaming con captura DXGI 1.2+ VRAM y codificación NVENC CBR.",
+    "dl.win_btn": "Descargar Servidor Windows (.exe)",
+    "dl.android_title": "Cliente Nativo para Android",
+    "dl.android_desc": "Cliente nativo a 144Hz impulsado por Jetpack Compose y MediaCodec NDK.",
+    "dl.android_btn": "Descargar APK para Android (.apk)",
+    "dl.ios_title": "Cliente para iOS y iPadOS",
+    "dl.ios_desc": "Decodificación copia cero Apple VideoToolbox y renderizador Metal 3 a 120Hz.",
+    "dl.ios_btn": "Guía de Compilación iOS y Código Fuente",
+
+    // Footer
+    "footer.rights": "zerodoc Inc. · AetherStream Todos los derechos reservados."
   }
 };
 
 /**
- * Apply Language to all elements with data-i18n attributes
+ * Get active language or detect automatically from environment
  */
-function setLanguage(lang) {
-  if (!translations[lang]) lang = 'ko';
+function getActiveLanguage() {
+  const saved = localStorage.getItem('zerodoc_lang');
+  if (saved && translations[saved]) {
+    return saved;
+  }
+
+  // Multi-tier navigator language detection
+  const navLangs = navigator.languages || [navigator.language || navigator.userLanguage || ''];
+  for (const l of navLangs) {
+    const code = (l || '').toLowerCase();
+    if (code.startsWith('ko')) return 'ko';
+    if (code.startsWith('ja')) return 'ja';
+    if (code.startsWith('zh')) return 'zh';
+    if (code.startsWith('es')) return 'es';
+  }
+
+  return 'en';
+}
+
+/**
+ * Apply Language dynamically in-place
+ */
+function applyLanguage(lang) {
+  if (!translations[lang]) lang = 'en';
   localStorage.setItem('zerodoc_lang', lang);
-
-  const isKoPage = window.location.pathname.endsWith('ko.html');
-
-  if (lang === 'ko' && !isKoPage) {
-    window.location.href = 'ko.html';
-    return;
-  }
-  if (lang === 'en' && isKoPage) {
-    window.location.href = 'index.html';
-    return;
-  }
+  document.documentElement.lang = lang;
 
   const dict = translations[lang];
 
+  // Update all elements with data-i18n
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (dict[key]) {
@@ -351,22 +651,51 @@ function setLanguage(lang) {
     }
   });
 
-  // Update switcher button states
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    if (btn.getAttribute('data-lang') === lang) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (dict[key]) {
+      el.setAttribute('placeholder', dict[key]);
     }
   });
 
-  document.documentElement.lang = lang;
+  // Sync Dropdown select box
+  const select = document.getElementById('lang-select');
+  if (select && select.value !== lang) {
+    select.value = lang;
+  }
+
+  // Broadcast event for dynamic canvas/testers
+  window.dispatchEvent(new CustomEvent('aetherLangChanged', { detail: { lang, dict } }));
 }
 
-// Auto-initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('zerodoc_lang');
-  const browserKo = (navigator.language || navigator.userLanguage || '').toLowerCase().startsWith('ko');
-  const defaultLang = saved || (browserKo ? 'ko' : 'en');
-  setLanguage(defaultLang);
-});
+/**
+ * Initialize Dropdown Switcher and Language Engine
+ */
+function initI18nEngine() {
+  const initialLang = getActiveLanguage();
+  applyLanguage(initialLang);
+
+  const select = document.getElementById('lang-select');
+  if (select) {
+    select.value = initialLang;
+    select.addEventListener('change', (e) => {
+      const newLang = e.target.value;
+      applyLanguage(newLang);
+    });
+  }
+}
+
+// Auto-run on DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initI18nEngine);
+} else {
+  initI18nEngine();
+}
+
+// Global exposure
+window.aetherI18n = {
+  getLang: getActiveLanguage,
+  setLang: applyLanguage,
+  dict: translations
+};

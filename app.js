@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSparklineTelemetry();
   initQuickJoinInputs();
   initLatencySimulator();
+  initVisualLatencyComparison();
   initReflexTester();
   initPencilDrawingSandbox();
   initPricingToggle();
@@ -21,28 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
    0. Multi-Language Auto-Detection & Preferences (zerodoc)
    ========================================================================== */
 function initLanguageDetection() {
-  const currentPath = window.location.pathname;
-  const isKoreanPage = currentPath.endsWith('ko.html');
-
-  // Save selection when user clicks language link
-  document.querySelectorAll('.lang-switcher a').forEach(link => {
-    link.addEventListener('click', (e) => {
-      if (link.getAttribute('href') === 'ko.html') {
-        localStorage.setItem('zerodoc_lang', 'ko');
-      } else if (link.getAttribute('href') === 'index.html') {
-        localStorage.setItem('zerodoc_lang', 'en');
-      }
-    });
-  });
-
-  // First time visitor auto-detection: if Korean browser and on English root, redirect to Korean
-  const savedLang = localStorage.getItem('zerodoc_lang');
-  if (!savedLang && !isKoreanPage) {
-    const userLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
-    if (userLang.startsWith('ko')) {
-      localStorage.setItem('zerodoc_lang', 'ko');
-      window.location.replace('ko.html');
-    }
+  const select = document.getElementById('lang-select');
+  if (select && window.aetherI18n) {
+    select.value = window.aetherI18n.getLang();
   }
 }
 
@@ -368,6 +350,13 @@ function simulateStreamConnection(code, feedbackEl) {
   }, 1100);
 }
 
+function getActiveLang() {
+  if (window.aetherI18n && typeof window.aetherI18n.getLang === 'function') {
+    return window.aetherI18n.getLang();
+  }
+  return localStorage.getItem('zerodoc_lang') || (document.documentElement.lang || 'ko');
+}
+
 /* ==========================================================================
    5. Interactive Latency Measurement Simulator Widget
    ========================================================================== */
@@ -376,88 +365,67 @@ function initLatencySimulator() {
   const codecBtns = document.querySelectorAll('#sim-codec-select .sim-toggle-btn');
   const fpsBtns = document.querySelectorAll('#sim-fps-select .sim-toggle-btn');
 
-  let currentNetPing = 0.6; // LAN default
-  let currentEncTime = 0.8; // HEVC NVENC
-  let currentDecTime = 1.1; // VideoToolbox
-  let currentInterval = 8.33; // 120Hz
-  const captureTime = 1.20; // DXGI Direct VRAM capture
+  let currentNetKey = 'lan'; // 'lan' | '5g' | 'wan'
+  let currentCodecKey = 'hevc'; // 'hevc' | 'avc'
+  let currentFpsKey = '120'; // '60' | '120' | '144'
+
+  const captureTime = 1.20; // DXGI 1.2+ Direct VRAM hardware capture
 
   function recalculate() {
-    const renderTime = +(currentInterval * 0.12).toFixed(2); // VSYNC sync buffer
-    const total = +(captureTime + currentEncTime + currentNetPing + currentDecTime + renderTime).toFixed(2);
+    // Network latency
+    let netTime = 1.8;
+    if (currentNetKey === 'lan') netTime = 1.8;
+    else if (currentNetKey === '5g') netTime = 7.2;
+    else if (currentNetKey === 'wan') netTime = 16.5;
 
-    // Update Banner
-    const totalEl = document.querySelector('#sim-total-latency .latency-figure');
-    const badgeEl = document.getElementById('sim-grade-badge');
-    if (totalEl) totalEl.textContent = total.toFixed(2);
+    // Encoder latency
+    let encTime = 2.4;
+    if (currentCodecKey === 'hevc') encTime = 2.4;
+    else if (currentCodecKey === 'avc') encTime = 1.4;
 
-    if (badgeEl) {
-      const korean = isKo();
-      if (total < 10.0) {
-        badgeEl.textContent = korean ? '10MS 미만 초저지연 (LAN / 로컬 네트워크)' : 'SUB-10MS ULTRA LOW LATENCY (LAN / LOCAL)';
-        badgeEl.style.color = '#00FF88';
-        badgeEl.style.borderColor = '#00FF88';
-      } else if (total < 20.0) {
-        badgeEl.textContent = korean ? '20MS 미만 고속 스트리밍 (5G / 고속 WAN)' : 'SUB-20MS HIGH SPEED (5G / FAST WAN)';
-        badgeEl.style.color = '#00F0FF';
-        badgeEl.style.borderColor = '#00F0FF';
-      } else if (total < 35.0) {
-        badgeEl.textContent = korean ? '원활한 원격 플레이 (TURN 릴레이)' : 'COMPETITIVE WAN STREAM (TURN RELAY)';
-        badgeEl.style.color = '#FFB800';
-        badgeEl.style.borderColor = '#FFB800';
-      } else {
-        badgeEl.textContent = korean ? '일반 캐주얼 스트리밍' : 'PLAYABLE CASUAL STREAM';
-        badgeEl.style.color = '#FF0055';
-        badgeEl.style.borderColor = '#FF0055';
+    // Decoder latency
+    let decTime = 1.9;
+    if (currentCodecKey === 'hevc') decTime = 1.9;
+    else if (currentCodecKey === 'avc') decTime = 1.5;
+
+    // Display V-Sync Render latency
+    let renTime = 1.5;
+    if (currentFpsKey === '60') renTime = 2.8;
+    else if (currentFpsKey === '120') renTime = 1.5;
+    else if (currentFpsKey === '144') renTime = 1.1;
+
+    const total = +(captureTime + encTime + netTime + decTime + renTime).toFixed(1);
+
+    // Update Total Latency Display
+    const totalEl = document.getElementById('calc-total-latency');
+    if (totalEl) totalEl.textContent = total.toFixed(1);
+
+    const legacyTotalEl = document.querySelector('#sim-total-latency .latency-figure');
+    if (legacyTotalEl) legacyTotalEl.textContent = total.toFixed(1);
+
+    // Update Breakdown Values & Progress Bars
+    const updatePart = (valId, pbId, time) => {
+      const valEl = document.getElementById(valId);
+      const pbEl = document.getElementById(pbId);
+      if (valEl) valEl.textContent = `${time.toFixed(1)}ms`;
+      if (pbEl) {
+        const pct = Math.max(5, Math.min(100, (time / total) * 100));
+        pbEl.style.width = `${pct.toFixed(1)}%`;
       }
-    }
+    };
 
-    // Update Visual Segments
-    const segCap = document.getElementById('seg-capture');
-    const segEnc = document.getElementById('seg-encode');
-    const segNet = document.getElementById('seg-network');
-    const segDec = document.getElementById('seg-decode');
-    const segRen = document.getElementById('seg-render');
-
-    const capPct = (captureTime / total) * 100;
-    const encPct = (currentEncTime / total) * 100;
-    const netPct = (currentNetPing / total) * 100;
-    const decPct = (currentDecTime / total) * 100;
-    const renPct = (renderTime / total) * 100;
-
-    if (segCap) { segCap.style.width = `${Math.max(4, capPct)}%`; document.getElementById('val-capture').textContent = `${captureTime}ms`; }
-    if (segEnc) { segEnc.style.width = `${encPct}%`; document.getElementById('val-encode').textContent = `${currentEncTime}ms`; }
-    if (segNet) { segNet.style.width = `${netPct}%`; document.getElementById('val-network').textContent = `${currentNetPing}ms`; }
-    if (segDec) { segDec.style.width = `${decPct}%`; document.getElementById('val-decode').textContent = `${currentDecTime}ms`; }
-    if (segRen) { segRen.style.width = `${renPct}%`; document.getElementById('val-render').textContent = `${renderTime}ms`; }
-
-    // Benchmark comparison bars
-    const benchAether = total;
-    const benchToolA = +(total * 2.8 + 4.2).toFixed(1);
-    const benchToolB = +(total * 3.2 + 5.0).toFixed(1);
-    const benchRdp = +(total * 7.5 + 38.0).toFixed(1);
-
-    const benchToolAEl = document.getElementById('bench-tool-a');
-    const benchToolBEl = document.getElementById('bench-tool-b');
-    const benchAetherEl = document.getElementById('bench-aether');
-    if (benchAetherEl) benchAetherEl.textContent = `${benchAether.toFixed(1)} ms`;
-    if (benchToolAEl) benchToolAEl.textContent = `${benchToolA.toFixed(1)} ms`;
-    if (benchToolBEl) benchToolBEl.textContent = `${benchToolB.toFixed(1)} ms`;
-
-    const maxScale = Math.max(benchRdp, 60);
-    document.getElementById('bench-bar-aether').style.width = `${(benchAether / maxScale) * 100}%`;
-    const benchBarAEl = document.getElementById('bench-bar-tool-a');
-    const benchBarBEl = document.getElementById('bench-bar-tool-b');
-    if (benchBarAEl) benchBarAEl.style.width = `${(benchToolA / maxScale) * 100}%`;
-    if (benchBarBEl) benchBarBEl.style.width = `${(benchToolB / maxScale) * 100}%`;
-    document.getElementById('bench-bar-rdp').style.width = `${(benchRdp / maxScale) * 100}%`;
+    updatePart('bd-capture', 'pb-capture', captureTime);
+    updatePart('bd-encode', 'pb-encode', encTime);
+    updatePart('bd-network', 'pb-network', netTime);
+    updatePart('bd-decode', 'pb-decode', decTime);
+    updatePart('bd-render', 'pb-render', renTime);
   }
 
   netBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       netBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      currentNetPing = parseFloat(btn.dataset.ping);
+      currentNetKey = btn.dataset.net || 'lan';
       recalculate();
     });
   });
@@ -466,8 +434,7 @@ function initLatencySimulator() {
     btn.addEventListener('click', () => {
       codecBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      currentEncTime = parseFloat(btn.dataset.enc);
-      currentDecTime = parseFloat(btn.dataset.dec);
+      currentCodecKey = btn.dataset.codec || 'hevc';
       recalculate();
     });
   });
@@ -476,7 +443,7 @@ function initLatencySimulator() {
     btn.addEventListener('click', () => {
       fpsBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      currentInterval = parseFloat(btn.dataset.interval);
+      currentFpsKey = btn.dataset.fps || '120';
       recalculate();
     });
   });
@@ -485,54 +452,353 @@ function initLatencySimulator() {
 }
 
 /* ==========================================================================
-   6. Click-to-Reaction Human Reflex Tester
+   5b. Side-by-Side Visual Latency Comparison (Legacy vs AetherStream)
    ========================================================================== */
+function initVisualLatencyComparison() {
+  const canvasLegacy = document.getElementById('canvas-legacy-stream');
+  const canvasAether = document.getElementById('canvas-aether-stream');
+  if (!canvasLegacy || !canvasAether) return;
+
+  const ctxLegacy = canvasLegacy.getContext('2d');
+  const ctxAether = canvasAether.getContext('2d');
+
+  function resizeCanvases() {
+    const parent = canvasLegacy.parentElement;
+    if (!parent) return;
+    const w = parent.clientWidth || 480;
+    const h = Math.max(220, Math.round(w * 0.54));
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    [canvasLegacy, canvasAether].forEach(c => {
+      c.width = w * dpr;
+      c.height = h * dpr;
+      c.style.width = `${w}px`;
+      c.style.height = `${h}px`;
+    });
+
+    ctxLegacy.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctxAether.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  resizeCanvases();
+  window.addEventListener('resize', resizeCanvases);
+
+  // Unified Pointer Tracking
+  let targetNormX = 0.5;
+  let targetNormY = 0.5;
+  let userActive = false;
+  let userActiveTimer = null;
+  const history = []; // { t, x, y }
+
+  function onPointerMove(e, container) {
+    userActive = true;
+    if (userActiveTimer) clearTimeout(userActiveTimer);
+    userActiveTimer = setTimeout(() => { userActive = false; }, 2400);
+
+    const rect = container.getBoundingClientRect();
+    const x = Math.max(0.08, Math.min(0.92, (e.clientX - rect.left) / rect.width));
+    const y = Math.max(0.12, Math.min(0.88, (e.clientY - rect.top) / rect.height));
+    targetNormX = x;
+    targetNormY = y;
+  }
+
+  const containerLegacy = document.getElementById('vc-container-legacy') || canvasLegacy;
+  const containerAether = document.getElementById('vc-container-aether') || canvasAether;
+
+  [containerLegacy, containerAether].forEach(cnt => {
+    cnt.addEventListener('pointermove', (e) => onPointerMove(e, cnt));
+    cnt.addEventListener('pointerdown', (e) => onPointerMove(e, cnt));
+  });
+
+  let lastFrameTime = performance.now();
+  let simTime = 0;
+  let legacyFrameAccumulator = 0;
+  let lastLegacyPos = { x: 0.5, y: 0.5 };
+
+  function renderLoop(now) {
+    const dt = Math.min(now - lastFrameTime, 100);
+    lastFrameTime = now;
+
+    const w = canvasLegacy.clientWidth;
+    const h = canvasLegacy.clientHeight;
+
+    // Automated trajectory demo when idle (smooth Lissajous with quick turns)
+    if (!userActive) {
+      simTime += dt * 0.0018;
+      const flick = Math.sin(simTime * 2.4);
+      targetNormX = 0.5 + 0.36 * Math.sin(simTime) * Math.cos(simTime * 0.6) + flick * 0.06;
+      targetNormY = 0.5 + 0.32 * Math.sin(simTime * 1.7);
+    }
+
+    // Keep position history for delayed legacy rendering
+    history.push({ t: now, x: targetNormX, y: targetNormY });
+    while (history.length > 0 && history[0].t < now - 2000) {
+      history.shift();
+    }
+
+    // 1. Right Viewport: AetherStream (8.8ms ultra-low latency, 1:1 hardware V-Sync)
+    drawAetherViewport(ctxAether, w, h, targetNormX * w, targetNormY * h, now);
+
+    // 2. Left Viewport: Legacy Remote (85.0ms high latency, 60fps gating, ghosting)
+    const delayedTime = now - 85.0;
+    let delayedX = targetNormX;
+    let delayedY = targetNormY;
+
+    for (let i = history.length - 1; i >= 0; i--) {
+      if (history[i].t <= delayedTime) {
+        delayedX = history[i].x;
+        delayedY = history[i].y;
+        break;
+      }
+    }
+
+    // Simulate 60 FPS frame gating (update every 16.6ms) + micro jitter
+    legacyFrameAccumulator += dt;
+    if (legacyFrameAccumulator >= 16.6) {
+      legacyFrameAccumulator = 0;
+      const jitterX = (Math.random() - 0.5) * 4 / w;
+      const jitterY = (Math.random() - 0.5) * 4 / h;
+      lastLegacyPos = { x: delayedX + jitterX, y: delayedY + jitterY };
+    }
+
+    drawLegacyViewport(
+      ctxLegacy,
+      w,
+      h,
+      targetNormX * w,
+      targetNormY * h,
+      lastLegacyPos.x * w,
+      lastLegacyPos.y * h,
+      now
+    );
+
+    requestAnimationFrame(renderLoop);
+  }
+
+  function drawGrid(ctx, w, h) {
+    ctx.fillStyle = '#050505';
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.strokeStyle = '#121212';
+    ctx.lineWidth = 1;
+    const step = 28;
+    for (let x = 0; x <= w; x += step) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+    }
+    for (let y = 0; y <= h; y += step) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+    }
+  }
+
+  function drawAetherViewport(ctx, w, h, x, y, now) {
+    drawGrid(ctx, w, h);
+
+    // Precision Trail (Neon Emerald / Cyan)
+    ctx.strokeStyle = 'rgba(0, 255, 136, 0.35)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(x, y, 22, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Instant Reticle Crosshair
+    ctx.strokeStyle = '#00FF88';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(x - 16, y); ctx.lineTo(x - 5, y);
+    ctx.moveTo(x + 5, y); ctx.lineTo(x + 16, y);
+    ctx.moveTo(x, y - 16); ctx.lineTo(x, y - 5);
+    ctx.moveTo(x, y + 5); ctx.lineTo(x, y + 16);
+    ctx.stroke();
+
+    // Center Core (Sharp Dot)
+    ctx.fillStyle = '#00F0FF';
+    ctx.beginPath();
+    ctx.arc(x, y, 3, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Telemetry Overlay
+    ctx.fillStyle = '#00FF88';
+    ctx.font = '10px JetBrains Mono, monospace';
+    ctx.fillText('AETHER PROTOCOL // HARDWARE V-SYNC // DELAY: 8.8ms', 14, 22);
+
+    ctx.fillStyle = '#666666';
+    ctx.font = '9px JetBrains Mono, monospace';
+    ctx.fillText(`TARGET: (${Math.round(x)}, ${Math.round(y)}) · 120Hz/144Hz ZERO-COPY`, 14, h - 14);
+  }
+
+  function drawLegacyViewport(ctx, w, h, inputX, inputY, lagX, lagY, now) {
+    drawGrid(ctx, w, h);
+
+    // Faint True Input Ghost (actual user cursor position)
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+    ctx.setLineDash([3, 3]);
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(inputX, inputY, 14, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Dashed Trailing Lag Line connecting input and delayed frame
+    const dist = Math.hypot(inputX - lagX, inputY - lagY);
+    if (dist > 6) {
+      ctx.strokeStyle = 'rgba(255, 85, 0, 0.65)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(inputX, inputY);
+      ctx.lineTo(lagX, lagY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Lag tag on line
+      ctx.fillStyle = '#FF5500';
+      ctx.font = '9px JetBrains Mono, monospace';
+      ctx.fillText('+85ms LAG', (inputX + lagX) / 2 + 6, (inputY + lagY) / 2 - 4);
+    }
+
+    // Ghosting trail (simulating slow 60fps frame buffer)
+    ctx.strokeStyle = 'rgba(255, 51, 102, 0.3)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.arc(lagX, lagY, 24, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Delayed Stuttering Reticle (Amber / Warning Red)
+    ctx.strokeStyle = '#FF5500';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(lagX - 16, lagY); ctx.lineTo(lagX - 5, lagY);
+    ctx.moveTo(lagX + 5, lagY); ctx.lineTo(lagX + 16, lagY);
+    ctx.moveTo(lagX, lagY - 16); ctx.lineTo(lagX, lagY - 5);
+    ctx.moveTo(lagX, lagY + 5); ctx.lineTo(lagX, lagY + 16);
+    ctx.stroke();
+
+    // Delayed center dot
+    ctx.fillStyle = '#FF3366';
+    ctx.beginPath();
+    ctx.arc(lagX, lagY, 3, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Telemetry Overlay
+    ctx.fillStyle = '#FF5500';
+    ctx.font = '10px JetBrains Mono, monospace';
+    ctx.fillText('LEGACY PROTOCOL // BUFFER QUEUE // DELAY: 85.0ms', 14, 22);
+
+    ctx.fillStyle = '#666666';
+    ctx.font = '9px JetBrains Mono, monospace';
+    ctx.fillText(`FRAME DROPS: 3.2% · JITTER: ±8.4ms · 60Hz GATED`, 14, h - 14);
+  }
+
+  requestAnimationFrame(renderLoop);
+}
+
+/* ==========================================================================
+   6. Click-to-Reaction Human Reflex Tester (Supercharged & Zero-Touch-Lag)
+   ========================================================================== */
+function getReflexCopy(lang) {
+  const dict = (window.aetherI18n && window.aetherI18n.dict && window.aetherI18n.dict[lang]) || {};
+  return {
+    idle: dict["reflex.btn_idle"] || "⚡ 반응속도 측정 시작",
+    waiting: dict["reflex.btn_waiting"] || "⏳ 대기... 초록색으로 변할 때 탭!",
+    primed: dict["reflex.btn_primed"] || "⚡ 지금 탭하세요! (TAP NOW!)",
+    premature: dict["reflex.btn_premature"] || "⚡ 너무 빨랐습니다! 다시 시도",
+    again: dict["reflex.btn_again"] || "⚡ 다시 테스트하기",
+    statusPriming: dict["reflex.status_priming"] || "센서 반응 대기 중... (초록색이 켜질 때 즉시 탭하세요)",
+    errPremature: dict["reflex.err_premature"] || "<strong>너무 빨랐습니다!</strong> 초록색이 켜진 후 탭하세요.",
+    resultTemplate: dict["reflex.result_template"] || "당신의 반응속도: <strong>{time}ms</strong> | AetherStream 지연시간: <strong>8.8ms</strong> (인간 반응속도보다 20배 이상 빠릅니다)"
+  };
+}
+
 function initReflexTester() {
   const btn = document.getElementById('btn-reflex-trigger');
   const result = document.getElementById('reflex-result');
   if (!btn || !result) return;
 
-  const korean = isKo();
-  let state = 'idle'; // idle, waiting, primed
+  let state = 'idle'; // 'idle' | 'waiting' | 'primed'
   let startTime = 0;
   let timeoutId = null;
 
-  btn.addEventListener('click', () => {
+  function updateIdleText() {
+    if (state === 'idle') {
+      const copy = getReflexCopy(getActiveLang());
+      btn.style.background = '';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+      btn.innerHTML = `<span class="reflex-btn-text">${copy.idle}</span>`;
+    }
+  }
+
+  window.addEventListener('aetherLangChanged', () => {
+    updateIdleText();
+  });
+
+  function handleTrigger(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const copy = getReflexCopy(getActiveLang());
+
     if (state === 'idle') {
       state = 'waiting';
       btn.style.background = '#FF5500';
+      btn.style.borderColor = '#FF5500';
       btn.style.color = '#000000';
-      btn.textContent = korean ? '⏳ 대기 중... (아직 누르지 마세요!)' : '⏳ WAIT FOR NEON FLASH (DO NOT CLICK YET)...';
-      result.textContent = korean ? '센서 반응 대기 중...' : 'Priming sensor telemetry...';
+      btn.style.fontWeight = '800';
+      btn.innerHTML = `<span class="reflex-btn-text">${copy.waiting}</span>`;
 
-      const delay = Math.floor(Math.random() * 2500) + 1200;
+      result.style.color = '#888888';
+      result.innerHTML = `<span>${copy.statusPriming}</span>`;
+
+      const delay = Math.floor(Math.random() * 2200) + 1200;
       timeoutId = setTimeout(() => {
         state = 'primed';
         startTime = performance.now();
         btn.style.background = '#00FF88';
+        btn.style.borderColor = '#00FF88';
         btn.style.color = '#000000';
-        btn.textContent = korean ? '⚡ 지금 클릭! 지금 클릭!' : '⚡ CLICK NOW! CLICK NOW!';
+        btn.style.fontWeight = '800';
+        btn.innerHTML = `<span class="reflex-btn-text">${copy.primed}</span>`;
       }, delay);
+
     } else if (state === 'waiting') {
-      clearTimeout(timeoutId);
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
       state = 'idle';
-      btn.style.background = '';
-      btn.style.color = '';
-      btn.textContent = korean ? '⚡ 너무 빨랐습니다! 다시 시도' : '⚡ Too early! Try Again';
+      btn.style.background = '#FF3366';
+      btn.style.borderColor = '#FF3366';
+      btn.style.color = '#FFFFFF';
+      btn.innerHTML = `<span class="reflex-btn-text">${copy.premature}</span>`;
+
       result.style.color = '#FF3366';
-      result.textContent = korean ? '성급한 클릭이 감지되었습니다. 초록색이 켜질 때까지 기다려주세요.' : 'Premature trigger detected. Wait until color turns Emerald.';
+      result.innerHTML = copy.errPremature;
+
     } else if (state === 'primed') {
       const reflexTime = Math.round(performance.now() - startTime);
       state = 'idle';
       btn.style.background = '';
+      btn.style.borderColor = '';
       btn.style.color = '';
-      btn.textContent = korean ? '⚡ 한 번 더 테스트' : '⚡ Test Again';
+      btn.innerHTML = `<span class="reflex-btn-text">${copy.again}</span>`;
+
       result.style.color = '#00FF88';
-      result.innerHTML = korean
-        ? `당신의 반응속도: <strong>${reflexTime}ms</strong>. AetherStream의 <strong>결정론적 초저지연 UDP 스트리밍 파이프라인</strong>은 인간 반응 속도보다 훨씬 민첩하게 프레임을 전달합니다.`
-        : `Your human reaction: <strong>${reflexTime}ms</strong>. AetherStream's <strong>deterministic low-latency UDP streaming pipeline</strong> delivers frames far faster than human visual perception!`;
+      const formatted = copy.resultTemplate.replace('{time}', reflexTime);
+      result.innerHTML = formatted;
     }
-  });
+  }
+
+  // Pointerdown for zero touch latency on mobile + click fallback
+  let lastTrigger = 0;
+  const onPointerOrClick = (e) => {
+    const now = performance.now();
+    if (now - lastTrigger < 150) return;
+    lastTrigger = now;
+    handleTrigger(e);
+  };
+
+  btn.addEventListener('pointerdown', onPointerOrClick);
 }
 
 /* ==========================================================================
