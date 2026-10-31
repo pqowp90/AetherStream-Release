@@ -111,11 +111,11 @@ function initHeroStreamCanvas() {
       ctx.stroke();
     }
 
-    // Dynamic Technical Crosshair Reticle (Solid White Hairline)
+    // Dynamic Technical Crosshair Reticle (Electric Signal Cyan)
     const mouseX = w / 2 + Math.sin(Date.now() * 0.002) * 50;
     const mouseY = h * 0.42 + Math.cos(Date.now() * 0.003) * 20;
 
-    ctx.strokeStyle = '#FFFFFF';
+    ctx.strokeStyle = '#00F0FF';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.arc(mouseX, mouseY, 18, 0, Math.PI * 2);
@@ -133,7 +133,7 @@ function initHeroStreamCanvas() {
     ctx.stroke();
 
     // Subtle Live HUD watermark
-    ctx.fillStyle = '#444444';
+    ctx.fillStyle = '#666666';
     ctx.font = '10px JetBrains Mono';
     ctx.fillText('AETHER PROTOCOL // DXGI ZERO-COPY ACTIVE', 20, h - 16);
 
@@ -203,10 +203,10 @@ function initSparklineTelemetry() {
 
     ctx.lineTo(w, h);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
+    ctx.fillStyle = 'rgba(0, 240, 255, 0.08)';
     ctx.fill();
 
-    // Stroke line (Pure solid white hairline)
+    // Stroke line (Electric Signal Cyan #00F0FF)
     ctx.beginPath();
     history.forEach((val, i) => {
       const x = i * step;
@@ -216,11 +216,11 @@ function initSparklineTelemetry() {
       else ctx.lineTo(x, y);
     });
 
-    ctx.strokeStyle = '#FFFFFF';
-    ctx.lineWidth = 1.2;
+    ctx.strokeStyle = '#00F0FF';
+    ctx.lineWidth = 1.4;
     ctx.stroke();
 
-    // Pulse dot at current point
+    // Pulse dot at current point (Matrix Neon Emerald #00FF88)
     const lastX = w;
     const lastNorm = (history[history.length - 1] - min) / (max - min);
     const lastY = h - lastNorm * (h - 8) - 4;
@@ -500,8 +500,8 @@ function initReflexTester() {
   btn.addEventListener('click', () => {
     if (state === 'idle') {
       state = 'waiting';
-      btn.style.background = '#FFB800';
-      btn.style.color = '#000';
+      btn.style.background = '#FF5500';
+      btn.style.color = '#000000';
       btn.textContent = korean ? '⏳ 대기 중... (아직 누르지 마세요!)' : '⏳ WAIT FOR NEON FLASH (DO NOT CLICK YET)...';
       result.textContent = korean ? '센서 반응 대기 중...' : 'Priming sensor telemetry...';
 
@@ -509,8 +509,8 @@ function initReflexTester() {
       timeoutId = setTimeout(() => {
         state = 'primed';
         startTime = performance.now();
-        btn.style.background = '#00F0FF';
-        btn.style.color = '#000';
+        btn.style.background = '#00FF88';
+        btn.style.color = '#000000';
         btn.textContent = korean ? '⚡ 지금 클릭! 지금 클릭!' : '⚡ CLICK NOW! CLICK NOW!';
       }, delay);
     } else if (state === 'waiting') {
@@ -519,8 +519,8 @@ function initReflexTester() {
       btn.style.background = '';
       btn.style.color = '';
       btn.textContent = korean ? '⚡ 너무 빨랐습니다! 다시 시도' : '⚡ Too early! Try Again';
-      result.style.color = '#FF0055';
-      result.textContent = korean ? '성급한 클릭이 감지되었습니다. 초록색이 켜질 때까지 기다려주세요.' : 'Premature trigger detected. Wait until color turns Cyan.';
+      result.style.color = '#FF3366';
+      result.textContent = korean ? '성급한 클릭이 감지되었습니다. 초록색이 켜질 때까지 기다려주세요.' : 'Premature trigger detected. Wait until color turns Emerald.';
     } else if (state === 'primed') {
       const reflexTime = Math.round(performance.now() - startTime);
       state = 'idle';
