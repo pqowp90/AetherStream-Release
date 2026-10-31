@@ -6,7 +6,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initLanguageDetection();
-  initMatrixBackground();
   initHeroStreamCanvas();
   initSparklineTelemetry();
   initQuickJoinInputs();
@@ -48,54 +47,6 @@ function initLanguageDetection() {
 }
 
 /* ==========================================================================
-   1. Matrix / Cyber Grid Canvas Background
-   ========================================================================== */
-function initMatrixBackground() {
-  const canvas = document.getElementById('matrix-grid-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-
-  let width = (canvas.width = window.innerWidth);
-  let height = (canvas.height = window.innerHeight);
-
-  window.addEventListener('resize', () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  });
-
-  const gridSize = 48;
-  let offset = 0;
-
-  function renderGrid() {
-    ctx.clearRect(0, 0, width, height);
-
-    ctx.strokeStyle = 'rgba(0, 240, 255, 0.04)';
-    ctx.lineWidth = 1;
-
-    // Moving horizontal grid lines (isometric cyber vibe)
-    offset = (offset + 0.3) % gridSize;
-
-    for (let x = 0; x <= width; x += gridSize) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, height);
-      ctx.stroke();
-    }
-
-    for (let y = offset; y <= height; y += gridSize) {
-      ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(width, y);
-      ctx.stroke();
-    }
-
-    requestAnimationFrame(renderGrid);
-  }
-
-  renderGrid();
-}
-
-/* ==========================================================================
    2. Hero Stream Simulation Canvas (Simulated 120FPS Cyber Scene)
    ========================================================================== */
 function initHeroStreamCanvas() {
@@ -123,51 +74,26 @@ function initHeroStreamCanvas() {
     const w = canvas.width;
     const h = canvas.height;
 
-    // Gradient deep sky
-    const skyGrad = ctx.createLinearGradient(0, 0, 0, h);
-    skyGrad.addColorStop(0, '#04060A');
-    skyGrad.addColorStop(0.65, '#0D101E');
-    skyGrad.addColorStop(1, '#1A0B2E');
-    ctx.fillStyle = skyGrad;
+    // Solid Black Background (100% Flat Swiss Minimalist)
+    ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, w, h);
 
-    // Stars
-    ctx.fillStyle = '#00F0FF';
-    stars.forEach(s => {
-      ctx.fillRect(s.x % w, s.y, s.size, s.size);
-      s.x += s.speed;
-    });
-
-    // Cyber Neon Sun / Core
-    const sunGrad = ctx.createRadialGradient(w / 2, h * 0.58, 10, w / 2, h * 0.58, 110);
-    sunGrad.addColorStop(0, '#FF007F');
-    sunGrad.addColorStop(0.6, '#8B5CF6');
-    sunGrad.addColorStop(1, 'transparent');
-    ctx.fillStyle = sunGrad;
-    ctx.beginPath();
-    ctx.arc(w / 2, h * 0.58, 110, 0, Math.PI * 2);
-    ctx.fill();
-
     // Horizon line
-    ctx.strokeStyle = '#00F0FF';
-    ctx.lineWidth = 1.5;
-    ctx.shadowColor = '#00F0FF';
-    ctx.shadowBlur = 12;
-    ctx.beginPath();
-    ctx.moveTo(0, h * 0.65);
-    ctx.lineTo(w, h * 0.65);
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-
-    // Perspective 3D Grid on ground
-    angle = (angle + 1.2) % 30;
-    const horizonY = h * 0.65;
+    const horizonY = h * 0.62;
     const vanishX = w / 2;
 
-    ctx.strokeStyle = 'rgba(0, 240, 255, 0.45)';
+    ctx.strokeStyle = '#222222';
     ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, horizonY);
+    ctx.lineTo(w, horizonY);
+    ctx.stroke();
+
+    // Perspective 3D Grid on ground (Hairline solid)
+    angle = (angle + 1.2) % 30;
 
     // Radial perspective lines
+    ctx.strokeStyle = '#181818';
     for (let x = -w * 0.5; x <= w * 1.5; x += 45) {
       ctx.beginPath();
       ctx.moveTo(vanishX, horizonY);
@@ -178,36 +104,36 @@ function initHeroStreamCanvas() {
     // Horizontal receding lines
     for (let d = angle; d < h - horizonY; d += 22) {
       const y = horizonY + Math.pow(d / (h - horizonY), 2) * (h - horizonY);
-      ctx.strokeStyle = `rgba(139, 92, 246, ${Math.min(0.7, (y - horizonY) / 100)})`;
+      ctx.strokeStyle = '#1C1C1C';
       ctx.beginPath();
       ctx.moveTo(0, y);
       ctx.lineTo(w, y);
       ctx.stroke();
     }
 
-    // Dynamic HUD Target Reticle
+    // Dynamic Technical Crosshair Reticle (Solid White Hairline)
     const mouseX = w / 2 + Math.sin(Date.now() * 0.002) * 50;
-    const mouseY = h * 0.45 + Math.cos(Date.now() * 0.003) * 20;
+    const mouseY = h * 0.42 + Math.cos(Date.now() * 0.003) * 20;
 
-    ctx.strokeStyle = '#00FF88';
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.arc(mouseX, mouseY, 24, 0, Math.PI * 2);
+    ctx.arc(mouseX, mouseY, 18, 0, Math.PI * 2);
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(mouseX - 32, mouseY);
-    ctx.lineTo(mouseX - 12, mouseY);
-    ctx.moveTo(mouseX + 12, mouseY);
-    ctx.lineTo(mouseX + 32, mouseY);
-    ctx.moveTo(mouseX, mouseY - 32);
-    ctx.lineTo(mouseX, mouseY - 12);
-    ctx.moveTo(mouseX, mouseY + 12);
-    ctx.lineTo(mouseX, mouseY + 32);
+    ctx.moveTo(mouseX - 26, mouseY);
+    ctx.lineTo(mouseX - 6, mouseY);
+    ctx.moveTo(mouseX + 6, mouseY);
+    ctx.lineTo(mouseX + 26, mouseY);
+    ctx.moveTo(mouseX, mouseY - 26);
+    ctx.lineTo(mouseX, mouseY - 6);
+    ctx.moveTo(mouseX, mouseY + 6);
+    ctx.lineTo(mouseX, mouseY + 26);
     ctx.stroke();
 
     // Subtle Live HUD watermark
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.fillStyle = '#444444';
     ctx.font = '10px JetBrains Mono';
     ctx.fillText('AETHER PROTOCOL // DXGI ZERO-COPY ACTIVE', 20, h - 16);
 
@@ -263,11 +189,7 @@ function initSparklineTelemetry() {
     const max = 5.0;
     const step = w / (history.length - 1);
 
-    // Gradient Fill under curve
-    const grad = ctx.createLinearGradient(0, 0, 0, h);
-    grad.addColorStop(0, 'rgba(0, 240, 255, 0.4)');
-    grad.addColorStop(1, 'rgba(0, 240, 255, 0.0)');
-
+    // Pure Solid Flat Minimalist Sparkline (0% Gradient)
     ctx.beginPath();
     ctx.moveTo(0, h);
 
@@ -281,10 +203,10 @@ function initSparklineTelemetry() {
 
     ctx.lineTo(w, h);
     ctx.closePath();
-    ctx.fillStyle = grad;
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
     ctx.fill();
 
-    // Stroke line
+    // Stroke line (Pure solid white hairline)
     ctx.beginPath();
     history.forEach((val, i) => {
       const x = i * step;
@@ -294,8 +216,8 @@ function initSparklineTelemetry() {
       else ctx.lineTo(x, y);
     });
 
-    ctx.strokeStyle = '#00F0FF';
-    ctx.lineWidth = 1.8;
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 1.2;
     ctx.stroke();
 
     // Pulse dot at current point
@@ -339,6 +261,23 @@ function initQuickJoinInputs() {
       setTimeout(() => {
         window.location.href = `join.html?room=${encodeURIComponent(code)}`;
       }, 1200);
+    });
+  }
+
+  // Hero Room Connect Button trigger (Opens Quick Join Modal)
+  const heroRoomConnectBtn = document.getElementById('btn-hero-room-connect');
+  if (heroRoomConnectBtn) {
+    heroRoomConnectBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const modal = document.getElementById('join-modal');
+      if (modal) {
+        modal.classList.add('open');
+        const firstBox = modal.querySelector('.modal-box');
+        if (firstBox) firstBox.focus();
+      } else {
+        const quickJoinBtn = document.getElementById('btn-quick-join');
+        if (quickJoinBtn) quickJoinBtn.click();
+      }
     });
   }
 

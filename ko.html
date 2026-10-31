@@ -3,27 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>zerodoc AetherStream - 120Hz 초저지연 리모트 게이밍 스트리밍 엔진</title>
-  <meta name="description" content="주식회사 제로독(zerodoc)의 독자적 DXGI 1.2+ VRAM 캡처, NVIDIA NVENC 초저지연 인코딩, Apple Metal 3 하드웨어 가속 기반 120Hz 초저지연 리모트 데스크톱 및 게이밍 스트리밍 시스템.">
-  <meta name="keywords" content="zerodoc, 제로독, AetherStream, 에테르스트림, 리모트 플레이, 원격 데스크톱, 120Hz, NVENC, iPad ProMotion, Apple Pencil, 룸코드">
+  <title>zerodoc AetherStream - 120Hz · 144Hz 초저지연 리모트 게이밍 엔진</title>
+  <meta name="description" content="주식회사 제로독(zerodoc)의 독자적 DXGI 1.2+ VRAM 캡처, NVIDIA NVENC 초저지연 하드웨어 인코딩, Apple Metal 3 및 Android MediaCodec 144Hz 기반 초저지연 리모트 게이밍 스트리밍 엔진.">
+  <meta name="keywords" content="zerodoc, 제로독, AetherStream, 에테르스트림, 리모트 게이밍, 원격 데스크톱, 120Hz, 144Hz, NVENC, iPad ProMotion, Galaxy S-Pen, 룸코드">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="auth.css">
+  <link rel="stylesheet" href="style.css?v=20261031_03">
+  <link rel="stylesheet" href="auth.css?v=20261031_03">
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="cyber-theme">
-  <!-- Dynamic Background Matrix Canvas -->
-  <canvas id="matrix-grid-canvas" class="matrix-grid-canvas"></canvas>
-
-  <!-- Sticky Global Navigation Header -->
-  <header class="navbar" id="navbar">
-    <div class="nav-container">
+<body class="cyber-dark cyber-theme">
+  <!-- Sticky Global Navigation Header (48px Mobile / 56px Desktop) -->
+  <header class="navbar-wrapper" id="navbar">
+    <nav class="navbar container">
       <a href="ko.html" class="brand-logo">
         <div class="logo-glyph">
-          <svg viewBox="0 0 40 40" width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 40 40" width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="40" height="40" fill="#000000"/>
             <rect width="40" height="40" stroke="#222222" stroke-width="1"/>
             <path d="M 8 9 L 32 9 L 19 22 L 32 22 L 32 31 L 8 31 L 21 18 L 8 18 Z" fill="#FFFFFF"/>
@@ -37,151 +34,130 @@
         <span class="version-tag">v0.1.0 Alpha</span>
       </a>
 
-      <nav class="nav-links">
-        <a href="#features" class="nav-item">주요 기능</a>
-        <a href="#comparison" class="nav-item">솔루션 비교</a>
-        <a href="#simulator" class="nav-item">지연시간 측정실</a>
-        <a href="#pencil" class="nav-item">펜슬 프로</a>
-        <a href="#pricing" class="nav-item">요금제</a>
-        <a href="#faq" class="nav-item">FAQ</a>
-        <a href="../docs/USER_GUIDE.md" class="nav-item" target="_blank" rel="noopener noreferrer">공식 가이드</a>
-      </nav>
+      <div class="nav-links">
+        <a href="#pillars" class="nav-item">핵심 전략</a>
+        <a href="#lab" class="nav-item">지연시간 랩</a>
+        <a href="#architecture" class="nav-item">아키텍처</a>
+        <a href="#downloads" class="nav-item">다운로드</a>
+        <a href="docs/USER_GUIDE.md" class="nav-item" target="_blank" rel="noopener noreferrer">공식 가이드</a>
+      </div>
 
       <div class="nav-actions">
-        <!-- Language Switcher Toggle -->
+        <!-- One-Click Language Switcher -->
         <div class="lang-switcher">
           <a href="ko.html" class="lang-btn active" data-lang="ko">KR</a>
           <span class="lang-divider">/</span>
           <a href="index.html" class="lang-btn" data-lang="en">EN</a>
         </div>
 
-        <div class="relay-status-pill">
-          <span class="status-indicator"></span>
-          <span class="pill-text">글로벌 릴레이 노드 가동 중</span>
+        <div class="telemetry-pill-mini">
+          <span class="status-dot-pulse"></span>
+          <span class="pill-text">릴레이 가동 중</span>
         </div>
 
         <button class="btn btn-outline btn-sm" id="btn-quick-join">
-          6자리 룸코드 접속
+          6자리 룸코드
         </button>
 
-        <div id="nav-auth-slot"></div>
-
-        <a href="../dist/zerodoc_AetherStream_Setup_v0.1.0.exe" class="btn btn-primary btn-sm" download>
-          무료 다운로드
+        <a href="dist/zerodoc_AetherStream_Setup_v0.1.0.exe" class="btn btn-primary btn-sm" download>
+          다운로드
         </a>
       </div>
-    </div>
+    </nav>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Section (Radically Condensed Swiss Minimalist Layout) -->
   <section class="hero-section">
     <div class="container hero-container">
       <div class="hero-content">
-        <div class="hud-chip">
-          <span class="chip-bracket">[</span>
-          <span class="chip-label">주식회사 제로독 (zerodoc Inc.) · 차세대 초저지연 게이밍 엔진</span>
-          <span class="chip-bracket">]</span>
+        <div class="brand-badge-swiss">
+          <span class="badge-prefix">ZERODOC INC.</span>
+          <span class="badge-sep">/</span>
+          <span class="badge-product">AETHERSTREAM</span>
+          <span class="badge-status">v0.1.0 ALPHA</span>
         </div>
 
         <h1 class="hero-headline">
-          초저지연 리모트 스트리밍,<br>
-          <span class="headline-gradient">내 집 PC를 120Hz 초저지연으로.</span>
+          초저지연 리모트 게이밍.<br>
+          <span class="headline-contrast">내 PC의 모든 성능을 120Hz · 144Hz로.</span>
         </h1>
 
         <p class="hero-lead">
-          더 이상 복잡한 수동 포트포워딩 설정과 씨름하지 마세요.
-          NVIDIA GTX/RTX NVENC 초저지연 하드웨어 인코딩과 Apple Metal 3 그래픽 가속으로
-          침대나 카페에서도 내 집 PC 게임을 눈앞의 모니터처럼 끊김 없이 플레이합니다.
+          독자적 DXGI VRAM 직접 캡처와 NVENC CBR, Apple Metal 3 및 Android NDK 하드웨어 가속 파이프라인. 6자리 룸코드로 태블릿과 모바일 기기에서 타협 없는 초저지연 게이밍과 정밀 펜슬 작업을 제공합니다.
         </p>
 
-        <!-- Quick 6-Digit Room Code Direct Connect Bar -->
-        <div class="direct-connect-card cyber-card">
-          <div class="connect-header">
-            <span class="signal-dot"></span>
-            <span class="connect-title">원클릭 룸코드 P2P 접속 (회원가입 없음)</span>
-          </div>
-          <div class="connect-input-group">
-            <div class="code-boxes" id="hero-code-inputs">
-              <input type="text" maxlength="1" class="code-box" data-idx="0" placeholder="•" autocomplete="off" spellcheck="false">
-              <input type="text" maxlength="1" class="code-box" data-idx="1" placeholder="•" autocomplete="off" spellcheck="false">
-              <input type="text" maxlength="1" class="code-box" data-idx="2" placeholder="•" autocomplete="off" spellcheck="false">
-              <span class="code-separator">-</span>
-              <input type="text" maxlength="1" class="code-box" data-idx="3" placeholder="•" autocomplete="off" spellcheck="false">
-              <input type="text" maxlength="1" class="code-box" data-idx="4" placeholder="•" autocomplete="off" spellcheck="false">
-              <input type="text" maxlength="1" class="code-box" data-idx="5" placeholder="•" autocomplete="off" spellcheck="false">
-            </div>
-            <button class="btn btn-primary" id="btn-hero-connect">
-              스트림 연결
+        <div class="hero-actions-group">
+          <div class="action-buttons-row">
+            <a href="dist/zerodoc_AetherStream_Setup_v0.1.0.exe" class="btn btn-primary btn-cta" download>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+              </svg>
+              <span class="cta-label">Windows 호스트 다운로드 (.exe)</span>
+              <span class="cta-meta">v0.1.0 Alpha · Win 10/11 x64</span>
+            </a>
+
+            <button class="btn btn-outline btn-cta" id="btn-hero-room-connect">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+                <rect x="3" y="11" width="18" height="11" rx="0" ry="0"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+              <span class="cta-label">6자리 룸코드 빠른 접속</span>
+              <span class="cta-meta">초저지연 P2P 직결</span>
             </button>
           </div>
-          <div class="connect-footer">
-            <span id="hero-connect-status" class="status-msg">호스트 PC의 6자리 코드를 입력하세요. 공유기 설정 불필요.</span>
+
+          <div class="hero-secondary-links">
+            <a href="dist/zerodoc_AetherStream_v0.1.0.apk" class="hero-guide-link" download>
+              <span>Android APK (.apk)</span>
+            </a>
+            <span class="link-sep">/</span>
+            <a href="#downloads" class="hero-guide-link">
+              <span>iOS TestFlight</span>
+            </a>
+            <span class="link-sep">/</span>
+            <a href="docs/USER_GUIDE.md" class="hero-guide-link" target="_blank" rel="noopener noreferrer">
+              <span>공식 가이드 ↗</span>
+            </a>
           </div>
         </div>
 
-        <div class="hero-cta-group">
-          <a href="../dist/zerodoc_AetherStream_Setup_v0.1.0.exe" class="btn btn-secondary btn-lg" download>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-            </svg>
-            <span>윈도우 호스트 인스톨러 다운로드 (.exe)</span>
-          </a>
-          <a href="../docs/USER_GUIDE.md" class="btn btn-outline btn-lg" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-            </svg>
-            <span>공식 사용자 가이드 (Manual)</span>
-          </a>
-          <a href="#simulator" class="btn btn-ghost btn-lg">
-            <span>실시간 지연시간 벤치마크</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-
-        <!-- System Architecture Pill Row -->
-        <div class="tech-spec-bar">
-          <div class="spec-pill">
-            <span class="spec-label">DXGI GPU 캡처</span>
-            <span class="spec-val">Direct VRAM</span>
+        <!-- System Architecture Spec Grid -->
+        <div class="hero-spec-grid">
+          <div class="spec-cell">
+            <span class="spec-cell-num">01</span>
+            <span class="spec-cell-label">GPU VRAM 캡처</span>
+            <span class="spec-cell-value">Direct DXGI 1.2+</span>
           </div>
-          <div class="spec-separator">|</div>
-          <div class="spec-pill">
-            <span class="spec-label">아이폰·아이패드 주사율</span>
-            <span class="spec-val">120Hz Metal</span>
+          <div class="spec-cell">
+            <span class="spec-cell-num">02</span>
+            <span class="spec-cell-label">다중 플랫폼 주사율</span>
+            <span class="spec-cell-value">144Hz / 120Hz</span>
           </div>
-          <div class="spec-separator">|</div>
-          <div class="spec-pill">
-            <span class="spec-label">트루컬러 화질</span>
-            <span class="spec-val">4:4:4 무손실</span>
+          <div class="spec-cell">
+            <span class="spec-cell-num">03</span>
+            <span class="spec-cell-label">인코딩 파이프라인</span>
+            <span class="spec-cell-value">NVENC CBR Low-Latency</span>
           </div>
-          <div class="spec-separator">|</div>
-          <div class="spec-pill">
-            <span class="spec-label">로컬 코옵 멀티플레이</span>
-            <span class="spec-val">4인 동시 지원</span>
+          <div class="spec-cell">
+            <span class="spec-cell-num">04</span>
+            <span class="spec-cell-label">종단간 지연시간</span>
+            <span class="spec-cell-value">Sub-10ms Target</span>
           </div>
         </div>
       </div>
 
-      <!-- Hero Cyber Simulation Frame -->
+      <!-- Hero Hardware Streaming Monitor Viewport -->
       <div class="hero-visual">
-        <div class="mockup-frame-glass">
-          <div class="frame-glass-header">
-            <div class="window-controls">
-              <span class="control-dot red"></span>
-              <span class="control-dot yellow"></span>
-              <span class="control-dot green"></span>
+        <div class="streaming-monitor-frame">
+          <div class="monitor-top-bar">
+            <div class="monitor-status">
+              <span class="status-sq-indicator"></span>
+              <span class="status-text">LIVE STREAM · ROOM: 7A9-2K8</span>
             </div>
-            <div class="stream-status-pill">
-              <span class="pulse-emerald"></span>
-              <span>P2P 직결 스트리밍 가동 중: ROOM AE78X9</span>
-            </div>
-            <div class="hud-controls">
-              <span class="hud-pill">2560 × 1660</span>
-              <span class="hud-pill hud-pill-cyan">120 FPS</span>
-              <span class="hud-pill hud-pill-emerald">HEVC 10-BIT</span>
+            <div class="monitor-tags">
+              <span class="tag-cell">DXGI 1.2</span>
+              <span class="tag-cell">120 FPS</span>
+              <span class="tag-cell">HEVC 10-BIT</span>
             </div>
           </div>
 
@@ -189,1185 +165,450 @@
           <div class="stream-viewport" id="stream-viewport">
             <canvas id="hero-game-canvas" class="hero-game-canvas"></canvas>
             
-            <!-- Real-time HUD Telemetry Overlay -->
+            <!-- Real-time Minimalist HUD Telemetry Overlay -->
             <div class="hud-telemetry-overlay">
-              <div class="telemetry-cluster top-left">
-                <div class="telemetry-item">
-                  <span class="t-label">전체 지연시간</span>
-                  <span class="t-value value-optimal" id="live-ping">4.2<small>ms</small></span>
+              <div class="telemetry-bar-top">
+                <div class="telemetry-box">
+                  <span class="t-label">종단간 지연</span>
+                  <span class="t-value" id="live-ping">4.2<small>ms</small></span>
                 </div>
-                <div class="telemetry-item">
-                  <span class="t-label">주사율</span>
+                <div class="telemetry-box">
+                  <span class="t-label">동기화 주사율</span>
                   <span class="t-value" id="live-fps">120.0<small>FPS</small></span>
                 </div>
-                <div class="telemetry-item">
-                  <span class="t-label">GPU 캡처</span>
-                  <span class="t-value" id="live-cap">1.20<small>ms</small></span>
-                </div>
-              </div>
-
-              <div class="telemetry-cluster top-right">
-                <div class="telemetry-item right">
+                <div class="telemetry-box">
                   <span class="t-label">비트레이트</span>
                   <span class="t-value" id="live-bitrate">38.4<small>Mbps</small></span>
                 </div>
-                <div class="telemetry-item right">
-                  <span class="t-label">FEC 복구</span>
-                  <span class="t-value value-emerald">XOR 패리티 4:1</span>
-                </div>
-                <div class="telemetry-item right">
-                  <span class="t-label">패킷 유실률</span>
-                  <span class="t-value value-optimal">0.00%</span>
+                <div class="telemetry-box">
+                  <span class="t-label">패킷 유실</span>
+                  <span class="t-value">0.00%</span>
                 </div>
               </div>
 
-              <!-- Real-time sparkline graph at bottom -->
-              <div class="telemetry-sparkline-row">
-                <div class="sparkline-info">
-                  <span>프레임 페이싱 지터: <strong id="live-jitter">0.18ms</strong></span>
-                  <span>METAL VSYNC: 완벽 동기화</span>
-                </div>
-                <canvas id="sparkline-canvas" width="460" height="42"></canvas>
-              </div>
-
-              <!-- Controller HUD Indicators -->
-              <div class="virtual-hud-controllers">
-                <div class="controller-pill active">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 9 18.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-                  <span>1P: 듀얼센스 5</span>
-                </div>
-                <div class="controller-pill">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5zm4 4h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
-                  <span>2P: 애플 펜슬 프로</span>
+              <!-- Real-time Sparkline Row -->
+              <div class="telemetry-bar-bottom">
+                <div class="sparkline-container">
+                  <div class="sparkline-header">
+                    <span>프레임 페이싱 지터: <strong id="live-jitter">0.18ms</strong></span>
+                    <span class="sync-status">METAL / VULKAN VSYNC</span>
+                  </div>
+                  <canvas id="sparkline-canvas" width="460" height="36"></canvas>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="frame-glass-footer">
-            <span class="pipeline-spec">실시간 파이프라인: <strong>DXGI 1.2 VRAM → NVENC CBR → UDP/FEC → Apple VideoToolbox → Metal 3</strong></span>
+          <div class="monitor-bottom-bar">
+            <span class="pipeline-label">PIPELINE:</span>
+            <span class="pipeline-flow">DXGI 1.2 Direct ➔ NVENC CBR ➔ UDP/FEC ➔ VideoToolbox / MediaCodec ➔ Metal 3 / Vulkan</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Dynamic Display Refresh Rate Tech Banner -->
-  <aside class="tech-banner-strip">
-    <div class="tech-banner-inner">
-      <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-        <span class="tech-banner-badge">
-          <span class="tech-banner-pulse"></span>
-          하드웨어 가속 패치
-        </span>
-        <span class="tech-banner-title">Dynamic Display Refresh Rate (60Hz / 120Hz / 144Hz Native Negotiation & 4.07ms Hardware Pacing)</span>
-      </div>
-      <div class="tech-banner-metrics">
-        <span>프레임 페이싱: <strong class="tech-banner-highlight">4.07ms 하드웨어 V-Sync</strong></span>
-        <span>•</span>
-        <span>협상 주사율: <strong class="tech-banner-stat">60Hz / 120Hz / 144Hz</strong></span>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Metrics Strip -->
-  <section class="metrics-strip">
-    <div class="container metrics-grid">
-      <div class="metric-box">
-        <div class="metric-num"><span class="counter" data-target="15">&lt;15</span><small>ms</small></div>
-        <div class="metric-name">초저지연 End-to-End 목표</div>
-        <div class="metric-desc">VRAM 직결 하드웨어 가속 및 저지연 UDP 파이프라인</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-num"><span class="counter" data-target="120">120</span><small>Hz</small></div>
-        <div class="metric-name">아이패드 ProMotion 완벽 지원</div>
-        <div class="metric-desc">네이티브 CAMetalLayer 트리플 버퍼링 초고주사율</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-num"><span class="counter" data-target="4096">4096</span><small>단계</small></div>
-        <div class="metric-name">애플 펜슬 필압 & 틸트</div>
-        <div class="metric-desc">Windows Ink 및 Wintab 다이렉트 패스스루</div>
-      </div>
-      <div class="metric-box">
-        <div class="metric-num"><span class="counter" data-target="100">100</span><small>%</small></div>
-        <div class="metric-name">방화벽 & NAT 자동 우회</div>
-        <div class="metric-desc">학교, 기숙사, 호텔, 회사망에서도 TURN 엣지 메쉬 직결</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Grid -->
-  <section id="features" class="features-section">
+  <!-- 4 Core Differentiation Strategy Pillars -->
+  <section id="pillars" class="pillars-section">
     <div class="container">
-      <div class="section-header text-center">
-        <div class="hud-chip">
-          <span class="chip-bracket">[</span>
-          <span class="chip-label">차세대 아키텍처 (CORE ARCHITECTURE)</span>
-          <span class="chip-bracket">]</span>
-        </div>
-        <h2 class="section-title">초저지연을 향한 타협 없는 엔지니어링.</h2>
-        <p class="section-subtitle">
-          기존의 오래된 CPU 버퍼 방식과 달리,<br>
-          zerodoc AetherStream은 최신 DirectX 12, Apple Metal 3, 동적 UDP FEC 에러 복구를 하나로 결합했습니다.
-        </p>
+      <div class="section-header-swiss">
+        <span class="swiss-tag">[ CORE DIFFERENTIATION STRATEGY ]</span>
+        <h2 class="swiss-title">4대 독보적 엔지니어링 차별화 기둥</h2>
+        <p class="swiss-lead">타협 없는 하드웨어 직결 엔지니어링으로 모바일과 데스크톱의 경계를 허뭅니다.</p>
       </div>
 
-      <div class="features-grid">
-        <!-- Feature 1 -->
-        <div class="feature-card cyber-card">
-          <div class="card-glow-edge"></div>
-          <div class="feature-icon-wrapper cyan">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <div class="pillars-grid">
+        <!-- Pillar 01 -->
+        <div class="pillar-card">
+          <div>
+            <div class="pillar-num-bar">
+              <span class="pillar-num">01</span>
+              <span class="pillar-category">DISPLAY PACING</span>
+            </div>
+            <h3 class="pillar-title">120Hz & 144Hz 초고주사율 하드웨어 동기화</h3>
+            <p class="pillar-desc">
+              iPad Pro의 ProMotion(CAMetalLayer 120Hz)과 Galaxy Tab의 144Hz AMOLED(MediaCodec NDK)를 네이티브 하드웨어 레벨에서 동기화. 4.07ms 정밀 프레임 페이싱과 하드웨어 V-Sync 협상으로 화면 찢김과 입력 랙을 원천 차단합니다.
+            </p>
           </div>
-          <h3 class="feature-title">Direct VRAM GPU 캡처</h3>
-          <p class="feature-text">
-            시스템 RAM 왕복을 최소화합니다. Direct3D 11 IDXGIOutputDuplication을 통해 GPU VRAM 텍스처를 하드웨어 인코딩 파이프라인으로 직접 연결하여 캡처 지연을 극적으로 줄입니다.
-          </p>
-          <div class="feature-badge">DXGI 1.2+ VRAM 직결</div>
+          <div class="pillar-specs">
+            <span class="pillar-spec-pill">Metal 3 120Hz</span>
+            <span class="pillar-spec-pill">MediaCodec NDK 144Hz</span>
+            <span class="pillar-spec-pill">4.07ms Hardware Pacing</span>
+          </div>
         </div>
 
-        <!-- Feature 2 -->
-        <div class="feature-card cyber-card">
-          <div class="card-glow-edge"></div>
-          <div class="feature-icon-wrapper violet">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
+        <!-- Pillar 02 -->
+        <div class="pillar-card">
+          <div>
+            <div class="pillar-num-bar">
+              <span class="pillar-num">02</span>
+              <span class="pillar-category">ZERO-COPY PIPELINE</span>
+            </div>
+            <h3 class="pillar-title">DXGI 1.2+ VRAM Zero-Copy 캡처 & NVENC CBR</h3>
+            <p class="pillar-desc">
+              시스템 RAM(CPU 메모리)을 거치지 않고 GPU VRAM에서 프레임을 직접 복사하여 NVIDIA NVENC 하드웨어 인코더로 직결. 제로카피 파이프라인으로 복사 지연을 제거하고 Sub-10ms 초저지연 하드웨어 스트리밍을 실현합니다.
+            </p>
           </div>
-          <h3 class="feature-title">포트포워딩 없는 6자리 룸코드</h3>
-          <p class="feature-text">
-            회원가입, 이메일 인증, 공유기 포트포워딩이 전혀 필요 없습니다. 호스트 프로그램을 켜고 6자리 코드만 공유하면 친구나 보조 디바이스가 3초 안에 P2P 직결됩니다.
-          </p>
-          <div class="feature-badge">제로 마찰 P2P 직결</div>
+          <div class="pillar-specs">
+            <span class="pillar-spec-pill">DXGI Direct Capture</span>
+            <span class="pillar-spec-pill">NVENC CBR Low-Latency</span>
+            <span class="pillar-spec-pill">Sub-10ms Pipeline</span>
+          </div>
         </div>
 
-        <!-- Feature 3 -->
-        <div class="feature-card cyber-card">
-          <div class="card-glow-edge"></div>
-          <div class="feature-icon-wrapper magenta">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        <!-- Pillar 03 -->
+        <div class="pillar-card">
+          <div>
+            <div class="pillar-num-bar">
+              <span class="pillar-num">03</span>
+              <span class="pillar-category">LOW-LATENCY STYLUS</span>
+            </div>
+            <h3 class="pillar-title">애플 펜슬 & Galaxy S-Pen 4096단계 필압 패스스루</h3>
+            <p class="pillar-desc">
+              Apple Pencil 및 Galaxy S-Pen의 4,096단계 필압, 틸트각, 호버링 데이터를 Windows Ink 및 Wintab API로 무지연 다이렉트 변환. 아이패드와 갤럭시 탭을 고가의 전문 액정 타블렛으로 완벽 대체합니다.
+            </p>
           </div>
-          <h3 class="feature-title">Apple Pencil 4096단계 필압 & 틸트</h3>
-          <p class="feature-text">
-            내 아이패드가 고가의 전문 액정 타블렛으로 변신합니다. 지브러시(ZBrush), 블렌더(Blender), 클립스튜디오, 포토샵에서 8ms 미만 지연시간으로 섬세한 드로잉을 지원합니다.
-          </p>
-          <div class="feature-badge">Windows Ink & Wintab 연동</div>
+          <div class="pillar-specs">
+            <span class="pillar-spec-pill">4,096 Levels Pressure</span>
+            <span class="pillar-spec-pill">Tilt & Hover Passthrough</span>
+            <span class="pillar-spec-pill">Windows Ink / Wintab</span>
+          </div>
         </div>
 
-        <!-- Feature 4 -->
-        <div class="feature-card cyber-card">
-          <div class="card-glow-edge"></div>
-          <div class="feature-icon-wrapper emerald">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 0-10 10c0 5.52 4.48 10 10 10 1.2 0 2.2-.9 2.2-2 0-.52-.2-.99-.54-1.35-.34-.36-.55-.85-.55-1.4 0-1.1.9-2 2-2h2.4c5.29 0 9.6-4.31 9.6-9.6 0-5.3-4.31-9.6-9.6-9.6z"/><circle cx="6.5" cy="11.5" r="1.5"/><circle cx="9.5" cy="7.5" r="1.5"/><circle cx="14.5" cy="7.5" r="1.5"/><circle cx="17.5" cy="11.5" r="1.5"/></svg>
+        <!-- Pillar 04 -->
+        <div class="pillar-card">
+          <div>
+            <div class="pillar-num-bar">
+              <span class="pillar-num">04</span>
+              <span class="pillar-category">MULTI-CONTROLLER CO-OP</span>
+            </div>
+            <h3 class="pillar-title">4인 로컬 코옵 가상 게임패드 (ViGEmBus)</h3>
+            <p class="pillar-desc">
+              추가 동글이나 수신기 없이 스마트폰과 태블릿을 최대 4대의 독립 가상 Xbox 360 게임패드로 PC에 즉시 마운트. 격투, 레이싱, 파티 게임의 4인 로컬 협동 플레이를 즉시 지원합니다.
+            </p>
           </div>
-          <h3 class="feature-title">4:4:4 크로마 & 10-bit HDR 무손실</h3>
-          <p class="feature-text">
-            뿌옇게 번지는 붉은 텍스트와 색상 계단 현상을 영원히 작별하세요. 서브픽셀 무손실 렌더링으로 VS Code 코딩, 다빈치 리졸브 영상 편집, 고품질 게임 그래픽을 왜곡 없이 표현합니다.
-          </p>
-          <div class="feature-badge">풀 RGB 트루컬러</div>
-        </div>
-
-        <!-- Feature 5 -->
-        <div class="feature-card cyber-card">
-          <div class="card-glow-edge"></div>
-          <div class="feature-icon-wrapper cyan">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <div class="pillar-specs">
+            <span class="pillar-spec-pill">ViGEmBus Xbox 360</span>
+            <span class="pillar-spec-pill">4-Player Multi-Pad</span>
+            <span class="pillar-spec-pill">Zero-Dongle P2P</span>
           </div>
-          <h3 class="feature-title">DXGI 1.2+ 제로카피 데스크톱 캡처</h3>
-          <p class="feature-text">
-            Windows DXGI 1.2+ Desktop Duplication API를 통해 GPU VRAM에서 직접 활성 화면을 캡처합니다. 다중 모니터 환경에서도 성능 저하 없이 원하는 활성 디스플레이를 즉시 전환하여 스트리밍합니다.
-          </p>
-          <div class="feature-badge">GPU 제로카피 캡처</div>
-        </div>
-
-        <!-- Feature 6 -->
-        <div class="feature-card cyber-card">
-          <div class="card-glow-edge"></div>
-          <div class="feature-icon-wrapper violet">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </div>
-          <h3 class="feature-title">4인 로컬 파티플레이 코옵 & ViGEm</h3>
-          <p class="feature-text">
-            전 세계 어디에 있는 친구와도 한 방에서 게임하듯 로컬 멀티플레이를 즐기세요. 호스트 PC가 ViGEmBus를 통해 4개의 가상 엑스박스 360 / 듀얼쇼크 4 컨트롤러를 자동 에뮬레이션합니다.
-          </p>
-          <div class="feature-badge">초저지터 파티플레이</div>
-        </div>
-
-        <!-- Feature 7 -->
-        <div class="feature-card cyber-card">
-          <div class="card-glow-edge"></div>
-          <div class="feature-icon-wrapper magenta">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <h3 class="feature-title">100% 방화벽 우회 글로벌 TURN 메쉬</h3>
-          <p class="feature-text">
-            기숙사 Wi-Fi, 엄격한 기업 사내망, 호텔 방화벽은 일반 UDP 포트를 차단합니다. 전 세계 38개 엣지 노드로 구성된 TURN 메쉬가 대칭형 NAT를 통과시키며 TLS 폴백을 지원합니다.
-          </p>
-          <div class="feature-badge">어디서나 원클릭 접속</div>
-        </div>
-
-        <!-- Feature 8 -->
-        <div class="feature-card cyber-card">
-          <div class="card-glow-edge"></div>
-          <div class="feature-icon-wrapper emerald">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          </div>
-          <h3 class="feature-title">모바일 온디바이스 AI 업스케일링</h3>
-          <p class="feature-text">
-            1080p 저대역폭으로 스트리밍을 수신한 후, 아이패드/아이폰의 Apple Neural Engine(MetalFX 초해상도)을 구동하여 호스트 PC GPU 부담 없이 로컬 4K 수준의 선명도를 재구성합니다.
-          </p>
-          <div class="feature-badge">MetalFX & CoreML 가속</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Interactive Latency Measurement Simulator -->
-  <section id="simulator" class="simulator-section">
+  <!-- Live Latency Lab & Pipeline Architecture Section -->
+  <section id="lab" class="simulator-section">
     <div class="container">
-      <div class="section-header text-center">
-        <div class="hud-chip">
-          <span class="chip-bracket">[</span>
-          <span class="chip-label">실시간 텔레메트리 랩 (INTERACTIVE LAB)</span>
-          <span class="chip-bracket">]</span>
-        </div>
-        <h2 class="section-title">초저지연 파이프라인 벤치마크 랩</h2>
-        <p class="section-subtitle">
-          네트워크 토폴로지와 하드웨어 코덱에 따라 프레임 지연이 어떻게 분해되고 복구되는지 실시간으로 시뮬레이션해보세요.
-        </p>
+      <div id="architecture" class="section-header-swiss">
+        <span class="swiss-tag">[ HARDWARE LATENCY LAB & ARCHITECTURE ]</span>
+        <h2 class="swiss-title">실시간 종단간 지연시간 및 파이프라인 분석</h2>
+        <p class="swiss-lead">캡처, 인코딩, 네트워크 패킷팅, 디코딩, 디스플레이 렌더링에 이르는 전 과정 실측 데이터.</p>
       </div>
 
-      <div class="simulator-dashboard cyber-card">
-        <div class="sim-controls-grid">
-          <!-- Control 1: Network Topology -->
-          <div class="sim-control-group">
-            <label class="sim-label">네트워크 토폴로지 (환경 선택)</label>
-            <div class="sim-radio-cards" id="sim-network-select">
-              <button class="sim-btn active" data-network="lan" data-ping="0.6">
-                <span class="sim-btn-title">직결 Wi-Fi 6 LAN</span>
-                <span class="sim-btn-val">0.6ms PING</span>
-              </button>
-              <button class="sim-btn" data-network="5g" data-ping="9.4">
-                <span class="sim-btn-title">5G 초광대역 모바일망</span>
-                <span class="sim-btn-val">9.4ms PING</span>
-              </button>
-              <button class="sim-btn" data-network="turn" data-ping="14.8">
-                <span class="sim-btn-title">학교/기숙사망 (TURN 릴레이)</span>
-                <span class="sim-btn-val">14.8ms PING</span>
-              </button>
-              <button class="sim-btn" data-network="public" data-ping="26.0">
-                <span class="sim-btn-title">공공 핫스팟 / LTE</span>
-                <span class="sim-btn-val">26.0ms PING</span>
-              </button>
+      <!-- Zero-Copy Hardware Pipeline Flow Box -->
+      <div class="pipeline-card">
+        <div class="pipeline-header">
+          <span class="pipeline-title">ZERODOC ZERO-COPY HARDWARE PIPELINE</span>
+          <span class="pipeline-target">SUB-10MS END-TO-END TARGET</span>
+        </div>
+        <div class="pipeline-flow-grid">
+          <div class="flow-step">
+            <span class="flow-num">STEP 01</span>
+            <span class="flow-name">DXGI 1.2+ VRAM</span>
+            <span class="flow-time">~1.2ms Direct</span>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            <span class="flow-num">STEP 02</span>
+            <span class="flow-name">NVENC CBR</span>
+            <span class="flow-time">~2.4ms Low-Latency</span>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            <span class="flow-num">STEP 03</span>
+            <span class="flow-name">UDP / FEC P2P</span>
+            <span class="flow-time">~1.8ms Packets</span>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            <span class="flow-num">STEP 04</span>
+            <span class="flow-name">HW Decode</span>
+            <span class="flow-time">~1.9ms Zero-Copy</span>
+          </div>
+          <span class="flow-arrow">➔</span>
+          <div class="flow-step">
+            <span class="flow-num">STEP 05</span>
+            <span class="flow-name">Metal 3 / Vulkan</span>
+            <span class="flow-time">~1.5ms 120-144Hz</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Latency Simulator Grid -->
+      <div class="simulator-grid">
+        <div class="sim-controls cyber-card">
+          <h3 class="sim-panel-title">환경별 시뮬레이션 파라미터</h3>
+
+          <div class="sim-group">
+            <label class="sim-label">네트워크 연결 환경</label>
+            <div class="sim-btn-group" id="sim-network-select">
+              <button class="sim-btn active" data-net="lan">초고속 Wi-Fi 6 (LAN)</button>
+              <button class="sim-btn" data-net="5g">5G 모바일 네트워크</button>
+              <button class="sim-btn" data-net="wan">광대역 원격 인터넷 (WAN)</button>
             </div>
           </div>
 
-          <!-- Control 2: Codec & Display -->
-          <div class="sim-subcontrols-row">
-            <div class="sim-control-item">
-              <label class="sim-label">하드웨어 코덱</label>
-              <div class="sim-toggle-group" id="sim-codec-select">
-                <button class="sim-toggle-btn active" data-codec="hevc" data-enc="0.8" data-dec="1.1">HEVC (NVENC + VideoToolbox)</button>
-                <button class="sim-toggle-btn" data-codec="h264" data-enc="0.6" data-dec="0.9">H.264 베이스라인</button>
-                <button class="sim-toggle-btn" data-codec="av1" data-enc="1.4" data-dec="1.6">AV1 차세대 코덱</button>
-              </div>
+          <div class="sim-group">
+            <label class="sim-label">하드웨어 가속 코덱</label>
+            <div class="sim-toggle-row" id="sim-codec-select">
+              <button class="sim-toggle-btn active" data-codec="hevc">HEVC (H.265 10-Bit)</button>
+              <button class="sim-toggle-btn" data-codec="avc">H.264 (AVC Baseline)</button>
             </div>
+          </div>
 
-            <div class="sim-control-item">
-              <label class="sim-label">화면 주사율</label>
-              <div class="sim-toggle-group" id="sim-fps-select">
-                <button class="sim-toggle-btn active" data-fps="120" data-interval="8.33">120Hz ProMotion</button>
-                <button class="sim-toggle-btn" data-fps="60" data-interval="16.66">60Hz 표준</button>
-              </div>
+          <div class="sim-group">
+            <label class="sim-label">디스플레이 주사율 동기화</label>
+            <div class="sim-toggle-row" id="sim-fps-select">
+              <button class="sim-toggle-btn" data-fps="60">60 FPS</button>
+              <button class="sim-toggle-btn active" data-fps="120">120 FPS ProMotion</button>
+              <button class="sim-toggle-btn" data-fps="144">144 FPS AMOLED</button>
             </div>
           </div>
         </div>
 
-        <!-- Simulation Results Display -->
-        <div class="sim-results-panel">
-          <div class="total-latency-banner">
-            <div class="total-latency-label">예상 엔드투엔드 전체 지연시간 (유리창-to-유리창)</div>
-            <div class="total-latency-value" id="sim-total-latency">
-              <span class="latency-figure">4.80</span><span class="latency-unit">ms</span>
-            </div>
-            <div class="total-latency-badge" id="sim-grade-badge">10MS 미만 초저지연 (LAN / 로컬 네트워크)</div>
-          </div>
-
-          <!-- Pipeline Segment Visualizer -->
-          <div class="pipeline-breakdown-bar">
-            <div class="pipe-segment seg-capture" id="seg-capture" style="width: 15%;" title="DirectX GPU 캡처">
-              <span class="seg-name">캡처</span>
-              <span class="seg-val" id="val-capture">1.20ms</span>
-            </div>
-            <div class="pipe-segment seg-encode" id="seg-encode" style="width: 20%;" title="NVENC 하드웨어 인코딩">
-              <span class="seg-name">인코딩</span>
-              <span class="seg-val" id="val-encode">0.80ms</span>
-            </div>
-            <div class="pipe-segment seg-network" id="seg-network" style="width: 35%;" title="네트워크 P2P / TURN 전송">
-              <span class="seg-name">네트워크</span>
-              <span class="seg-val" id="val-network">0.60ms</span>
-            </div>
-            <div class="pipe-segment seg-decode" id="seg-decode" style="width: 25%;" title="Apple VideoToolbox 하드웨어 디코딩">
-              <span class="seg-name">디코딩</span>
-              <span class="seg-val" id="val-decode">1.10ms</span>
-            </div>
-            <div class="pipe-segment seg-render" id="seg-render" style="width: 15%;" title="Metal ProMotion 트리플 버퍼 렌더">
-              <span class="seg-name">렌더링</span>
-              <span class="seg-val" id="val-render">0.90ms</span>
+        <!-- Latency Breakdown Display -->
+        <div class="sim-results cyber-card">
+          <div class="results-header">
+            <span class="results-tag">[ 실측 종단간 지연시간 ]</span>
+            <div class="total-latency-display">
+              <span class="latency-number" id="calc-total-latency">8.8</span>
+              <span class="latency-unit">ms</span>
             </div>
           </div>
 
-          <!-- Benchmark Comparison Bars -->
-          <div class="sim-benchmark-comparison">
-            <div class="bench-row">
-              <div class="bench-label aether">
-                <span class="bench-logo">★ zerodoc AetherStream</span>
-                <span class="bench-time" id="bench-aether">4.8 ms</span>
+          <div class="latency-breakdown-list">
+            <div class="breakdown-item">
+              <div class="bd-info">
+                <span class="bd-name">DXGI 1.2+ VRAM 프레임 캡처</span>
+                <span class="bd-val" id="bd-capture">1.2ms</span>
               </div>
-              <div class="bench-bar-track">
-                <div class="bench-bar-fill bar-cyan" id="bench-bar-aether" style="width: 14%;"></div>
-              </div>
+              <div class="progress-bar"><div class="progress-fill" id="pb-capture" style="width: 14%;"></div></div>
             </div>
 
-            <div class="bench-row">
-              <div class="bench-label">
-                <span class="bench-logo">기존 상용 솔루션 A</span>
-                <span class="bench-time" id="bench-tool-a">12.8 ms</span>
+            <div class="breakdown-item">
+              <div class="bd-info">
+                <span class="bd-name">NVENC 하드웨어 CBR 인코딩</span>
+                <span class="bd-val" id="bd-encode">2.4ms</span>
               </div>
-              <div class="bench-bar-track">
-                <div class="bench-bar-fill bar-violet" id="bench-bar-tool-a" style="width: 42%;"></div>
-              </div>
+              <div class="progress-bar"><div class="progress-fill" id="pb-encode" style="width: 27%;"></div></div>
             </div>
 
-            <div class="bench-row">
-              <div class="bench-label">
-                <span class="bench-logo">기존 오픈소스 솔루션 B</span>
-                <span class="bench-time" id="bench-tool-b">15.2 ms</span>
+            <div class="breakdown-item">
+              <div class="bd-info">
+                <span class="bd-name">UDP 전송 & FEC 에러 복구</span>
+                <span class="bd-val" id="bd-network">1.8ms</span>
               </div>
-              <div class="bench-bar-track">
-                <div class="bench-bar-fill bar-amber" id="bench-bar-tool-b" style="width: 50%;"></div>
-              </div>
+              <div class="progress-bar"><div class="progress-fill" id="pb-network" style="width: 20%;"></div></div>
             </div>
 
-            <div class="bench-row">
-              <div class="bench-label">
-                <span class="bench-logo">기존 RDP / VNC 원격 제어</span>
-                <span class="bench-time" id="bench-rdp">64.0 ms</span>
+            <div class="breakdown-item">
+              <div class="bd-info">
+                <span class="bd-name">VideoToolbox / MediaCodec NDK 디코딩</span>
+                <span class="bd-val" id="bd-decode">1.9ms</span>
               </div>
-              <div class="bench-bar-track">
-                <div class="bench-bar-fill bar-red" id="bench-bar-rdp" style="width: 100%;"></div>
+              <div class="progress-bar"><div class="progress-fill" id="pb-decode" style="width: 22%;"></div></div>
+            </div>
+
+            <div class="breakdown-item">
+              <div class="bd-info">
+                <span class="bd-name">Metal 3 / Vulkan 하드웨어 V-Sync 렌더링</span>
+                <span class="bd-val" id="bd-render">1.5ms</span>
               </div>
+              <div class="progress-bar"><div class="progress-fill" id="pb-render" style="width: 17%;"></div></div>
             </div>
           </div>
 
-          <!-- Interactive Click-To-Reaction Reflex Tester -->
-          <div class="reflex-tester-box">
-            <div class="reflex-desc">
-              <strong>실시간 체감 반응 테스트:</strong> 아래 버튼을 누른 후 화면이 초록색으로 켜지는 순간 클릭하세요. 인간의 반응속도(평균 200ms)와 AetherStream의 결정론적 초저지연 UDP 스트리밍 파이프라인을 직접 비교해볼 수 있습니다.
+          <!-- Quick Interactive Reflex Tester -->
+          <div class="reflex-tester-box" style="margin-top: 24px; padding: 16px; background: #000000; border: 1px solid #222222; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 0.82rem; font-weight: 700; color: #FFFFFF;">반응속도 즉석 테스트</div>
+              <div style="font-size: 0.72rem; color: #888888;">클릭하여 인간 반응속도와 지연시간을 실측하세요</div>
             </div>
-            <button class="btn btn-emerald btn-md" id="btn-reflex-trigger">
-              ⚡ 화면이 초록색으로 바뀌면 즉시 클릭!
-            </button>
-            <div class="reflex-result" id="reflex-result">테스트 준비 완료. 시작 버튼을 누르세요.</div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span id="reflex-result" style="font-family: var(--font-mono); font-size: 0.85rem; color: #FFFFFF;">대기 중</span>
+              <button id="btn-reflex-trigger" class="btn btn-outline btn-sm">테스트 시작</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Streaming Solution Comparison Table -->
-  <section id="comparison" class="comparison-section">
-    <div class="container">
-      <div class="section-header text-center">
-        <div class="hud-chip">
-          <span class="chip-bracket">[</span>
-          <span class="chip-label">엔지니어링 벤치마크 (ENGINEERING BENCHMARK)</span>
-          <span class="chip-bracket">]</span>
-        </div>
-        <h2 class="section-title">솔루션 기술 비교</h2>
-        <p class="section-subtitle">
-          철저한 아키텍처 재설계로 완성한 차세대 초저지연 게이밍 스트리밍 파이프라인.
-        </p>
-      </div>
-
-      <div class="table-responsive cyber-card">
-        <table class="comparison-table">
-          <thead>
-            <tr>
-              <th class="col-feature">핵심 기능 및 지표</th>
-              <th class="col-competitor">기존 상용 솔루션</th>
-              <th class="col-competitor">기존 오픈소스 솔루션</th>
-              <th class="col-hero-brand">
-                <div class="brand-th-badge">
-                  <span>zerodoc AETHERSTREAM</span>
-                  <small>차세대 표준</small>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="feature-title-cell">
-                <strong>네이티브 iOS 앱 (아이패드 & 아이폰)</strong>
-                <span>120Hz ProMotion Metal 클라이언트</span>
-              </td>
-              <td class="status-cell status-bad">
-                <svg class="icon-bad" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                <span>미지원 (개발 중단 / 웹 전용)</span>
-              </td>
-              <td class="status-cell status-mid">
-                <svg class="icon-mid" viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
-                <span>단순 포팅 (UI 투박함)</span>
-              </td>
-              <td class="status-cell status-best highlight-cell">
-                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-                <strong>네이티브 Metal 3 + 120Hz ProMotion</strong>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="feature-title-cell">
-                <strong>설치 및 스트리밍 시작 소요 시간</strong>
-                <span>초기 설정 및 연결 편의성</span>
-              </td>
-              <td class="status-cell status-mid">
-                <span>계정 가입 + 친구 목록 필수</span>
-              </td>
-              <td class="status-cell status-bad">
-                <svg class="icon-bad" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                <span>공유기 포트포워딩 + PIN 페어링 (15분 이상)</span>
-              </td>
-              <td class="status-cell status-best highlight-cell">
-                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-                <strong>5초 이내 완료 (6자리 룸코드 즉시 연결)</strong>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="feature-title-cell">
-                <strong>기숙사 · 사내 방화벽 우회</strong>
-                <span>VPN 없이 대칭형 NAT 홀펀칭 통과</span>
-              </td>
-              <td class="status-cell status-mid">
-                <span>불안정 (WAN 핑 급증 및 튕김)</span>
-              </td>
-              <td class="status-cell status-bad">
-                <svg class="icon-bad" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                <span>연결 실패 (Tailscale/ZeroTier 별도 필수)</span>
-              </td>
-              <td class="status-cell status-best highlight-cell">
-                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-                <strong>100% 자동 우회 (전 세계 38개 TURN 노드)</strong>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="feature-title-cell">
-                <strong>Apple Pencil 4096단계 필압 & 틸트</strong>
-                <span>지브러시 / 블렌더 / 포토샵 원격 디지타이저</span>
-              </td>
-              <td class="status-cell status-bad">
-                <svg class="icon-bad" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                <span>미지원 (단순 터치 클릭)</span>
-              </td>
-              <td class="status-cell status-bad">
-                <svg class="icon-bad" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                <span>미지원 (필압 없음)</span>
-              </td>
-              <td class="status-cell status-best highlight-cell">
-                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-                <strong>4096레벨 필압 + 틸트 기울기 + 8ms 미만</strong>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="feature-title-cell">
-                <strong>DXGI 1.2+ 다중 모니터 VRAM 캡처</strong>
-                <span>GPU VRAM 제로카피 및 실시간 모니터 전환</span>
-              </td>
-              <td class="status-cell status-mid">
-                <span>상위 유료 구독 제한 / 추가 과금</span>
-              </td>
-              <td class="status-cell status-mid">
-                <span>수동 설정 복잡성 및 캡처 오버헤드</span>
-              </td>
-              <td class="status-cell status-best highlight-cell">
-                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-                <strong>하드웨어 DXGI 1.2+ VRAM 제로카피</strong>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="feature-title-cell">
-                <strong>4:4:4 풀 RGB 트루컬러 & HDR</strong>
-                <span>VSCode 코드 및 텍스트 번짐 제로</span>
-              </td>
-              <td class="status-cell status-mid">
-                <span>월 $9.99 유료 플랜에 잠김 (Warp)</span>
-              </td>
-              <td class="status-cell status-mid">
-                <span>설정 파일 텍스트 수동 수정 필요</span>
-              </td>
-              <td class="status-cell status-best highlight-cell">
-                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-                <strong>Pro 요금제 기본 탑재 (4:4:4 무손실)</strong>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="feature-title-cell">
-                <strong>4인 로컬 코옵 게임패드</strong>
-                <span>친구 4명 동시 엑스박스 패드 매핑</span>
-              </td>
-              <td class="status-cell status-mid">
-                <span>PC 클라이언트 간에만 지원</span>
-              </td>
-              <td class="status-cell status-bad">
-                <svg class="icon-bad" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                <span>설정 복잡 및 튕김 잦음</span>
-              </td>
-              <td class="status-cell status-best highlight-cell">
-                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-                <strong>기본 내장 (ViGEmBus 4대 가상 패드 즉시 인식)</strong>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="feature-title-cell">
-                <strong>인스톨러 패키지 용량 & 최적화</strong>
-                <span>백그라운드 리소스 점유율</span>
-              </td>
-              <td class="status-cell status-bad">
-                <span>~45 MB (Node.js/Electron 기반)</span>
-              </td>
-              <td class="status-cell status-mid">
-                <span>~80 MB (외부 가상 드라이버 패키지 필요)</span>
-              </td>
-              <td class="status-cell status-best highlight-cell">
-                <svg class="icon-good" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-                <strong>2.58 MB (초경량 단일 바이너리 Rust)</strong>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <!-- Creator Section: Apple Pencil Spotlight -->
-  <section id="pencil" class="pencil-section">
-    <div class="container">
-      <div class="pencil-layout">
-        <div class="pencil-content">
-          <div class="hud-chip">
-            <span class="chip-bracket">[</span>
-            <span class="chip-label">디지털 아티스트 & 디자이너</span>
-            <span class="chip-bracket">]</span>
-          </div>
-          <h2 class="section-title">
-            내 아이패드를<br>
-            <span class="neon-text-cyan">고가의 전문 액정 타블렛</span>처럼.
-          </h2>
-          <p class="section-lead">
-            AetherStream은 Apple Pencil Pro의 압력과 기울기를 초저지터 UDP를 통해 Windows Ink 및 Wintab API로 1:1 직결합니다.
-          </p>
-
-          <div class="pencil-features-list">
-            <div class="pf-item">
-              <div class="pf-bullet">01</div>
-              <div class="pf-info">
-                <h4>4096단계 정밀 필압 & 틸트(기울기) 지원</h4>
-                <p>ZBrush에서 유기적인 3D 스컬프팅을 하거나 클립스튜디오에서 수채화 브러시의 필압 번짐을 8ms 미만의 극초저지연으로 제어합니다.</p>
-              </div>
-            </div>
-            <div class="pf-item">
-              <div class="pf-bullet">02</div>
-              <div class="pf-info">
-                <h4>애플 펜슬 호버 감지 & 더블 탭 제스처</h4>
-                <p>펜촉이 화면에 닿기 전 커서 위치가 윈도우 마우스 좌표와 오차 없이 일치하며, 펜슬 본체 더블 탭으로 브러시/지우개 도구를 즉시 전환합니다.</p>
-              </div>
-            </div>
-            <div class="pf-item">
-              <div class="pf-bullet">03</div>
-              <div class="pf-info">
-                <h4>아이패드 4:3 맞춤 해상도 자동 생성</h4>
-                <p>호스트 PC의 GPU가 아이패드 고유의 4:3 및 3:2 화면비에 맞는 120Hz 가상 캔버스를 자동 생성하여 레터박스(검은 여백) 없이 꽉 찬 화면을 제공합니다.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="pencil-interactive-card cyber-card">
-          <div class="canvas-header">
-            <span class="dot-red"></span><span class="dot-yellow"></span><span class="dot-green"></span>
-            <span class="canvas-title">Apple Pencil 필압 샌드박스 캔버스</span>
-            <button class="btn btn-sm btn-outline" id="btn-clear-drawing">지우기</button>
-          </div>
-          <canvas id="drawing-canvas" width="460" height="320" class="interactive-drawing-canvas"></canvas>
-          <div class="canvas-footer">
-            <div class="pressure-gauge">
-              <span>시뮬레이션 필압:</span>
-              <div class="pressure-bar-track">
-                <div class="pressure-bar-fill" id="pressure-fill" style="width: 25%;"></div>
-              </div>
-              <span id="pressure-text">1024 / 4096</span>
-            </div>
-            <small class="canvas-tip">위 캔버스에 마우스나 펜/터치로 선을 그어 서브픽셀 스무딩과 필압 변화를 테스트해보세요!</small>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pricing Tiers Section -->
-  <section id="pricing" class="pricing-section">
-    <div class="container">
-      <div class="section-header text-center">
-        <div class="hud-chip">
-          <span class="chip-bracket">[</span>
-          <span class="chip-label">투명하고 합리적인 요금제</span>
-          <span class="chip-bracket">]</span>
-        </div>
-        <h2 class="section-title">핵심 초저지연 게이밍은 영원히 무료.</h2>
-        <p class="section-subtitle">
-          친구들과 게임을 즐기는 기능은 무료. 파워 크리에이터를 위한 프로 기능은 타사 서비스 대비 압도적 가치.
-        </p>
-
-        <!-- Billing Toggle -->
-        <div class="billing-toggle-container">
-          <span class="billing-label" id="label-monthly">월간 결제</span>
-          <button class="toggle-switch annual" id="billing-switch" aria-label="연간 결제 토글">
-            <span class="toggle-slider"></span>
-          </button>
-          <span class="billing-label active" id="label-annual">
-            연간 결제 <span class="badge-save">20% 할인 + 2개월 무료</span>
-          </span>
-        </div>
-      </div>
-
-      <div class="pricing-grid">
-        <!-- FREE TIER -->
-        <div class="pricing-card cyber-card">
-          <div class="plan-header">
-            <span class="plan-badge">커뮤니티</span>
-            <h3 class="plan-name">Starter (무료)</h3>
-            <p class="plan-desc">개인 LAN 게이밍, 친구와의 로컬 코옵, 일상적인 원격 PC 제어.</p>
-            <div class="plan-price">
-              <span class="currency">₩</span>
-              <span class="price-val">0</span>
-              <span class="period">/ 영구 무료</span>
-            </div>
-          </div>
-
-          <div class="plan-divider"></div>
-
-          <ul class="plan-features">
-            <li><span class="chk">✓</span> 1080p 60/120Hz 초저지연 P2P 스트리밍</li>
-            <li><span class="chk">✓</span> 5ms 미만 공유기 Wi-Fi LAN 직결</li>
-            <li><span class="chk">✓</span> 6자리 룸코드 즉시 접속 (회원가입 없음)</li>
-            <li><span class="chk">✓</span> 모바일 가상 온스크린 터치 패드</li>
-            <li><span class="chk">✓</span> 2인 동시 로컬 게임패드 코옵</li>
-            <li><span class="chk">✓</span> Discord 커뮤니티 지원</li>
-            <li class="disabled"><span class="cross">✕</span> 전 세계 38개 전용 TURN 클라우드 릴레이</li>
-            <li class="disabled"><span class="cross">✕</span> Apple Pencil 4096단계 필압 및 틸트</li>
-            <li class="disabled"><span class="cross">✕</span> 다중 디스플레이 실시간 전환</li>
-          </ul>
-
-          <a href="../dist/zerodoc_AetherStream_Setup_v0.1.0.exe" class="btn btn-outline btn-block" download>무료 호스트 다운로드</a>
-        </div>
-
-        <!-- PRO TIER (HERO TIER) -->
-        <div class="pricing-card cyber-card hero-plan">
-          <div class="popular-ribbon">BEST CHOICE</div>
-          <div class="card-glow-edge"></div>
-          
-          <div class="plan-header">
-            <span class="plan-badge plan-badge-cyan">프로 크리에이터 & 게이머</span>
-            <h3 class="plan-name">Aether Pro</h3>
-            <p class="plan-desc">어디서나 뚫리는 고속 릴레이, 애플 펜슬 프로 매핑, 4:4:4 트루컬러 무손실.</p>
-            <div class="plan-price">
-              <span class="currency">₩</span>
-              <span class="price-val" id="pro-price">4,083</span>
-              <span class="period" id="pro-period">/ 월 (연 ₩49,000 결제)</span>
-            </div>
-            <div class="price-strike-tag">월간 결제 시 ₩5,500/월 ($4.00/mo)</div>
-          </div>
-
-          <div class="plan-divider"></div>
-
-          <ul class="plan-features">
-            <li><span class="chk cyan">★</span> <strong>100% 방화벽 우회 초고속 TURN 릴레이</strong> (전 세계 38개 엣지 노드)</li>
-            <li><span class="chk cyan">★</span> <strong>Apple Pencil Pro 4096단계 필압 & 틸트 매핑</strong> (ZBrush/포토샵 연동)</li>
-            <li><span class="chk cyan">★</span> <strong>DXGI 1.2+ VRAM 제로카피 캡처 & 다중 모니터 실시간 전환</strong></li>
-            <li><span class="chk cyan">★</span> <strong>4:4:4 True Color & 10-bit HDR 무손실</strong></li>
-            <li><span class="chk cyan">★</span> <strong>모바일 MetalFX AI 초해상도 업스케일링</strong> (1080p → 4K)</li>
-            <li><span class="chk cyan">★</span> <strong>4인 파티플레이 코옵 (ViGEmBus 가상 패드 4대)</strong></li>
-            <li><span class="chk cyan">★</span> 멀티 모니터 원클릭 실시간 전환</li>
-            <li><span class="chk cyan">★</span> VIP Discord 우선 기술지원 및 최신 기능 얼리 액세스</li>
-          </ul>
-
-          <button class="btn btn-primary btn-block glow-btn" id="btn-buy-pro">
-            Pro 플랜 결제 / 구독하기
-          </button>
-        </div>
-
-        <!-- STUDIO / TEAM TIER -->
-        <div class="pricing-card cyber-card">
-          <div class="plan-header">
-            <span class="plan-badge">스튜디오 & 엔터프라이즈</span>
-            <h3 class="plan-name">Studio / Enterprise</h3>
-            <p class="plan-desc">게임 개발사, VFX 스튜디오, 보안이 중요한 전문 프로덕션 팀을 위한 솔루션.</p>
-            <div class="plan-price">
-              <span class="currency">₩</span>
-              <span class="price-val" id="studio-price">39,000</span>
-              <span class="period" id="studio-period">/ 사용자/월 ($30/seat)</span>
-            </div>
-            <div class="price-strike-tag">스튜디오 & 엔터프라이즈 전용 플랜</div>
-          </div>
-
-          <div class="plan-divider"></div>
-
-          <ul class="plan-features">
-            <li><span class="chk">✓</span> <strong>Pro 플랜의 모든 기능 포함</strong></li>
-            <li><span class="chk">✓</span> <strong>멀티 유저 동시 화면 협업 및 조작 권한 제어 (입력 중재)</strong></li>
-            <li><span class="chk">✓</span> <strong>동적 포렌식 워터마킹</strong> (프로젝트 유출 방지)</li>
-            <li><span class="chk">✓</span> <strong>99.99% 전용 대역폭 SLA 보증</strong> (10Gbps 엔터프라이즈 망)</li>
-            <li><span class="chk">✓</span> <strong>SSO / SAML 사내 계정 연동 및 상세 감사 로그</strong></li>
-            <li><span class="chk">✓</span> 중앙 집중 관리자 콘솔 및 권한 통제</li>
-            <li><span class="chk">✓</span> 온프레미스 전용 TURN 릴레이 서버 구축 지원</li>
-            <li><span class="chk">✓</span> 24/7 전담 엔지니어 직통 기술 지원</li>
-          </ul>
-
-          <button class="btn btn-outline btn-block" id="btn-buy-studio">Studio 플랜 결제 / 도입하기</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Download & Get Started Section -->
+  <!-- 3-Platform Download Section -->
   <section id="downloads" class="downloads-section">
     <div class="container">
-      <div class="download-box cyber-card">
-        <div class="download-content">
-          <h2 class="section-title">지금 바로 친구들과 시작하세요</h2>
-          <p class="download-lead">
-            호스트 PC에 인스톨러를 설치하고, 모바일에서 6자리 코드를 입력하면 즉시 연결됩니다.
-          </p>
+      <div class="section-header-swiss">
+        <span class="swiss-tag">[ MULTI-PLATFORM BINARIES ]</span>
+        <h2 class="swiss-title">v0.1.0 Alpha 바이너리 다운로드</h2>
+        <p class="swiss-lead">모든 주요 플랫폼에서 동일한 초저지연 하드웨어 가속 스트리밍 엔진을 경험하세요.</p>
+      </div>
 
-          <div class="os-cards-grid">
-            <div class="os-card">
-              <div class="os-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-13.051-1.949"/></svg>
-              </div>
-              <div class="os-info">
-                <h4>Windows 호스트 서버 (v0.1.0 Alpha)</h4>
-                <p>Windows 10 / 11 (64-bit) • NVIDIA / AMD / Intel GPU 지원</p>
-                <div class="os-meta">공식 인스톨러 .exe • 2.58 MB • 주식회사 제로독</div>
-              </div>
-              <a href="../dist/zerodoc_AetherStream_Setup_v0.1.0.exe" class="btn btn-cyan btn-md" download style="text-decoration:none;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                <span>윈도우 인스톨러 다운로드 (.exe)</span>
-              </a>
-            </div>
-
-            <div class="os-card" id="testflight">
-              <div class="os-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.85c.65-.8 1.1-1.92.98-3.04-1 .04-2.17.67-2.86 1.47-.6.69-1.13 1.83-.99 2.93 1.11.09 2.22-.56 2.87-1.36z"/></svg>
-              </div>
-              <div class="os-info">
-                <h4>iOS & iPadOS 네이티브 클라이언트</h4>
-                <p>iOS 16+ • iPadOS 16+ • 120Hz ProMotion Metal 네이티브</p>
-                <div class="os-meta">Apple TestFlight 빌드 • 즉시 참여 가능</div>
-              </div>
-              <button class="btn btn-violet btn-md" id="btn-dl-ios">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
-                <span>TestFlight 베타 참가</span>
-              </button>
-            </div>
+      <div class="downloads-grid">
+        <!-- Windows Host -->
+        <div class="download-card">
+          <div class="download-card-header">
+            <svg class="download-card-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4h-13.051M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.951-1.951"/>
+            </svg>
+            <h3 class="download-card-title">Windows 호스트 서버</h3>
+            <div class="download-card-os">Windows 10 / 11 64-bit</div>
           </div>
+          <div class="download-card-body">
+            DXGI 1.2+ VRAM 제로카피 캡처, NVENC 하드웨어 CBR 초저지연 인코딩, ViGEmBus 4인 가상 패드 엔진 탑재.
+          </div>
+          <div class="download-card-specs">
+            Rust Core • DXGI 1.2+ • NVENC • ViGEmBus
+          </div>
+          <a href="dist/zerodoc_AetherStream_Setup_v0.1.0.exe" class="btn btn-primary btn-block" download>
+            Windows 인스톨러 (.exe)
+          </a>
+        </div>
 
-          <!-- Official User Guide Callout Banner -->
-          <div class="download-guide-banner cyber-card" style="margin-top: 24px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; background: #0A0A0A; border: 1px solid #222222;">
-            <div style="display: flex; align-items: center; gap: 16px;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" style="width: 32px; height: 32px; flex-shrink: 0;">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-              </svg>
-              <div>
-                <h4 style="font-size: 1rem; color: #FFFFFF; margin-bottom: 4px;">처음 사용하시나요? 공식 사용자 가이드를 확인하세요</h4>
-                <p style="font-size: 0.82rem; color: #888888; margin: 0;">호스트 구동, 6자리 룸코드 연결, 단축키 및 방화벽 문제 해결(Troubleshooting)까지 전 과정 수록</p>
-              </div>
-            </div>
-            <a href="../docs/USER_GUIDE.md" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="flex-shrink: 0; white-space: nowrap;">
-              공식 사용자 가이드 읽기 →
-            </a>
+        <!-- Android Native -->
+        <div class="download-card">
+          <div class="download-card-header">
+            <svg class="download-card-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125s-3.5902.2866-5.1368.8297L4.8409 5.4517a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
+            </svg>
+            <h3 class="download-card-title">Android 네이티브 클라이언트</h3>
+            <div class="download-card-os">Android 8.0+ (Galaxy Tab, Phone)</div>
+          </div>
+          <div class="download-card-body">
+            MediaCodec NDK 144Hz AMOLED 하드웨어 디코딩, Galaxy S-Pen 4096단계 필압, 저지연 가상 게임패드.
+          </div>
+          <div class="download-card-specs">
+            Kotlin 1.9.23 • Jetpack Compose • 144Hz NDK
+          </div>
+          <a href="dist/zerodoc_AetherStream_v0.1.0.apk" class="btn btn-outline btn-block" download>
+            Android APK (.apk)
+          </a>
+        </div>
+
+        <!-- iOS Native -->
+        <div class="download-card">
+          <div class="download-card-header">
+            <svg class="download-card-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.85c.65-.8 1.1-1.92.98-3.04-1 .04-2.17.67-2.86 1.47-.6.69-1.13 1.83-.99 2.93 1.11.09 2.22-.56 2.87-1.36z"/>
+            </svg>
+            <h3 class="download-card-title">iOS 네이티브 클라이언트</h3>
+            <div class="download-card-os">iOS / iPadOS 16.0+</div>
+          </div>
+          <div class="download-card-body">
+            Apple VideoToolbox 제로카피 디코딩, Metal 3 120Hz ProMotion 렌더러, Apple Pencil 4096단계 필압 패스스루.
+          </div>
+          <div class="download-card-specs">
+            Swift • Metal 3 • 120Hz ProMotion • Pencil
+          </div>
+          <button class="btn btn-outline btn-block" onclick="alert('iOS TestFlight 참가 신청이 접수되었습니다. 안내 메일을 확인해 주세요.');">
+            iOS TestFlight 참가 신청
+          </button>
+        </div>
+      </div>
+
+      <!-- Official User Guide Callout Banner -->
+      <div class="official-guide-callout">
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" style="width: 28px; height: 28px; flex-shrink: 0;">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          <div>
+            <h4 style="font-size: 0.98rem; color: #FFFFFF; margin-bottom: 2px;">공식 사용자 매뉴얼 & 문제 해결 가이드</h4>
+            <p style="font-size: 0.82rem; color: #888888; margin: 0;">호스트 구동, 6자리 룸코드 연결, 단축키 및 디스플레이 설정 전 과정 수록</p>
           </div>
         </div>
+        <a href="docs/USER_GUIDE.md" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm" style="flex-shrink: 0; white-space: nowrap;">
+          공식 사용자 가이드 읽기 ↗
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- FAQ Section -->
-  <section id="faq" class="faq-section">
-    <div class="container faq-container">
-      <div class="section-header text-center">
-        <div class="hud-chip">
-          <span class="chip-bracket">[</span>
-          <span class="chip-label">자주 묻는 질문 (FAQ)</span>
-          <span class="chip-bracket">]</span>
-        </div>
-        <h2 class="section-title">기술적 궁금증을 명쾌하게 풀어드립니다</h2>
-      </div>
-
-      <div class="faq-accordion">
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>일반 P2P 스트리머는 기숙사나 외부 Wi-Fi에서 접속이 막히는데, zerodoc은 왜 바로 연결되나요?</span>
-            <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="faq-answer">
-            <p>
-              기존 일반 P2P 솔루션은 단순 포트 바인딩에 의존하므로, 공유기 방화벽이나 학교/기숙사처럼 대칭형 NAT(Symmetric NAT) 환경에서는 외부 접속이 차단됩니다. 이를 우회하려면 복잡한 가상 사설망(VPN)을 별도로 구축해야 하는 번거로움이 있습니다.
-            </p>
-            <p>
-              zerodoc AetherStream은 RFC 5389 STUN NAT 홀펀칭을 우선 시도하고, 차단된 환경에서는 전 세계 38개 고속 TURN 엣지 릴레이 노드가 표준 HTTPS 포트(443)를 통해 암호화된 UDP 패킷을 자동 중계하므로 전 세계 어디서든 무조건 연결됩니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>애플 펜슬로 그림을 그릴 때 딜레이(지연)가 정말 느껴지지 않나요?</span>
-            <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="faq-answer">
-            <p>
-              iOS 환경에서 Apple Pencil 터치는 초당 240Hz로 정밀 샘플링됩니다. AetherStream은 4096레벨 필압과 틸트(기울기), 펜 좌표를 초경량 16바이트 UDP 패킷으로 압축하여 즉시 송출합니다.
-            </p>
-            <p>
-              윈도우 호스트 PC에서는 일반 마우스 큐를 우회하여 Windows Ink 디지타이저 서브시스템 및 Wintab API로 다이렉트 인젝션하므로, 입력 지연이 8ms 미만으로 유지되어 실제 와콤 타블렛을 쓰는 것과 동일한 반응성을 느낄 수 있습니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>Windows 다중 모니터 환경에서 화면 캡처는 어떻게 동작하나요?</span>
-            <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="faq-answer">
-            <p>
-              AetherStream은 Windows 네이티브 DXGI 1.2+ Desktop Duplication API를 사용하여 CPU 메모리 복사 없이 GPU VRAM에서 직접 활성 화면을 캡처합니다.
-            </p>
-            <p>
-              연결된 모든 물리 디스플레이를 정확하게 감지하며, 클라이언트에서 원하는 모니터를 즉시 선택 및 전환하여 하드웨어 가속 비트스트림으로 스트리밍할 수 있습니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>기본 무료(Free) 버전은 정말 평생 무료인가요?</span>
-            <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="faq-answer">
-            <p>
-              네, 100% 영구 무료입니다. 동일 네트워크 및 일반 P2P 환경에서의 1080p 120Hz 스트리밍, 6자리 룸코드 접속, 2인 게임패드 코옵은 클라우드 중계 서버 비용이 들지 않으므로 절대로 유료화하지 않습니다.
-            </p>
-            <p>
-              Pro 유료 구독은 글로벌 38개 전용 TURN 중계 서버 유지비와 Apple Pencil 전문 드로잉 도구, 다중 모니터 제로카피 전환 등 전문가용 고성능 기능을 지원하기 위한 합리적인 요금제입니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>친구들과 4명이서 동시에 게임패드로 플레이할 수 있나요?</span>
-            <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="faq-answer">
-            <p>
-              네, 완벽하게 지원합니다. 호스트 PC에 내장된 ViGEmBus 가상 드라이버가 최대 4대의 모바일 기기(아이폰, 갤럭시 등) 입력을 독립된 엑스박스 360 컨트롤러로 즉시 인식시킵니다.
-            </p>
-            <p>
-              철권 8, 피파(FC24), 오버쿡, 잇 테익스 투 등 스팀 로컬 협동 게임을 친구들과 모바일 폰으로 접속하여 즉시 함께 즐길 수 있습니다.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer-wrapper">
+  <!-- Swiss Minimalist Footer -->
+  <footer class="footer">
     <div class="container footer-container">
       <div class="footer-brand-col">
-        <a href="ko.html" class="brand-logo">
-          <div class="logo-glyph mini">
-            <svg viewBox="0 0 40 40" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="brand-logo">
+          <div class="logo-glyph">
+            <svg viewBox="0 0 40 40" width="24" height="24" fill="none">
               <rect width="40" height="40" fill="#000000"/>
               <rect width="40" height="40" stroke="#222222" stroke-width="1"/>
               <path d="M 8 9 L 32 9 L 19 22 L 32 22 L 32 31 L 8 31 L 21 18 L 8 18 Z" fill="#FFFFFF"/>
-              <rect x="15" y="19" width="10" height="2" fill="#000000"/>
             </svg>
           </div>
-          <div class="brand-text">
-            <span class="company-name">zerodoc</span>
-            <span class="product-name">AetherStream</span>
-          </div>
-        </a>
+          <span class="brand-text"><strong>zerodoc</strong> AetherStream</span>
+        </div>
         <p class="footer-tagline">
-          주식회사 제로독(zerodoc Inc.)의 차세대 초저지연 리모트 데스크톱 및 게이밍 스트리밍 시스템.<br>
-          DXGI VRAM 직결 · 120Hz ProMotion · 초저지연 파이프라인.
+          주식회사 제로독 (zerodoc Inc.) · 차세대 초저지연 리모트 게이밍 엔진.<br>
+          © 2026 zerodoc Inc. All rights reserved.
         </p>
-        <div class="footer-socials">
-          <a href="https://github.com/pqowp90/AetherStream" target="_blank" class="social-icon" aria-label="GitHub">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-          </a>
-          <a href="https://discord.gg/zerodoc" target="_blank" class="social-icon" aria-label="Discord">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-          </a>
-        </div>
       </div>
 
-      <div class="footer-links-grid">
+      <div class="footer-links-group">
         <div class="footer-col">
-          <h5>제품 안내</h5>
-          <a href="#features">핵심 아키텍처</a>
-          <a href="#comparison">솔루션 기술 비교</a>
-          <a href="#pencil">Apple Pencil Pro</a>
-          <a href="#simulator">지연시간 측정실</a>
-          <a href="join.html">디스코드 룸코드 브릿지</a>
-          <a href="#pricing">요금제 플랜</a>
+          <h5>엔지니어링 명세서</h5>
+          <a href="docs/USER_GUIDE.md" target="_blank" rel="noopener noreferrer">공식 사용자 가이드</a>
+          <a href="docs/PROTOCOL.md" target="_blank" rel="noopener noreferrer">프로토콜 스펙 (v0.1.0)</a>
+          <a href="docs/ARCHITECTURE.md" target="_blank" rel="noopener noreferrer">시스템 아키텍처</a>
+          <a href="docs/DESIGN_SYSTEM.md" target="_blank" rel="noopener noreferrer">zerodoc 디자인 가이드</a>
         </div>
         <div class="footer-col">
-          <h5>개발자 및 문서</h5>
-          <a href="../docs/USER_GUIDE.md" target="_blank" rel="noopener noreferrer" style="color: #FFFFFF; font-weight: 700;">★ 공식 사용자 가이드 (Manual)</a>
-          <a href="../docs/PROTOCOL.md">프로토콜 스펙 (v0.1.0)</a>
-          <a href="../docs/ARCHITECTURE.md">시스템 아키텍처</a>
-          <a href="../docs/DESIGN_SYSTEM.md">zerodoc 디자인 가이드</a>
-          <a href="../docs/MONETIZATION_STRATEGY.md">비즈니스 모델</a>
-          <a href="https://github.com/pqowp90/AetherStream">GitHub 저장소</a>
+          <h5>플랫폼</h5>
+          <a href="dist/zerodoc_AetherStream_Setup_v0.1.0.exe" download>Windows Host (.exe)</a>
+          <a href="dist/zerodoc_AetherStream_v0.1.0.apk" download>Android Client (.apk)</a>
+          <a href="#downloads">iOS TestFlight</a>
         </div>
-        <div class="footer-col">
-          <h5>회사 소개</h5>
-          <a href="#">주식회사 제로독 소개</a>
-          <a href="#">인재 채용 (채용 중)</a>
-          <a href="#">개인정보 처리방침</a>
-          <a href="#">서비스 이용약관</a>
-          <a href="#">보안 및 취약점 제보</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom container">
-      <div class="footer-copy">
-        © 2026 주식회사 제로독 (zerodoc Inc.). All rights reserved.
-      </div>
-      <div class="telemetry-pill-mini">
-        <span class="status-dot-pulse"></span>
-        <span>모든 시스템 정상 가동 중 • Alpha v0.1.0 대기</span>
       </div>
     </div>
   </footer>
 
-  <!-- Neo-Brutalist Checkout Modal -->
-  <div class="checkout-modal-backdrop" id="modal-checkout">
-    <div class="checkout-dialog">
-      <div class="checkout-topbar">
-        <div class="checkout-brand">
-          <svg viewBox="0 0 100 100" width="16" height="16">
-            <polygon points="22,22 78,22 78,34 44,66 78,66 78,78 22,78 22,66 56,34 22,34" fill="#FFFFFF"/>
-          </svg>
-          <span>zerodoc AetherStream 결제 시스템</span>
-        </div>
-        <button class="checkout-close-btn" id="btn-close-checkout">&times;</button>
-      </div>
-
-      <div class="checkout-body">
-        <!-- Selected Plan Summary Card -->
-        <div class="checkout-plan-summary">
-          <div>
-            <div class="summary-title" id="checkout-plan-title">Aether Pro (연간 플랜)</div>
-            <div class="summary-desc" id="checkout-plan-desc">38개 글로벌 TURN 릴레이 · 애플 펜슬 프로 4096 필압 · 120Hz</div>
-          </div>
-          <div class="summary-pricing">
-            <div class="summary-amount" id="checkout-plan-amount">₩49,000</div>
-            <div class="summary-cycle" id="checkout-plan-cycle">/ 1년 일시결제 (월 ₩4,083 상당)</div>
-          </div>
-        </div>
-
-        <!-- Payment Method Selector -->
-        <div>
-          <div class="checkout-section-label">결제 수단 선택 (Neo-Brutalist 1-Click Pay)</div>
-          <div class="payment-methods-grid">
-            <button type="button" class="pay-method-btn active" data-method="stripe">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="5" width="20" height="14" rx="0"/>
-                <line x1="2" y1="10" x2="22" y2="10"/>
-              </svg>
-              <span>신용/체크카드</span>
-              <span class="pay-tag">Stripe</span>
-            </button>
-            <button type="button" class="pay-method-btn" data-method="kakaopay">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.9 5.3 4.7 6.7l-1.2 4.4c-.1.4.3.7.6.5l5.2-3.4c.2 0 .5.1.7.1 5.5 0 10-3.6 10-8s-4.5-8-10-8z"/>
-              </svg>
-              <span>카카오페이</span>
-              <span class="pay-tag">Kakao</span>
-            </button>
-            <button type="button" class="pay-method-btn" data-method="tosspay">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M8 12h8M12 8v8"/>
-              </svg>
-              <span>토스페이</span>
-              <span class="pay-tag">Toss</span>
-            </button>
-            <button type="button" class="pay-method-btn" data-method="naverpay">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M16.5 3H7.5C5 3 3 5 3 7.5v9C3 19 5 21 7.5 21h9c2.5 0 4.5-2 4.5-4.5v-9C21 5 19 3 16.5 3zM9 16.5l-3-4.5V16.5H4.5v-9H6l3 4.5V7.5H10.5v9H9zm9 0h-4.5v-9H18v9z"/>
-              </svg>
-              <span>네이버페이</span>
-              <span class="pay-tag">Naver</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Customer Identity / Email -->
-        <div class="checkout-input-group">
-          <label class="checkout-section-label" for="checkout-email">라이선스 발송용 계정 이메일</label>
-          <input type="email" id="checkout-email" class="checkout-input" placeholder="you@company.com" required>
-        </div>
-
-        <!-- Checkout Action Button -->
-        <button type="button" class="checkout-action-btn" id="btn-submit-payment">
-          <span id="btn-pay-text">₩49,000 결제 승인 및 라이선스 즉시 발급</span>
-        </button>
-
-        <div class="checkout-status-msg" id="checkout-status-msg"></div>
-
-        <!-- Interactive License Key Generation Preview -->
-        <div class="checkout-license-preview" id="checkout-license-box">
-          <div class="license-hud-header">
-            <span>[ 결제 승인 완료 • 라이선스 활성화 ]</span>
-            <span>STATUS: ACTIVE</span>
-          </div>
-          <div class="license-key-box" id="generated-license-key">
-            AETH-PRO-XXXX-XXXX-XXXX
-          </div>
-          <div class="license-meta-row">
-            <span>라이선스 등급: <strong id="license-tier-text">Aether Pro</strong></span>
-            <span>유효기간: <strong>영구 / 1년 갱신</strong></span>
-          </div>
-          <div style="font-size:0.75rem; color:#888888; font-family:var(--font-mono, monospace); line-height:1.4;">
-            위 라이선스 키를 호스트 PC의 AetherStream 설정 창에 입력하시면 Pro/Studio 기능이 즉시 언락됩니다. 등록된 이메일로도 라이선스 증서가 동시 발송되었습니다.
-          </div>
-        </div>
-
-        <div class="checkout-guarantee">
-          <span>100% 종단간 256-bit 암호화 처리 • 14일 무조건 전액 환불 보장</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Quick Join Modal -->
+  <!-- Quick Join 6-Digit Room Code Modal -->
   <div class="modal-backdrop" id="join-modal">
     <div class="modal-card cyber-card">
       <button class="modal-close" id="modal-close-btn">&times;</button>
       <div class="modal-header">
-        <div class="modal-hud-tag">[ 즉시 P2P 연결 ]</div>
-        <h3>6자리 룸코드로 접속</h3>
-        <p>회원가입이 필요 없습니다. 친구의 게임이나 보조 화면 스트림에 즉시 참가하세요.</p>
+        <div class="modal-hud-tag">[ 초저지연 P2P 직결 ]</div>
+        <h3>6자리 룸코드 빠른 접속</h3>
+        <p>복잡한 설정 없이, 호스트 화면의 6자리 코드로 즉시 P2P 연결합니다.</p>
       </div>
 
       <div class="modal-body">
         <div class="code-inputs" id="modal-code-inputs">
-          <input type="text" maxlength="1" class="code-box modal-box" data-midx="0" placeholder="•" autofocus autocomplete="off">
-          <input type="text" maxlength="1" class="code-box modal-box" data-midx="1" placeholder="•" autocomplete="off">
-          <input type="text" maxlength="1" class="code-box modal-box" data-midx="2" placeholder="•" autocomplete="off">
+          <input type="text" maxlength="1" class="code-box modal-box" data-midx="0" placeholder="?" autofocus autocomplete="off">
+          <input type="text" maxlength="1" class="code-box modal-box" data-midx="1" placeholder="?" autocomplete="off">
+          <input type="text" maxlength="1" class="code-box modal-box" data-midx="2" placeholder="?" autocomplete="off">
           <span class="code-dash">-</span>
-          <input type="text" maxlength="1" class="code-box modal-box" data-midx="3" placeholder="•" autocomplete="off">
-          <input type="text" maxlength="1" class="code-box modal-box" data-midx="4" placeholder="•" autocomplete="off">
-          <input type="text" maxlength="1" class="code-box modal-box" data-midx="5" placeholder="•" autocomplete="off">
+          <input type="text" maxlength="1" class="code-box modal-box" data-midx="3" placeholder="?" autocomplete="off">
+          <input type="text" maxlength="1" class="code-box modal-box" data-midx="4" placeholder="?" autocomplete="off">
+          <input type="text" maxlength="1" class="code-box modal-box" data-midx="5" placeholder="?" autocomplete="off">
         </div>
         
         <div class="stream-role-select">
-          <label><input type="radio" name="modal-role" value="gamepad" checked> <span>🎮 게임패드 컨트롤러 (2P 플레이어)</span></label>
-          <label><input type="radio" name="modal-role" value="spectator"> <span>👁️ 화면 관전 (시청 모드)</span></label>
-          <label><input type="radio" name="modal-role" value="pencil"> <span>✏️ 애플 펜슬 디지타이저</span></label>
+          <label><input type="radio" name="modal-role" value="gamepad" checked> <span>가상 게임패드 (2P 플레이어)</span></label>
+          <label><input type="radio" name="modal-role" value="spectator"> <span>화면 스트림 뷰어 (관전 모드)</span></label>
+          <label><input type="radio" name="modal-role" value="pencil"> <span>정밀 펜슬 타블렛 (Windows Ink)</span></label>
         </div>
 
         <button class="btn btn-primary btn-block glow-btn" id="btn-modal-connect">
-          지금 스트림에 연결하기
+          스트림 연결하기
         </button>
         <div class="modal-status-msg" id="modal-status"></div>
       </div>
     </div>
   </div>
 
-  <!-- Google Auth Modal -->
-  <div class="auth-modal-backdrop" id="google-auth-modal">
-    <div class="google-auth-dialog">
-      <div class="auth-dialog-topbar">
-        <div class="auth-dialog-brand">
-          <svg viewBox="0 0 100 100" width="16" height="16">
-            <polygon points="22,22 78,22 78,34 44,66 78,66 78,78 22,78 22,66 56,34 22,34" fill="#FFFFFF"/>
-          </svg>
-          <span>zerodoc AetherStream 계정 연동</span>
-        </div>
-        <button class="auth-dialog-close" id="btn-close-google-modal">&times;</button>
-      </div>
-      <div class="auth-dialog-body">
-        <div class="google-prompt-card">
-          <div class="google-logo-large">
-            <svg viewBox="0 0 24 24" width="36" height="36">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-            </svg>
-          </div>
-          <div class="auth-title">Google 계정으로 연동</div>
-          <div class="auth-subtitle">
-            AetherStream 클라우드 페어링 서비스에 계속하려면 연동할 Google 계정을 선택하십시오.
-          </div>
-        </div>
-        <div class="account-selector-box" id="auth-account-options-list"></div>
-        <div class="scope-checklist-box">
-          <div class="scope-heading">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="11" width="18" height="11" rx="0" ry="0"/>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-            <span>연동 시 요청되는 필수 접근 권한</span>
-          </div>
-          <div class="scope-item">
-            <span class="scope-check-icon">✔</span>
-            <span><strong>기본 프로필 정보</strong>: 계정 식별 및 호스트 기기 목록 동기화</span>
-          </div>
-          <div class="scope-item">
-            <span class="scope-check-icon">✔</span>
-            <span><strong>Google Drive 파일 연동</strong>: AetherStream 설치본 및 가상 컨트롤러 매핑 백업</span>
-          </div>
-        </div>
-        <div class="auth-actions-group">
-          <button class="btn-auth-confirm" id="btn-confirm-google-login">
-            Google 계정으로 계속
-          </button>
-          <button class="btn-auth-cancel" id="btn-cancel-google-modal">
-            취소
-          </button>
-        </div>
-        <div class="auth-security-notice">
-          zerodoc Inc.는 사용자의 비밀번호를 절대 수집하거나 외부 서버에 전송하지 않습니다.
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="auth-global-toast" class="auth-toast-notification"></div>
-
-  <script src="app.js"></script>
-  <script src="auth.js"></script>
+  <script src="app.js?v=20261031_03"></script>
+  <script src="auth.js?v=20261031_03"></script>
 </body>
 </html>

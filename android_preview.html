@@ -1,0 +1,2035 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zerodoc AetherStream - Android 144Hz Native Client Showcase</title>
+  <meta name="description" content="주식회사 제로독(zerodoc Inc.)의 순수 Kotlin & Jetpack Compose 네이티브 안드로이드 클라이언트 인터랙티브 쇼케이스. 144Hz MediaCodec NDK, Galaxy S-Pen 4096레벨 필압, 네오 브루탈리즘 가상 패드.">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-black: #000000;
+      --bg-surface: #0A0A0A;
+      --bg-card: #111111;
+      --border-hairline: #222222;
+      --border-subtle: #333333;
+      --border-strong: #FFFFFF;
+      --text-white: #FFFFFF;
+      --text-dim: #888888;
+      --text-dark: #555555;
+      --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0px !important; /* STRICT NEO-BRUTALISM: 0px BORDER RADIUS */
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-black);
+      color: var(--text-white);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      word-break: keep-all;
+      letter-spacing: -0.02em;
+    }
+
+    /* Top Global Header */
+    .showcase-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--bg-black);
+      border-bottom: 1px solid var(--border-hairline);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--text-white);
+    }
+
+    .logo-glyph {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border-hairline);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+    }
+
+    .brand-title {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-weight: 800;
+      font-size: 0.98rem;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-sub {
+      font-family: var(--font-mono);
+      font-size: 0.70rem;
+      color: var(--text-dim);
+    }
+
+    /* Device Switcher Pills */
+    .device-switcher {
+      display: flex;
+      border: 1px solid var(--border-hairline);
+      background: var(--bg-surface);
+    }
+
+    .device-btn {
+      background: transparent;
+      border: none;
+      border-right: 1px solid var(--border-hairline);
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .device-btn:last-child {
+      border-right: none;
+    }
+
+    .device-btn:hover {
+      background: #181818;
+      color: var(--text-white);
+    }
+
+    .device-btn.active {
+      background: var(--text-white);
+      color: var(--bg-black);
+      font-weight: 700;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-link {
+      background: transparent;
+      border: 1px solid var(--border-hairline);
+      color: var(--text-white);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s ease;
+    }
+
+    .btn-link:hover {
+      background: #1a1a1a;
+      border-color: #444;
+    }
+
+    .btn-primary {
+      background: var(--text-white);
+      color: var(--bg-black);
+      border: 1px solid var(--text-white);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 8px 16px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      background: #000;
+      color: #fff;
+    }
+
+    /* Main Showcase Container */
+    .main-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 20px 48px 20px;
+      background: #050505;
+    }
+
+    .stage-intro {
+      text-align: center;
+      max-width: 800px;
+      margin-bottom: 24px;
+    }
+
+    .stage-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      border: 1px solid var(--border-hairline);
+      background: var(--bg-surface);
+      padding: 4px 10px;
+      margin-bottom: 12px;
+    }
+
+    .stage-badge span {
+      color: var(--text-white);
+      font-weight: 700;
+    }
+
+    .stage-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      margin-bottom: 8px;
+    }
+
+    .stage-desc {
+      color: var(--text-dim);
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    /* Simulated Android Device Viewport Frame */
+    .device-wrapper {
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 2px solid #333333;
+      background: #000000;
+      display: flex;
+      flex-direction: column;
+      box-shadow: none !important;
+    }
+
+    /* Device Variations */
+    .device-wrapper.tab-s10 {
+      width: 1040px;
+      height: 650px;
+    }
+
+    .device-wrapper.z-fold-6 {
+      width: 780px;
+      height: 640px;
+    }
+
+    .device-wrapper.s24-ultra {
+      width: 880px;
+      height: 440px;
+    }
+
+    /* Android System Status Bar */
+    .android-status-bar {
+      height: 28px;
+      background: #000000;
+      border-bottom: 1px solid #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      font-family: var(--font-mono);
+      font-size: 0.70rem;
+      color: #999999;
+      user-select: none;
+    }
+
+    .status-left, .status-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .camera-punch {
+      width: 8px;
+      height: 8px;
+      background: #111111;
+      border: 1px solid #222222;
+      border-radius: 50% !important;
+    }
+
+    .status-pill-green {
+      color: #00FF88;
+      font-weight: 700;
+    }
+
+    /* Jetpack Compose Screen Navigation Tabs */
+    .compose-tabrow {
+      display: flex;
+      background: #0A0A0A;
+      border-bottom: 1px solid var(--border-hairline);
+      user-select: none;
+      overflow-x: auto;
+    }
+
+    .compose-tab {
+      flex: 1;
+      padding: 10px 12px;
+      background: transparent;
+      border: none;
+      border-right: 1px solid var(--border-hairline);
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .compose-tab:last-child {
+      border-right: none;
+    }
+
+    .compose-tab:hover {
+      background: #141414;
+      color: var(--text-white);
+    }
+
+    .compose-tab.active {
+      background: #1E1E1E;
+      color: var(--text-white);
+      border-bottom: 2px solid var(--text-white);
+      font-weight: 700;
+    }
+
+    /* Android Screen Viewport */
+    .android-screen-content {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: #000000;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screen-panel {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      overflow-y: auto;
+      background: #000000;
+    }
+
+    .screen-panel.active {
+      display: flex;
+    }
+
+    /* ==========================================================================
+       SCREEN 1: RoomCodeScreen (RoomCodeScreen.kt)
+       ========================================================================== */
+    .room-code-screen {
+      padding: 24px;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .room-header {
+      text-align: center;
+    }
+
+    .room-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+
+    .room-sub {
+      font-size: 0.80rem;
+      color: var(--text-dim);
+    }
+
+    .room-inputs-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      margin: 12px 0;
+    }
+
+    .code-box {
+      width: 46px;
+      height: 56px;
+      background: #0A0A0A;
+      border: 1px solid #333333;
+      color: var(--text-white);
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 800;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+    }
+
+    .code-box.filled {
+      border-color: #888888;
+      background: #111111;
+    }
+
+    .code-box.current {
+      border-color: #FFFFFF;
+      outline: 1px solid #FFFFFF;
+    }
+
+    .code-sep {
+      font-size: 1.5rem;
+      font-family: var(--font-mono);
+      color: #444;
+    }
+
+    /* Virtual Monospace Hex Keypad */
+    .virtual-keypad {
+      display: grid;
+      grid-template-columns: repeat(6, 44px);
+      gap: 6px;
+      justify-content: center;
+      margin-top: 4px;
+    }
+
+    .key-btn {
+      width: 44px;
+      height: 40px;
+      background: #0E0E0E;
+      border: 1px solid #222222;
+      color: #CCCCCC;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.1s ease;
+    }
+
+    .key-btn:hover {
+      background: #222;
+      color: #fff;
+    }
+
+    .key-btn:active {
+      background: #fff;
+      color: #000;
+    }
+
+    .key-btn.action-key {
+      font-size: 0.70rem;
+      color: #888;
+    }
+
+    .room-status-badge {
+      border: 1px solid #222222;
+      background: #0A0A0A;
+      padding: 6px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #888888;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      background: #00FF88;
+    }
+
+    .btn-connect-stream {
+      background: var(--text-white);
+      color: var(--bg-black);
+      border: 1px solid var(--text-white);
+      font-family: var(--font-sans);
+      font-size: 0.90rem;
+      font-weight: 800;
+      padding: 12px 32px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-connect-stream:hover {
+      background: #000;
+      color: #fff;
+    }
+
+    /* Cloud Synced Host Discovery List */
+    .host-discovery-list {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .host-card {
+      background: #0A0A0A;
+      border: 1px solid #222222;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: border-color 0.15s ease;
+    }
+
+    .host-card:hover {
+      border-color: #555555;
+      background: #111111;
+    }
+
+    .host-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .host-name {
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .host-spec {
+      font-family: var(--font-mono);
+      font-size: 0.70rem;
+      color: var(--text-dim);
+    }
+
+    .btn-host-connect {
+      background: transparent;
+      border: 1px solid #444;
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    .btn-host-connect:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    /* ==========================================================================
+       SCREEN 2: StreamViewScreen & PerformanceHUD (144Hz Simulation)
+       ========================================================================== */
+    .stream-view-screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000000;
+    }
+
+    #stream-simulation-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #000000;
+    }
+
+    /* Performance HUD (Matches PerformanceHUD.kt) */
+    .performance-hud {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(10, 10, 10, 0.40); /* Resting ghost mode 40% */
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 6px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #FFFFFF;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      z-index: 100;
+      user-select: none;
+    }
+
+    .performance-hud:hover, .performance-hud.expanded {
+      background: rgba(10, 10, 10, 0.95);
+      border-color: #555555;
+    }
+
+    .hud-mini-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+
+    .hud-pill-tag {
+      color: #00FF88;
+    }
+
+    .hud-details-pane {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #222222;
+      font-size: 0.68rem;
+      color: #AAAAAA;
+    }
+
+    .performance-hud.expanded .hud-details-pane {
+      display: flex;
+    }
+
+    .hud-stat-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .hud-stat-val {
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    /* Floating Stream Quick Action Overlay */
+    .stream-quick-bar {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      background: rgba(10, 10, 10, 0.85);
+      border: 1px solid #333333;
+      padding: 4px;
+      gap: 6px;
+      z-index: 90;
+    }
+
+    .quick-action-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #CCCCCC;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .quick-action-btn:hover {
+      background: #222222;
+      color: #FFFFFF;
+      border-color: #444444;
+    }
+
+    /* ==========================================================================
+       SCREEN 3: VirtualGamepad (VirtualGamepad.kt)
+       ========================================================================== */
+    .gamepad-screen {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      user-select: none;
+      background: #050505;
+    }
+
+    .gamepad-top-triggers {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 10px;
+    }
+
+    .trigger-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-trigger {
+      width: 72px;
+      height: 38px;
+      background: #111111;
+      border: 1px solid #333333;
+      color: #FFFFFF;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.08s ease;
+    }
+
+    .btn-trigger:active, .btn-trigger.active {
+      background: #FFFFFF;
+      color: #000000;
+    }
+
+    .gamepad-middle-stage {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 10px;
+    }
+
+    /* Thumbstick Touch Area */
+    .stick-area {
+      width: 130px;
+      height: 130px;
+      background: #0A0A0A;
+      border: 1px solid #282828;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: crosshair;
+    }
+
+    .stick-crosshair-x {
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      background: #181818;
+    }
+
+    .stick-crosshair-y {
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      background: #181818;
+    }
+
+    .stick-knob {
+      width: 48px;
+      height: 48px;
+      background: #1E1E1E;
+      border: 1px solid #555555;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: #888;
+      pointer-events: none;
+      transition: transform 0.04s ease;
+    }
+
+    /* D-PAD */
+    .dpad-cluster {
+      display: grid;
+      grid-template-columns: repeat(3, 40px);
+      grid-template-rows: repeat(3, 40px);
+      gap: 2px;
+    }
+
+    .dpad-btn {
+      background: #111111;
+      border: 1px solid #333333;
+      color: #FFFFFF;
+      font-family: var(--font-mono);
+      font-size: 0.80rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .dpad-btn:active, .dpad-btn.active {
+      background: #FFFFFF;
+      color: #000000;
+    }
+
+    .dpad-empty {
+      background: transparent;
+      border: none;
+    }
+
+    /* ABXY Cluster */
+    .abxy-cluster {
+      display: grid;
+      grid-template-columns: repeat(3, 42px);
+      grid-template-rows: repeat(3, 42px);
+      gap: 4px;
+    }
+
+    .abxy-btn {
+      width: 42px;
+      height: 42px;
+      background: #111111;
+      border: 1px solid #333333;
+      color: #FFFFFF;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.08s ease;
+    }
+
+    .abxy-btn:active, .abxy-btn.active {
+      background: #FFFFFF;
+      color: #000000;
+    }
+
+    /* Center Menu & Telemetry */
+    .gamepad-center-hub {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 280px;
+    }
+
+    .gamepad-menu-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-menu-pill {
+      background: #0E0E0E;
+      border: 1px solid #282828;
+      color: #AAAAAA;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    .btn-menu-pill:active, .btn-menu-pill.active {
+      background: #FFFFFF;
+      color: #000000;
+    }
+
+    /* Live 16-byte UDP Packet Inspector */
+    .udp-packet-monitor {
+      width: 100%;
+      background: #080808;
+      border: 1px solid #1E1E1E;
+      padding: 8px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .packet-header {
+      color: #666666;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .packet-hex {
+      color: #00FF88;
+      word-break: break-all;
+    }
+
+    /* ==========================================================================
+       SCREEN 4: S-Pen Studio Canvas (S-Pen 4096-Level Pressure)
+       ========================================================================== */
+    .spen-screen {
+      position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: #0A0A0A;
+    }
+
+    .spen-telemetry-bar {
+      height: 38px;
+      background: #000000;
+      border-bottom: 1px solid var(--border-hairline);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #888888;
+    }
+
+    .spen-active-val {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .spen-canvas-wrap {
+      flex: 1;
+      position: relative;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    #spen-test-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #050505;
+    }
+
+    .spen-toolbar {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      display: flex;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.9);
+      border: 1px solid #333;
+      padding: 4px;
+      z-index: 10;
+    }
+
+    .spen-tool-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      cursor: pointer;
+    }
+
+    .spen-tool-btn:hover, .spen-tool-btn.active {
+      background: #222;
+      border-color: #555;
+    }
+
+    .pressure-slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: #888;
+      padding: 0 8px;
+    }
+
+    /* ==========================================================================
+       SCREEN 5: SettingsScreen (SettingsScreen.kt)
+       ========================================================================== */
+    .settings-screen {
+      padding: 24px;
+      overflow-y: auto;
+      gap: 20px;
+    }
+
+    .settings-group {
+      background: #0A0A0A;
+      border: 1px solid var(--border-hairline);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .settings-group-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      border-bottom: 1px solid #1A1A1A;
+      padding-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .settings-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .settings-label {
+      font-size: 0.82rem;
+      color: #CCCCCC;
+    }
+
+    .settings-desc {
+      font-size: 0.70rem;
+      color: #666666;
+    }
+
+    .settings-pills {
+      display: flex;
+      border: 1px solid #282828;
+    }
+
+    .pill-opt {
+      background: transparent;
+      border: none;
+      border-right: 1px solid #282828;
+      color: #888;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    .pill-opt:last-child {
+      border-right: none;
+    }
+
+    .pill-opt.active {
+      background: #FFFFFF;
+      color: #000000;
+      font-weight: 700;
+    }
+
+    /* Technical Architecture Specs Banner */
+    .android-tech-specs {
+      width: 100%;
+      max-width: 1040px;
+      margin-top: 32px;
+      border: 1px solid var(--border-hairline);
+      background: var(--bg-surface);
+      padding: 24px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .tech-spec-box {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .spec-num {
+      font-family: var(--font-mono);
+      font-size: 0.70rem;
+      color: var(--text-dim);
+    }
+
+    .spec-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+    }
+
+    .spec-desc {
+      font-size: 0.74rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* Bottom Sticky APK CTA Bar */
+    .bottom-cta-bar {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1040px;
+      padding: 16px 20px;
+      background: #000;
+      border: 1px solid #333;
+    }
+
+    .cta-info-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .apk-icon-box {
+      width: 40px;
+      height: 40px;
+      background: #111;
+      border: 1px solid #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .apk-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .apk-filename {
+      font-weight: 800;
+      font-size: 0.90rem;
+    }
+
+    .apk-meta {
+      font-family: var(--font-mono);
+      font-size: 0.70rem;
+      color: var(--text-dim);
+    }
+
+    /* Responsive Handling */
+    @media (max-width: 1100px) {
+      .device-wrapper.tab-s10 {
+        width: 100%;
+        height: 560px;
+      }
+      .android-tech-specs {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .showcase-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .device-switcher {
+        overflow-x: auto;
+      }
+      .android-tech-specs {
+        grid-template-columns: 1fr;
+      }
+      .bottom-cta-bar {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Global Header -->
+  <header class="showcase-header">
+    <a href="ko.html" class="brand-group">
+      <div class="logo-glyph">
+        <svg viewBox="0 0 40 40" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" fill="#000000"/>
+          <path d="M 8 9 L 32 9 L 19 22 L 32 22 L 32 31 L 8 31 L 21 18 L 8 18 Z" fill="#FFFFFF"/>
+          <rect x="15" y="19" width="10" height="2" fill="#000000"/>
+        </svg>
+      </div>
+      <div class="brand-title">
+        <span class="brand-name">zerodoc AetherStream</span>
+        <span class="brand-sub">Android Client Interactive Showcase (Kotlin + Jetpack Compose)</span>
+      </div>
+    </a>
+
+    <!-- Device Switcher -->
+    <div class="device-switcher" id="device-switcher">
+      <button class="device-btn active" data-device="tab-s10">
+        Galaxy Tab S10 Ultra (14.6" 144Hz)
+      </button>
+      <button class="device-btn" data-device="z-fold-6">
+        Galaxy Z Fold 6 (Tablet View)
+      </button>
+      <button class="device-btn" data-device="s24-ultra">
+        Galaxy S24 Ultra (Handheld)
+      </button>
+    </div>
+
+    <!-- Actions -->
+    <div class="header-actions">
+      <a href="ko.html" class="btn-link">
+        ← 웹사이트 메인 홈
+      </a>
+      <a href="../dist/zerodoc_AetherStream_v0.1.0.apk" class="btn-primary" download>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+          <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125s-3.5902.2866-5.1368.8297L4.8409 5.4517a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
+        </svg>
+        <span>APK 다운로드 (.apk)</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Showcase Interactive Stage -->
+  <main class="main-stage">
+    <div class="stage-intro">
+      <div class="stage-badge">
+        NATIVE ANDROID PIPELINE <span>// KOTLIN 1.9.23 // JETPACK COMPOSE</span>
+      </div>
+      <h1 class="stage-title">AetherStream 안드로이드 전용 클라이언트</h1>
+      <p class="stage-desc">
+        144Hz AMOLED 주사율 대응 Qualcomm Adreno MediaCodec NDK 비동기 디코딩, Galaxy S-Pen 4,096레벨 원본 필압 패스스루, 네오 브루탈리즘 가상 게임패드가 구현된 네이티브 클라이언트를 직접 체험하십시오.
+      </p>
+    </div>
+
+    <!-- Simulated Android Device Viewport Frame -->
+    <div class="device-wrapper tab-s10" id="device-frame">
+      <!-- Android System Status Bar -->
+      <div class="android-status-bar">
+        <div class="status-left">
+          <span id="android-clock">04:28</span>
+          <span>AetherStream <strong>v0.1.0</strong></span>
+        </div>
+        <div class="camera-punch"></div>
+        <div class="status-right">
+          <span class="status-pill-green">144Hz AMOLED</span>
+          <span>5G ULTRA</span>
+          <span>98% [■]</span>
+        </div>
+      </div>
+
+      <!-- Jetpack Compose Screen Navigation Tabs -->
+      <nav class="compose-tabrow" id="compose-tabrow">
+        <button class="compose-tab active" data-tab="roomcode">
+          01 ROOM CODE
+        </button>
+        <button class="compose-tab" data-tab="streamview">
+          02 STREAM VIEW (144Hz)
+        </button>
+        <button class="compose-tab" data-tab="gamepad">
+          03 VIRTUAL GAMEPAD
+        </button>
+        <button class="compose-tab" data-tab="spen">
+          04 S-PEN STUDIO
+        </button>
+        <button class="compose-tab" data-tab="settings">
+          05 SETTINGS
+        </button>
+      </nav>
+
+      <!-- Android Screen Viewport Content -->
+      <div class="android-screen-content">
+
+        <!-- ================================================================
+             TAB 1: RoomCodeScreen (RoomCodeScreen.kt)
+             ================================================================ -->
+        <div class="screen-panel room-code-screen active" id="panel-roomcode">
+          <div class="room-header">
+            <h2 class="room-title">호스트 6자리 룸코드 접속</h2>
+            <p class="room-sub">Windows PC에서 발급된 6자리 코드를 입력하거나 클라우드 동기화 기기를 선택하세요</p>
+          </div>
+
+          <!-- 6-character room code boxes -->
+          <div class="room-inputs-row">
+            <div class="code-box filled" id="code-0">7</div>
+            <div class="code-box filled" id="code-1">A</div>
+            <div class="code-box filled" id="code-2">9</div>
+            <span class="code-sep">-</span>
+            <div class="code-box filled" id="code-3">2</div>
+            <div class="code-box filled" id="code-4">K</div>
+            <div class="code-box current" id="code-5">8</div>
+          </div>
+
+          <!-- Virtual Alphanumeric Monospace Keypad -->
+          <div class="virtual-keypad" id="virtual-keypad">
+            <button class="key-btn" data-key="1">1</button>
+            <button class="key-btn" data-key="2">2</button>
+            <button class="key-btn" data-key="3">3</button>
+            <button class="key-btn" data-key="4">4</button>
+            <button class="key-btn" data-key="5">5</button>
+            <button class="key-btn" data-key="6">6</button>
+            <button class="key-btn" data-key="7">7</button>
+            <button class="key-btn" data-key="8">8</button>
+            <button class="key-btn" data-key="9">9</button>
+            <button class="key-btn" data-key="0">0</button>
+            <button class="key-btn" data-key="A">A</button>
+            <button class="key-btn" data-key="B">B</button>
+            <button class="key-btn" data-key="C">C</button>
+            <button class="key-btn" data-key="D">D</button>
+            <button class="key-btn" data-key="E">E</button>
+            <button class="key-btn" data-key="F">F</button>
+            <button class="key-btn" data-key="K">K</button>
+            <button class="key-btn" data-key="X">X</button>
+            <button class="key-btn action-key" data-action="clear">CLR</button>
+            <button class="key-btn action-key" data-action="back">⌫</button>
+          </div>
+
+          <!-- P2P Status Chip -->
+          <div class="room-status-badge">
+            <span class="status-dot"></span>
+            <span>RFC 5389 STUN NAT P2P: <strong>192.168.1.120:47998</strong> (Direct Punch Ready)</span>
+          </div>
+
+          <!-- Connect CTA Button -->
+          <button class="btn-connect-stream" id="btn-room-connect">
+            <span>호스트 스트림 세션 시작 →</span>
+          </button>
+
+          <!-- Host Discovery Cloud List -->
+          <div class="host-discovery-list">
+            <div class="host-card" data-ip="192.168.1.120" data-name="DESKTOP-RTX4090">
+              <div class="host-left">
+                <span class="host-name">DESKTOP-RTX4090 (로컬 LAN)</span>
+                <span class="host-spec">192.168.1.120:47998 • NVENC CBR 144Hz • RTT 0.4ms</span>
+              </div>
+              <button class="btn-host-connect">연결</button>
+            </div>
+            <div class="host-card" data-ip="211.234.12.98" data-name="STUDIO-WORKSTATION">
+              <div class="host-left">
+                <span class="host-name">STUDIO-WORKSTATION (원격 WAN P2P)</span>
+                <span class="host-spec">211.234.12.98:47998 • STUN Binding Hole • RTT 4.2ms</span>
+              </div>
+              <button class="btn-host-connect">연결</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             TAB 2: StreamViewScreen (StreamViewScreen.kt & PerformanceHUD.kt)
+             ================================================================ -->
+        <div class="screen-panel stream-view-screen" id="panel-streamview">
+          <canvas id="stream-simulation-canvas"></canvas>
+
+          <!-- Real-time Performance HUD (Ghost Mode Resting, Expanded on Click) -->
+          <div class="performance-hud" id="performance-hud">
+            <div class="hud-mini-row">
+              <span class="hud-pill-tag">144.0 FPS</span>
+              <span>RTT: 1.8ms</span>
+              <span>DEC: 2.1ms</span>
+              <span>JIT: 0.12ms</span>
+              <span>[+]</span>
+            </div>
+            <div class="hud-details-pane">
+              <div class="hud-stat-item">
+                <span>Display Refresh:</span>
+                <span class="hud-stat-val">144Hz AMOLED (VSync Lock)</span>
+              </div>
+              <div class="hud-stat-item">
+                <span>Hardware Decoder:</span>
+                <span class="hud-stat-val">c2.qti.avc.decoder (Qualcomm Zero-Copy)</span>
+              </div>
+              <div class="hud-stat-item">
+                <span>Decode Latency:</span>
+                <span class="hud-stat-val">2.14 ms</span>
+              </div>
+              <div class="hud-stat-item">
+                <span>Network Round-Trip:</span>
+                <span class="hud-stat-val">1.82 ms</span>
+              </div>
+              <div class="hud-stat-item">
+                <span>Dynamic Bitrate:</span>
+                <span class="hud-stat-val">45.2 Mbps (CBR)</span>
+              </div>
+              <div class="hud-stat-item">
+                <span>FEC Packet Loss:</span>
+                <span class="hud-stat-val">0.00% (14,890 Recovered)</span>
+              </div>
+              <div class="hud-stat-item">
+                <span>Audio Engine:</span>
+                <span class="hud-stat-val">AAudio Low Latency (5.0 ms / 192 frames)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Floating Quick Action Bar -->
+          <div class="stream-quick-bar">
+            <button class="quick-action-btn" id="btn-quick-gamepad">
+              <span>🎮 가상 패드 토글</span>
+            </button>
+            <button class="quick-action-btn" id="btn-quick-spen">
+              <span>✏️ S-Pen 모드</span>
+            </button>
+            <button class="quick-action-btn" id="btn-quick-settings">
+              <span>⚙️ 스트림 설정</span>
+            </button>
+            <button class="quick-action-btn" id="btn-quick-disconnect" style="color: #FF5555;">
+              <span>✕ 세션 종료</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             TAB 3: VirtualGamepad (VirtualGamepad.kt)
+             ================================================================ -->
+        <div class="screen-panel gamepad-screen" id="panel-gamepad">
+          <!-- Top Shoulder Bumpers & Triggers -->
+          <div class="gamepad-top-triggers">
+            <div class="trigger-group">
+              <button class="btn-trigger" data-btn="L2">L2 TRIG</button>
+              <button class="btn-trigger" data-btn="L1">L1 BUMP</button>
+            </div>
+            <div class="trigger-group">
+              <button class="btn-trigger" data-btn="R1">R1 BUMP</button>
+              <button class="btn-trigger" data-btn="R2">R2 TRIG</button>
+            </div>
+          </div>
+
+          <!-- Middle Controller Stage -->
+          <div class="gamepad-middle-stage">
+            <!-- Left Thumbstick -->
+            <div class="stick-area" id="left-stick-area">
+              <div class="stick-crosshair-x"></div>
+              <div class="stick-crosshair-y"></div>
+              <div class="stick-knob" id="left-stick-knob">LS</div>
+            </div>
+
+            <!-- D-PAD Cluster -->
+            <div class="dpad-cluster">
+              <div class="dpad-empty"></div>
+              <button class="dpad-btn" data-btn="DPAD_UP">▲</button>
+              <div class="dpad-empty"></div>
+              <button class="dpad-btn" data-btn="DPAD_LEFT">◀</button>
+              <div class="dpad-empty" style="background: #111;"></div>
+              <button class="dpad-btn" data-btn="DPAD_RIGHT">▶</button>
+              <div class="dpad-empty"></div>
+              <button class="dpad-btn" data-btn="DPAD_DOWN">▼</button>
+              <div class="dpad-empty"></div>
+            </div>
+
+            <!-- Center Menu Hub & UDP Packet Inspector -->
+            <div class="gamepad-center-hub">
+              <div class="gamepad-menu-buttons">
+                <button class="btn-menu-pill" data-btn="BACK">BACK</button>
+                <button class="btn-menu-pill" data-btn="GUIDE" style="font-weight: 800; color: #fff;">Z</button>
+                <button class="btn-menu-pill" data-btn="START">START</button>
+              </div>
+
+              <!-- Live UDP Packet Hex Dump -->
+              <div class="udp-packet-monitor">
+                <div class="packet-header">
+                  <span>OUTGOING AETHER UDP [16 BYTES]</span>
+                  <span id="udp-seq-counter">SEQ #1042</span>
+                </div>
+                <div class="packet-hex" id="udp-packet-hex">
+                  41 45 54 48 05 01 00 00 00 00 00 00 00 00 00 00
+                </div>
+              </div>
+            </div>
+
+            <!-- ABXY Buttons Cluster -->
+            <div class="abxy-cluster">
+              <div class="dpad-empty"></div>
+              <button class="abxy-btn" data-btn="Y" style="color: #FFDD00;">Y</button>
+              <div class="dpad-empty"></div>
+              <button class="abxy-btn" data-btn="X" style="color: #00F0FF;">X</button>
+              <div class="dpad-empty"></div>
+              <button class="abxy-btn" data-btn="B" style="color: #FF0055;">B</button>
+              <div class="dpad-empty"></div>
+              <button class="abxy-btn" data-btn="A" style="color: #00FF88;">A</button>
+              <div class="dpad-empty"></div>
+            </div>
+
+            <!-- Right Thumbstick -->
+            <div class="stick-area" id="right-stick-area">
+              <div class="stick-crosshair-x"></div>
+              <div class="stick-crosshair-y"></div>
+              <div class="stick-knob" id="right-stick-knob">RS</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             TAB 4: S-Pen Studio Canvas (Galaxy S-Pen 4096-Level Pressure)
+             ================================================================ -->
+        <div class="screen-panel spen-screen" id="panel-spen">
+          <div class="spen-telemetry-bar">
+            <div>
+              <span>S-Pen 압력 감지: </span>
+              <span class="spen-active-val" id="spen-pressure-text">0 / 4096 (0.0%)</span>
+            </div>
+            <div>
+              <span>틸트 각도: </span>
+              <span class="spen-active-val" id="spen-tilt-text">X: 0° | Y: 0°</span>
+            </div>
+            <div>
+              <span>전송 지연시간: </span>
+              <span class="spen-active-val" style="color: #00FF88;">0.8ms (NDK Stylus)</span>
+            </div>
+          </div>
+
+          <div class="spen-canvas-wrap" id="spen-canvas-wrap">
+            <canvas id="spen-test-canvas"></canvas>
+
+            <div class="spen-toolbar">
+              <button class="spen-tool-btn active" id="spen-pen">펜 모드</button>
+              <button class="spen-tool-btn" id="spen-eraser">지우개</button>
+              <button class="spen-tool-btn" id="spen-clear">초기화</button>
+              <div class="pressure-slider-wrap">
+                <span>수동 필압 모의:</span>
+                <input type="range" id="sim-pressure-slider" min="100" max="4096" value="2048" style="accent-color: #fff; width: 100px;">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             TAB 5: SettingsScreen (SettingsScreen.kt)
+             ================================================================ -->
+        <div class="screen-panel settings-screen" id="panel-settings">
+          <div class="settings-group">
+            <div class="settings-group-title">
+              <span>비디오 디코더 설정 (Video Codec & Refresh Rate)</span>
+              <span style="color: #888; font-family: var(--font-mono); font-size: 0.72rem;">MediaCodec NDK</span>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="settings-label">하드웨어 비디오 코덱</div>
+                <div class="settings-desc">Qualcomm Adreno / Exynos 하드웨어 NDK 제로-카피 디코딩 파이프라인</div>
+              </div>
+              <div class="settings-pills">
+                <button class="pill-opt">H.264</button>
+                <button class="pill-opt active">HEVC 10-bit</button>
+                <button class="pill-opt">AV1 NDK</button>
+              </div>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="settings-label">화면 목표 주사율</div>
+                <div class="settings-desc">삼성 AMOLED 디스플레이 VSync 동기화</div>
+              </div>
+              <div class="settings-pills">
+                <button class="pill-opt">60Hz</button>
+                <button class="pill-opt">120Hz</button>
+                <button class="pill-opt active">144Hz Ultra</button>
+              </div>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="settings-label">목표 비트레이트</div>
+                <div class="settings-desc">CBR 초저지연 대역폭 할당: <strong>45 Mbps</strong></div>
+              </div>
+              <input type="range" min="10" max="100" value="45" style="accent-color: #fff; width: 160px;">
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="settings-label">색상 포맷 (Chroma Subsampling)</div>
+                <div class="settings-desc">YUV 4:4:4 트루컬러 텍스트 가독성 최적화</div>
+              </div>
+              <div class="settings-pills">
+                <button class="pill-opt">4:2:0 Semi-Planar</button>
+                <button class="pill-opt active">4:4:4 TrueColor</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-group">
+            <div class="settings-group-title">
+              <span>오디오 및 입력 엔진 (Audio & Input Pipeline)</span>
+              <span style="color: #888; font-family: var(--font-mono); font-size: 0.72rem;">AAudio NDK</span>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="settings-label">안드로이드 오디오 엔진</div>
+                <div class="settings-desc">AAudio Low Latency 버퍼 (192 frames / 5ms 지연시간)</div>
+              </div>
+              <div class="settings-pills">
+                <button class="pill-opt active">AAudio (5ms)</button>
+                <button class="pill-opt">OpenSL ES</button>
+              </div>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="settings-label">양방향 클립보드 실시간 동기화</div>
+                <div class="settings-desc">Windows 호스트 PC와 Android 간 텍스트 복사/붙여넣기 공유</div>
+              </div>
+              <div class="settings-pills">
+                <button class="pill-opt active">ON</button>
+                <button class="pill-opt">OFF</button>
+              </div>
+            </div>
+            <div class="settings-row">
+              <div>
+                <div class="settings-label">가상 게임패드 진동 햅틱 피드백</div>
+                <div class="settings-desc">버튼 터치 시 리니어 모터 햅틱 펄스 인가</div>
+              </div>
+              <div class="settings-pills">
+                <button class="pill-opt active">ON</button>
+                <button class="pill-opt">OFF</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Technical Architecture Specs Banner -->
+    <div class="android-tech-specs">
+      <div class="tech-spec-box">
+        <span class="spec-num">01 / ARCHITECTURE</span>
+        <h4 class="spec-title">순수 Kotlin & Jetpack Compose</h4>
+        <p class="spec-desc">웹뷰나 레거시 래퍼 없이 Android Native 100% 단일 액티비티 Compose 상태 기반 UI 파이프라인.</p>
+      </div>
+      <div class="tech-spec-box">
+        <span class="spec-num">02 / DECODER</span>
+        <h4 class="spec-title">144Hz MediaCodec NDK</h4>
+        <p class="spec-desc">Qualcomm Adreno 및 Samsung Exynos 하드웨어 NDK 제로-카피 디코딩으로 프레임당 2.1ms 극초저지연 달성.</p>
+      </div>
+      <div class="tech-spec-box">
+        <span class="spec-num">03 / STYLUS</span>
+        <h4 class="spec-title">Galaxy S-Pen 4,096레벨</h4>
+        <p class="spec-desc">압력 0~4096 및 틸트 각도를 Win32 Stylus API로 제로 레이턴시 전송하여 고가의 전문 액정 타블렛 완벽 대체.</p>
+      </div>
+      <div class="tech-spec-box">
+        <span class="spec-num">04 / NETWORK</span>
+        <h4 class="spec-title">RFC 5389 STUN NAT P2P</h4>
+        <p class="spec-desc">공유기 포트포워딩 없이 6자리 룸코드만으로 직접 홀펀칭 연결 및 ChaCha20-Poly1305 종단간 암호화.</p>
+      </div>
+    </div>
+
+    <!-- Bottom Sticky APK Download Banner -->
+    <div class="bottom-cta-bar">
+      <div class="cta-info-left">
+        <div class="apk-icon-box">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="#FFFFFF">
+            <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4483.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.125 12 8.125s-3.5902.2866-5.1368.8297L4.8409 5.4517a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
+          </svg>
+        </div>
+        <div class="apk-details">
+          <span class="apk-filename">zerodoc_AetherStream_v0.1.0.apk</span>
+          <span class="apk-meta">안드로이드 8.0+ (MinSDK 26) · 1.05 MB · 주식회사 제로독 공식 서명 빌드</span>
+        </div>
+      </div>
+
+      <a href="../dist/zerodoc_AetherStream_v0.1.0.apk" class="btn-primary" download style="padding: 12px 28px; font-size: 0.90rem;">
+        공식 안드로이드 APK 다운로드 (.apk)
+      </a>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initClock();
+      initDeviceSwitcher();
+      initComposeTabs();
+      initRoomCodeKeypad();
+      initStreamSimulationCanvas();
+      initPerformanceHud();
+      initVirtualGamepad();
+      initSPenStudio();
+      initSettingsPills();
+    });
+
+    /* Clock in status bar */
+    function initClock() {
+      const clockEl = document.getElementById('android-clock');
+      function update() {
+        const now = new Date();
+        const hrs = String(now.getHours()).padStart(2, '0');
+        const mins = String(now.getMinutes()).padStart(2, '0');
+        if (clockEl) clockEl.textContent = `${hrs}:${mins}`;
+      }
+      update();
+      setInterval(update, 10000);
+    }
+
+    /* Device Switcher */
+    function initDeviceSwitcher() {
+      const switcher = document.getElementById('device-switcher');
+      const frame = document.getElementById('device-frame');
+      if (!switcher || !frame) return;
+
+      switcher.querySelectorAll('.device-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          switcher.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const dev = btn.dataset.device;
+          frame.className = `device-wrapper ${dev}`;
+        });
+      });
+    }
+
+    /* Compose Tabs Navigation */
+    function initComposeTabs() {
+      const tabrow = document.getElementById('compose-tabrow');
+      const panels = document.querySelectorAll('.screen-panel');
+      if (!tabrow) return;
+
+      window.switchAndroidTab = function(tabId) {
+        tabrow.querySelectorAll('.compose-tab').forEach(b => {
+          if (b.dataset.tab === tabId) b.classList.add('active');
+          else b.classList.remove('active');
+        });
+        panels.forEach(p => {
+          if (p.id === `panel-${tabId}`) p.classList.add('active');
+          else p.classList.remove('active');
+        });
+      };
+
+      tabrow.querySelectorAll('.compose-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          window.switchAndroidTab(tab.dataset.tab);
+        });
+      });
+    }
+
+    /* Room Code Keypad */
+    function initRoomCodeKeypad() {
+      const keypad = document.getElementById('virtual-keypad');
+      const boxes = [
+        document.getElementById('code-0'),
+        document.getElementById('code-1'),
+        document.getElementById('code-2'),
+        document.getElementById('code-3'),
+        document.getElementById('code-4'),
+        document.getElementById('code-5'),
+      ];
+      let currentIdx = 6; // starts filled
+      let code = ['7', 'A', '9', '2', 'K', '8'];
+
+      function renderBoxes() {
+        boxes.forEach((box, i) => {
+          box.textContent = code[i] || '';
+          box.className = 'code-box';
+          if (code[i]) box.classList.add('filled');
+          if (i === Math.min(currentIdx, 5)) box.classList.add('current');
+        });
+      }
+
+      if (keypad) {
+        keypad.querySelectorAll('.key-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const key = btn.dataset.key;
+            const action = btn.dataset.action;
+            if (key && currentIdx < 6) {
+              code[currentIdx] = key;
+              currentIdx++;
+              renderBoxes();
+            } else if (action === 'back' && currentIdx > 0) {
+              currentIdx--;
+              code[currentIdx] = '';
+              renderBoxes();
+            } else if (action === 'clear') {
+              code = ['', '', '', '', '', ''];
+              currentIdx = 0;
+              renderBoxes();
+            }
+          });
+        });
+      }
+
+      document.getElementById('btn-room-connect')?.addEventListener('click', () => {
+        window.switchAndroidTab('streamview');
+      });
+
+      document.querySelectorAll('.btn-host-connect').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          window.switchAndroidTab('streamview');
+        });
+      });
+    }
+
+    /* 144Hz Stream Simulation Canvas */
+    function initStreamSimulationCanvas() {
+      const canvas = document.getElementById('stream-simulation-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let animId;
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        if (rect.width > 0 && rect.height > 0) {
+          canvas.width = rect.width;
+          canvas.height = rect.height;
+        }
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      let frameCount = 0;
+      let lastTime = performance.now();
+      let measuredFps = 144.0;
+      let angle = 0;
+
+      function render(now) {
+        frameCount++;
+        if (now - lastTime >= 500) {
+          measuredFps = (frameCount * 1000) / (now - lastTime);
+          frameCount = 0;
+          lastTime = now;
+          const fpsTag = document.querySelector('.hud-pill-tag');
+          if (fpsTag) fpsTag.textContent = `${measuredFps.toFixed(1)} FPS`;
+        }
+
+        const w = canvas.width || 800;
+        const h = canvas.height || 500;
+        ctx.fillStyle = '#050505';
+        ctx.fillRect(0, 0, w, h);
+
+        // Grid lines (high speed 144Hz motion)
+        ctx.strokeStyle = '#181818';
+        ctx.lineWidth = 1;
+        const speed = (now * 0.12) % 40;
+        for (let x = 0; x < w; x += 40) {
+          ctx.beginPath();
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, h);
+          ctx.stroke();
+        }
+        for (let y = speed; y < h; y += 40) {
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          ctx.lineTo(w, y);
+          ctx.stroke();
+        }
+
+        // Center Cyber Geometry
+        ctx.save();
+        ctx.translate(w / 2, h / 2);
+        angle += 0.015;
+        ctx.rotate(angle);
+
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(-60, -60, 120, 120);
+
+        ctx.strokeStyle = '#444444';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(-90, -90, 180, 180);
+
+        ctx.restore();
+
+        // Watermark Telemetry Overlay
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = '10px "JetBrains Mono", monospace';
+        ctx.fillText('LIVE NVENC STREAM · CBR 45Mbps · c2.qti.avc.decoder', 16, h - 16);
+
+        animId = requestAnimationFrame(render);
+      }
+
+      animId = requestAnimationFrame(render);
+
+      // Quick bar hooks
+      document.getElementById('btn-quick-gamepad')?.addEventListener('click', () => window.switchAndroidTab('gamepad'));
+      document.getElementById('btn-quick-spen')?.addEventListener('click', () => window.switchAndroidTab('spen'));
+      document.getElementById('btn-quick-settings')?.addEventListener('click', () => window.switchAndroidTab('settings'));
+      document.getElementById('btn-quick-disconnect')?.addEventListener('click', () => window.switchAndroidTab('roomcode'));
+    }
+
+    /* Performance HUD expand/collapse */
+    function initPerformanceHud() {
+      const hud = document.getElementById('performance-hud');
+      if (!hud) return;
+      hud.addEventListener('click', () => {
+        hud.classList.toggle('expanded');
+      });
+    }
+
+    /* Virtual Gamepad Interaction & UDP Packet Dump */
+    function initVirtualGamepad() {
+      const hexEl = document.getElementById('udp-packet-hex');
+      const counterEl = document.getElementById('udp-seq-counter');
+      let seq = 1042;
+
+      function emitPacket(btnName, val1 = 0, val2 = 0) {
+        seq++;
+        if (counterEl) counterEl.textContent = `SEQ #${seq}`;
+        const hex = [
+          '41', '45', '54', '48', // "AETH"
+          '05', // OPCODE_INPUT_EVENT
+          '01', // TYPE_GAMEPAD
+          (val1 & 0xFF).toString(16).padStart(2, '0').toUpperCase(),
+          (val2 & 0xFF).toString(16).padStart(2, '0').toUpperCase(),
+          '00', '00', '00', '00',
+          (seq & 0xFF).toString(16).padStart(2, '0').toUpperCase(),
+          ((seq >> 8) & 0xFF).toString(16).padStart(2, '0').toUpperCase(),
+          'FF', '00'
+        ].join(' ');
+        if (hexEl) hexEl.textContent = hex;
+      }
+
+      // Buttons
+      document.querySelectorAll('.btn-trigger, .dpad-btn, .abxy-btn, .btn-menu-pill').forEach(btn => {
+        btn.addEventListener('pointerdown', (e) => {
+          btn.classList.add('active');
+          emitPacket(btn.dataset.btn || 'BTN', 1, 0);
+        });
+        btn.addEventListener('pointerup', () => btn.classList.remove('active'));
+        btn.addEventListener('pointerleave', () => btn.classList.remove('active'));
+      });
+
+      // Thumbsticks dragging
+      setupStick('left-stick-area', 'left-stick-knob', (x, y) => {
+        emitPacket('LS', Math.round((x + 1) * 127), Math.round((y + 1) * 127));
+      });
+      setupStick('right-stick-area', 'right-stick-knob', (x, y) => {
+        emitPacket('RS', Math.round((x + 1) * 127), Math.round((y + 1) * 127));
+      });
+
+      function setupStick(areaId, knobId, onMove) {
+        const area = document.getElementById(areaId);
+        const knob = document.getElementById(knobId);
+        if (!area || !knob) return;
+
+        let active = false;
+        const maxDist = 36;
+
+        area.addEventListener('pointerdown', (e) => {
+          active = true;
+          area.setPointerCapture(e.pointerId);
+          handle(e);
+        });
+
+        area.addEventListener('pointermove', (e) => {
+          if (!active) return;
+          handle(e);
+        });
+
+        const release = (e) => {
+          if (!active) return;
+          active = false;
+          knob.style.transform = `translate(0px, 0px)`;
+          onMove(0, 0);
+        };
+        area.addEventListener('pointerup', release);
+        area.addEventListener('pointercancel', release);
+
+        function handle(e) {
+          const rect = area.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          let dx = e.clientX - cx;
+          let dy = e.clientY - cy;
+          const dist = Math.hypot(dx, dy);
+          if (dist > maxDist) {
+            dx = (dx / dist) * maxDist;
+            dy = (dy / dist) * maxDist;
+          }
+          knob.style.transform = `translate(${dx}px, ${dy}px)`;
+          onMove(dx / maxDist, dy / maxDist);
+        }
+      }
+    }
+
+    /* S-Pen Studio Canvas */
+    function initSPenStudio() {
+      const canvas = document.getElementById('spen-test-canvas');
+      const wrap = document.getElementById('spen-canvas-wrap');
+      const pressureText = document.getElementById('spen-pressure-text');
+      const tiltText = document.getElementById('spen-tilt-text');
+      const slider = document.getElementById('sim-pressure-slider');
+      if (!canvas || !wrap) return;
+
+      const ctx = canvas.getContext('2d');
+      let drawing = false;
+      let lastX = 0, lastY = 0;
+      let isEraser = false;
+
+      function resize() {
+        canvas.width = wrap.clientWidth;
+        canvas.height = wrap.clientHeight;
+        ctx.fillStyle = '#050505';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
+      window.addEventListener('resize', resize);
+      setTimeout(resize, 100);
+
+      canvas.addEventListener('pointerdown', (e) => {
+        drawing = true;
+        const rect = canvas.getBoundingClientRect();
+        lastX = e.clientX - rect.left;
+        lastY = e.clientY - rect.top;
+        draw(e);
+      });
+
+      canvas.addEventListener('pointermove', (e) => {
+        if (!drawing) return;
+        draw(e);
+      });
+
+      const stop = () => { drawing = false; };
+      canvas.addEventListener('pointerup', stop);
+      canvas.addEventListener('pointerleave', stop);
+
+      function draw(e) {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        let pressure = e.pressure;
+        if (pressure === 0 || pressure === 0.5) {
+          // If mouse without pressure, use slider
+          pressure = (slider ? slider.value : 2048) / 4096;
+        }
+
+        const raw4096 = Math.round(pressure * 4096);
+        if (pressureText) {
+          pressureText.textContent = `${raw4096} / 4096 (${(pressure * 100).toFixed(1)}%)`;
+        }
+        if (tiltText) {
+          tiltText.textContent = `X: ${e.tiltX || 0}° | Y: ${e.tiltY || 0}°`;
+        }
+
+        ctx.strokeStyle = isEraser ? '#050505' : '#FFFFFF';
+        ctx.lineWidth = Math.max(1, pressure * 14);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+
+        lastX = x;
+        lastY = y;
+      }
+
+      document.getElementById('spen-pen')?.addEventListener('click', () => {
+        isEraser = false;
+        document.getElementById('spen-pen').classList.add('active');
+        document.getElementById('spen-eraser').classList.remove('active');
+      });
+
+      document.getElementById('spen-eraser')?.addEventListener('click', () => {
+        isEraser = true;
+        document.getElementById('spen-eraser').classList.add('active');
+        document.getElementById('spen-pen').classList.remove('active');
+      });
+
+      document.getElementById('spen-clear')?.addEventListener('click', () => {
+        ctx.fillStyle = '#050505';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      });
+    }
+
+    /* Settings Pills Toggle */
+    function initSettingsPills() {
+      document.querySelectorAll('.settings-pills').forEach(pills => {
+        pills.querySelectorAll('.pill-opt').forEach(btn => {
+          btn.addEventListener('click', () => {
+            pills.querySelectorAll('.pill-opt').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+          });
+        });
+      });
+    }
+  </script>
+</body>
+</html>
